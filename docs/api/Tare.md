@@ -2,7 +2,7 @@
 
 | Classes | |
 | :--- | :--- |
-| [UnitDefinitions](Tare.UnitDefinitions.md 'Tare.UnitDefinitions') | |
+| [UnitDefinitions](Tare.UnitDefinitions.md 'Tare.UnitDefinitions') | Static helper class to query unit definitions. |
 
 | Structs | |
 | :--- | :--- |

@@ -2,6 +2,8 @@
 
 ## UnitDefinitions Class
 
+Static helper class to query unit definitions.
+
 ```csharp
 public static class UnitDefinitions
 ```
