@@ -1,4 +1,4 @@
-[api documentation](api/Tare.md 'Tare API') | [contributions](Contributions.md) | [changelog](CHANGELOG.md)
+[api documentation](docs/api/Tare.md 'Tare API') | [contributions](docs/Contributions.md) | [changelog](docs/CHANGELOG.md)
 
 # Tare
 
