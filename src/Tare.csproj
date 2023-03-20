@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\artifacts\</BaseOutputPath>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <PropertyGroup>
+  	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  	<DefaultDocumentationFolder>..\docs\api\</DefaultDocumentationFolder>
+  	<Title>Tare</Title>
+  	<Authors>Matthew D. Jordan</Authors>
+  	<Copyright>(C) 2023</Copyright>
+  	<PackageProjectUrl>https://github.com/jordanrobot/Tare</PackageProjectUrl>
+  	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>
