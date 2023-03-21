@@ -20,7 +20,6 @@ Global
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
