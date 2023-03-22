@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using static Tare.Extensions;
 
 namespace Tare;
 //TODO: add documentation to operators.
@@ -67,7 +68,7 @@ public readonly struct Quantity
 
     private decimal BaseValue { get => Value * Factor; }
 
-    private decimal Factor { get; } = 1;
+    public decimal Factor { get; } = 1;
 
     /// <summary>
     /// Returns the default Quantity of "0 ul".
@@ -154,6 +155,39 @@ public readonly struct Quantity
     public static Quantity Parse(string input)
     {
         return new Quantity(input);
+    }
+
+    /// <summary>
+    /// Converts the decimal and string representations of a quantity to its Quantity equivalent.
+    /// </summary>
+    /// <param name="value">Decimal value</param>
+    /// <param name="units">Units</param>
+    /// <returns>Returns a Quantity value</returns>
+    public static Quantity Parse(decimal value, string units)
+    {
+        return new Quantity(value, units);
+    }
+
+    /// <summary>
+    /// Converts the decimal and string representations of a quantity to its Quantity equivalent.
+    /// </summary>
+    /// <param name="value">Decimal value</param>
+    /// <param name="units">Units</param>
+    /// <returns>Returns a Quantity value</returns>
+    public static Quantity Parse(int value, string units)
+    {
+        return new Quantity(value, units);
+    }
+
+    /// <summary>
+    /// Converts the decimal and string representations of a quantity to its Quantity equivalent.
+    /// </summary>
+    /// <param name="value">Decimal value</param>
+    /// <param name="units">Units</param>
+    /// <returns>Returns a Quantity value</returns>
+    public static Quantity Parse(double value, string units)
+    {
+        return new Quantity((decimal)value, units);
     }
 
     /// <summary>

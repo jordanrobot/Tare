@@ -147,4 +147,13 @@ public class QuantityTests
 
         Assert.That(result, Is.EqualTo(304.8));
     }
+
+    [Test]
+    public void As_Works()
+    {
+        var input = Quantity.Parse("12in");
+        var test = input.As("mm");
+
+        Assert.That(test.Value, Is.EqualTo(304.8));
+    }
 }
