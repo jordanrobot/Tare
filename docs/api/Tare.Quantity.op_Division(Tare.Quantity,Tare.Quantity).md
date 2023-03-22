@@ -2,7 +2,7 @@
 
 ## Quantity.operator /(Quantity, Quantity) Operator
 
-Divides two specified Quantity valuess; will only divide a unit Quantity by a scalar Quantity.  
+Divides two specified Quantity values; will only divide a unit Quantity by a scalar Quantity.  
 <returns>The result of dividing q1 by q2.</returns>
 
 ```csharp
