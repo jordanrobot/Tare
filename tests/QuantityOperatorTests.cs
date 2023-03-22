@@ -257,9 +257,11 @@ public class QuantityOperatorTests
     [Test]
     public void Quantity_Modulus()
     {
-        Quantity q1 = Quantity.Parse("1.5in");
-        Quantity q2 = Quantity.Parse("2.5in");
-        Assert.Throws<InvalidOperationException>(() => _ = q1 % q2);
+        Quantity q1 = Quantity.Parse("12in");
+        Quantity q2 = Quantity.Parse("5in");
+
+        var result = q1 % q2;
+        Assert.That(result.Format("in"), Is.EqualTo("2 in"));
     }
 
     [Test]

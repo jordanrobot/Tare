@@ -344,12 +344,24 @@ public readonly struct Quantity
     //public static Quantity operator /(decimal d, Quantity q)
     //    => new (d / q.Value, q.Units );
 
+    #endregion
+    #region Modulo Operators
+
     /// <summary>
     /// Returns an exception from attempting to perform a modulo operation on two Quantity values.
     /// <returns>The remainder result from dividing q1 by q2.</returns>
     /// </summary>
-    public static Quantity operator %(Quantity _0, Quantity _1)
-            => throw new InvalidOperationException("Cannot modulo quantities with units");
+    public static Quantity operator %(Quantity q1, Quantity q2)
+    {
+        if(q1.UnitType == q2.UnitType)
+        {
+            //convert each quantity and return the modulo
+            var temp = ((q1.Factor * q1.Value) % (q2.Factor * q2.Value)) / q1.Factor;
+            return new Quantity(temp, q1.Units);
+        } else
+            throw new InvalidOperationException(
+                "Cannot perform a modulo operation on two dissimmilar units of measures.");
+    }
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by an integer value. Only works with a scalar Quantity.

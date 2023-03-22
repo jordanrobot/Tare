@@ -15,4 +15,3 @@ public class UnitDefinition
         Aliases = aliases;
     }
 }
-
