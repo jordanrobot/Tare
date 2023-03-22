@@ -94,7 +94,7 @@ public readonly struct Quantity
     /// </summary>
     /// <param name="q1">Quantity object</param>
     /// <param name="q2">Quantity object</param>
-    /// <returns>Returnns true if the Quantities unit types are compatible. Return false if they are not compatible.</returns>
+    /// <returns>Returns true if the Quantities unit types are compatible. Return false if they are not compatible.</returns>
     public static bool AreCompatible(Quantity q1, Quantity q2)
         => q1.UnitType == q2.UnitType;
 
@@ -218,7 +218,7 @@ public readonly struct Quantity
     }
 
     #endregion
-    #region Multiplication/Division Operators
+    #region Multiplication Operators
 
     /// <summary>
     /// Multiplies two specified Quantity values; will only multiply a unit QUantity with a scalar Quantity.
@@ -286,20 +286,19 @@ public readonly struct Quantity
     public static Quantity operator *(int i, Quantity q)
             => q * i;
 
+    #endregion
+    #region Division Operators
+
     /// <summary>
-    /// Divides two specified Quantity valuess; will only divide a unit Quantity by a scalar Quantity.
+    /// Divides two specified Quantity values; will only divide a unit Quantity by a scalar Quantity.
     /// <returns>The result of dividing q1 by q2.</returns>
     /// </summary>
     public static Quantity operator /(Quantity q1, Quantity q2)
     {
-        if (q1.UnitType == UnitTypeEnum.Scalar &&
-            q2.UnitType == UnitTypeEnum.Scalar)
+        if (q1.UnitType == q2.UnitType)
         {
-        }
-
-        if (q1.UnitType == UnitTypeEnum.Scalar)
-        {
-            return new(q1.Value / q2.Value, q2.Units);
+            //convert each quantity and return a scalar
+            return ((q1.Factor * q1.Value) / (q2.Factor * q2.Value));
         }
 
         if (q2.UnitType == UnitTypeEnum.Scalar)
@@ -317,8 +316,13 @@ public readonly struct Quantity
     public static Quantity operator /(Quantity q, int i)
             => new(q.Value / i, q.Units);
 
-    //        public static Quantity operator /(int i, Quantity q)
-    //            => new (i / q.Value, q.Units);
+    public static Quantity operator /(int i, Quantity q)
+    {
+        if (q.UnitType == UnitTypeEnum.Scalar)
+            return new(i / q.Value, q.Units);
+        else
+            throw new InvalidOperationException("Cannot divide integers by quantities with units");
+    }
 
     /// <summary>
     /// Divides a specified Quantity values by an double value.
