@@ -138,4 +138,13 @@ public class QuantityTests
         var failvalue = Quantity.TryParse("11 m/gs", out var failure);
         Assert.IsFalse(failvalue);
     }
+
+    [Test]
+    public void Convert_Works()
+    {
+        var test = Quantity.Parse("12in");
+        var result = test.Convert("mm");
+
+        Assert.That(result, Is.EqualTo(304.8));
+    }
 }

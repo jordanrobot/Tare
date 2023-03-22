@@ -24,6 +24,7 @@ public readonly struct Quantity
 | Methods | |
 | :--- | :--- |
 | [AreCompatible(Quantity, Quantity)](Tare.Quantity.AreCompatible(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.AreCompatible(Tare.Quantity, Tare.Quantity)') | Compare the Unit Types of two Quantity objects. Compatible units can be operated upon by some mathematical operators. |
+| [Convert(string)](Tare.Quantity.Convert(string).md 'Tare.Quantity.Convert(string)') | Represents the Quantity value as a decimal in the specified units. |
 | [Format(string, string)](Tare.Quantity.Format(string,string).md 'Tare.Quantity.Format(string, string)') | Format the quantity using the specified unit and optional format string.<br/>Format specifier are the standard numeric format specifiers:<br/>"G" => 16325.62 in<br/>"C" => $16,325.62<br/>"E04" => 1.6326E+004 in<br/>"F" => 16325.62 in<br/>"N" => 16,325.62 in<br/>"P" => 163.26 %<br/><br/>Also supports using custom numeric format specifiers.<br/>"0,0.000" => 16,325.620 in |
 | [IsDefault()](Tare.Quantity.IsDefault().md 'Tare.Quantity.IsDefault()') | Check if the Quantity is of the default value: numeric value = 0, unit type = scalar. |
 | [Parse(string)](Tare.Quantity.Parse(string).md 'Tare.Quantity.Parse(string)') | Converts the string representation of a quantity to its Quantity equivalent. |
