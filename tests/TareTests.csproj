@@ -5,10 +5,10 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <BaseOutputPath>bin\</BaseOutputPath>
-    <AssemblyVersion>0.4.0.0</AssemblyVersion>
-    <FileVersion>0.4.0.0</FileVersion>
-    <InformationalVersion>0.4.0-alpha.1+2.Branch.alpha.Sha.a837e8fcb8e91d39d9e8f517f7271abcda26a23e</InformationalVersion>
-    <Version>0.4.0-alpha0001</Version>
+    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <FileVersion>0.5.0.0</FileVersion>
+    <InformationalVersion>0.5.0-alpha.1+2.Branch.alpha.Sha.4cf85db5c669a40965d7a1eed8c95caa28d4a7d8</InformationalVersion>
+    <Version>0.5.0-alpha0001</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
