@@ -19,7 +19,19 @@ Denotes an acceleration unit type.
 
 `Angle` 14
 
-Denotes a density unit type.
+Denotes an angle unit type.
+
+<a name='Tare.UnitTypeEnum.AngularAcceleration'></a>
+
+`AngularAcceleration` 16
+
+Denotes an angular acceleration unit type.
+
+<a name='Tare.UnitTypeEnum.AngularVelocity'></a>
+
+`AngularVelocity` 17
+
+Denotes an angular Velocity unit type.
 
 <a name='Tare.UnitTypeEnum.Area'></a>
 
@@ -31,7 +43,7 @@ Denotes an area unit type.
 
 `Energy` 12
 
-Denotes a density unit type.
+Denotes an energy unit type.
 
 <a name='Tare.UnitTypeEnum.Force'></a>
 
@@ -43,7 +55,7 @@ Denotes a force unit type.
 
 `Frequency` 15
 
-Denotes a density unit type.
+Denotes a frequency unit type.
 
 <a name='Tare.UnitTypeEnum.Length'></a>
 
@@ -61,7 +73,7 @@ Denotes a mass unit type.
 
 `Power` 13
 
-Denotes a density unit type.
+Denotes a power unit type.
 
 <a name='Tare.UnitTypeEnum.Pressure'></a>
 
