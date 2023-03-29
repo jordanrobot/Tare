@@ -54,19 +54,27 @@ public enum UnitTypeEnum
     /// </summary>
     Acceleration,
     /// <summary>
-    /// Denotes a density unit type.
+    /// Denotes an energy unit type.
     /// </summary>
     Energy,
     /// <summary>
-    /// Denotes a density unit type.
+    /// Denotes a power unit type.
     /// </summary>
     Power,
     /// <summary>
-    /// Denotes a density unit type.
+    /// Denotes an angle unit type.
     /// </summary>
     Angle,
     /// <summary>
-    /// Denotes a density unit type.
+    /// Denotes a frequency unit type.
     /// </summary>
-    Frequency
+    Frequency,
+    /// <summary>
+    /// Denotes an angular acceleration unit type.
+    /// </summary>
+    AngularAcceleration,
+    /// <summary>
+    /// Denotes an angular Velocity unit type.
+    /// </summary>
+    AngularVelocity
 }
