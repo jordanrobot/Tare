@@ -6,10 +6,10 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\artifacts\</BaseOutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>0.5.1.0</AssemblyVersion>
-    <FileVersion>0.5.1.0</FileVersion>
-    <InformationalVersion>0.5.1-alpha.1+1.Branch.alpha.Sha.2512a41a38530af253be209c4ccc9a24724eb966</InformationalVersion>
-    <Version>0.5.1-alpha0001</Version>
+    <AssemblyVersion>0.5.2.0</AssemblyVersion>
+    <FileVersion>0.5.2.0</FileVersion>
+    <InformationalVersion>0.5.2-alpha.1+1.Branch.alpha.Sha.0fe2076f7d95995fb47418de2b6bbee9ef11e9b3</InformationalVersion>
+    <Version>0.5.2-alpha0001</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\README.md">
