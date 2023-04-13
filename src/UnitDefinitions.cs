@@ -61,8 +61,8 @@ public static class UnitDefinitions
             new UnitDefinition("stick", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "stick", "sticks" }),
 
             //add length units relative to meters
-            new UnitDefinition("in", 0.0254M, UnitTypeEnum.Length, new HashSet<string> { "in", "inch", "inches" }),
-            new UnitDefinition("ft", 0.3048M, UnitTypeEnum.Length, new HashSet<string> {"ft", "feet", "foot"}),
+            new UnitDefinition("in", 0.0254M, UnitTypeEnum.Length, new HashSet<string> { "in", "inch", "inches", "\"" }),
+            new UnitDefinition("ft", 0.3048M, UnitTypeEnum.Length, new HashSet<string> {"ft", "feet", "foot", "\'"}),
             new UnitDefinition("yd", 0.9144M, UnitTypeEnum.Length, new HashSet<string> {"yd", "yard", "yards"}),
             new UnitDefinition("mm", 0.001M, UnitTypeEnum.Length, new HashSet<string> {"mm", "millimeter","millimeters"}),
             new UnitDefinition("cm", 0.01M, UnitTypeEnum.Length, new HashSet < string > { "cm", "centimeter", "centimeters" }),
