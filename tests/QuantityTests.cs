@@ -56,6 +56,12 @@ public class QuantityTests
         Assert.That(q.Value, Is.EqualTo(1.5));
         Assert.That(q.Units, Is.EqualTo("in"));
 
+        Quantity q2 = Quantity.Parse("1.5\"");
+        Assert.That(q2.UnitType == UnitTypeEnum.Length);
+
+        Quantity q1 = Quantity.Parse("1.5''");
+        Assert.That(q1.UnitType == UnitTypeEnum.Length);
+
         Quantity r = Quantity.Parse("1.5 in^2");
         Assert.That(r.Value, Is.EqualTo(1.5));
         Assert.That(r.Units, Is.EqualTo("in^2"));

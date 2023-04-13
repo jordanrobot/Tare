@@ -11,7 +11,7 @@ namespace Tare;
 /// </summary>
 public readonly struct Quantity
 {
-    readonly static Regex UnitsPattern = new(@"([A-Za-z|\^|\-|\/|*].*)", RegexOptions.Compiled);
+    readonly static Regex UnitsPattern = new("([A-Za-z|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
     readonly static Regex ValuePattern = new(@"(\d+(?:\.\d*)?|\.\d+)", RegexOptions.Compiled);
 
     #region Ctors
