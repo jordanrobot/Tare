@@ -7,8 +7,13 @@ Units of measure can be compatible or incompatible. E.g. Length, Area, Volume, M
 may have mathematical operations applied, and may be converted to different units.
 
 ```csharp
-public readonly struct Quantity
+public readonly struct Quantity :
+System.IEquatable<Tare.Quantity>,
+System.IComparable<Tare.Quantity>,
+System.IComparable
 ```
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[Quantity](Tare.Quantity.md 'Tare.Quantity')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1'), [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')[Quantity](Tare.Quantity.md 'Tare.Quantity')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1'), [System.IComparable](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable 'System.IComparable')
 
 | Constructors | |
 | :--- | :--- |
@@ -24,6 +29,7 @@ public readonly struct Quantity
 | Methods | |
 | :--- | :--- |
 | [AreCompatible(Quantity, Quantity)](Tare.Quantity.AreCompatible(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.AreCompatible(Tare.Quantity, Tare.Quantity)') | Compare the Unit Types of two Quantity objects. Compatible units can be operated upon by some mathematical operators. |
+| [CompareTo(object)](Tare.Quantity.CompareTo(object).md 'Tare.Quantity.CompareTo(object)') | Compares the provided object to the current Quantity object. |
 | [Convert(string)](Tare.Quantity.Convert(string).md 'Tare.Quantity.Convert(string)') | Represents the Quantity value as a decimal in the specified units. |
 | [Format(string, string)](Tare.Quantity.Format(string,string).md 'Tare.Quantity.Format(string, string)') | Format the quantity using the specified unit and optional format string.<br/>Format specifier are the standard numeric format specifiers:<br/>"G" => 16325.62 in<br/>"C" => $16,325.62<br/>"E04" => 1.6326E+004 in<br/>"F" => 16325.62 in<br/>"N" => 16,325.62 in<br/>"P" => 163.26 %<br/><br/>Also supports using custom numeric format specifiers.<br/>"0,0.000" => 16,325.620 in |
 | [IsDefault()](Tare.Quantity.IsDefault().md 'Tare.Quantity.IsDefault()') | Check if the Quantity is of the default value: numeric value = 0, unit type = scalar. |

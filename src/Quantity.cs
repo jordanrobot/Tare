@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections;
+using System.Text.RegularExpressions;
 using static Tare.Extensions;
 
 namespace Tare;
@@ -9,7 +10,7 @@ namespace Tare;
 /// Units of measure can be compatible or incompatible. E.g. Length, Area, Volume, Mass, etc. Compatible units
 /// may have mathematical operations applied, and may be converted to different units.
 /// </summary>
-public readonly struct Quantity
+public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IComparable
 {
     readonly static Regex UnitsPattern = new("([A-Za-z|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
     readonly static Regex ValuePattern = new(@"(\d+(?:\.\d*)?|\.\d+)", RegexOptions.Compiled);
@@ -215,6 +216,58 @@ public readonly struct Quantity
     /// </summary>
     /// <returns>A string that represents the Quantity value.</returns>
     public override string ToString() => Format(Units);
+
+    public bool Equals(Quantity other)
+    {
+        return GetHashCode() == other.GetHashCode();
+    }
+
+    public override int GetHashCode()
+    {
+        return (Value, Factor, UnitType).GetHashCode();
+    }
+
+    /// <summary>
+    /// Compares the provided object to the current Quantity object.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns>Returns an int with -1 when quantity is less than object, 0 when quantity equals object, +1 when quantity is greater than object.</returns>
+    /// <exception cref="ArgumentException">Throws ArgumentException if the object is not a Quantity.</exception>
+    public int CompareTo(object obj)
+    {
+        if (obj == null)
+        {
+            return 1;
+        }
+
+        if (obj is Quantity x)
+        {
+            return Compare(x);
+        }
+
+        throw new ArgumentException("Object is not a Quantity");
+    }
+
+    private int Compare(Quantity other)
+    {
+        if (this > other)
+        {
+            return 1;
+        }
+        else if (this < other)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    int IComparable<Quantity>.CompareTo(Quantity other)
+    {
+        return Compare(other);
+    }
 
     #region Addition/Subtraction Operators
     /// <summary>
