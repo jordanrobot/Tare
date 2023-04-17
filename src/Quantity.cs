@@ -35,7 +35,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             var tempUnits = UnitsPattern.Match(value).Value;
             var definition = UnitDefinitions.Parse(tempUnits);
 
-            Units = definition.Name;
+            Unit = definition.Name;
             Factor = definition.Factor;
             UnitType = definition.UnitType;
         }
@@ -56,7 +56,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             var tempUnits = UnitsPattern.Match(unit).Value;
             var definition = UnitDefinitions.Parse(tempUnits);
 
-            Units = definition.Name;
+            Unit = definition.Name;
             Factor = definition.Factor;
             UnitType = definition.UnitType;
         }
@@ -79,7 +79,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <summary>
     /// A string representation of the Quantity's units of measure.
     /// </summary>
-    public string Units { get; } = "ul";
+    public string Unit { get; } = "ul";
 
     /// <summary>
     /// Returns the Quantity's UnitTypeEnum; e.g. Length, Mass, Velocity, etc.
@@ -149,6 +149,12 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         => Value == 0 && UnitType == UnitTypeEnum.Scalar;
 
     /// <summary>
+    /// Check if the Quantity unit is unknown.
+    /// </summary>
+    /// <returns>Returns true if the Quantity is unknown. Returns false if it is not unknown.</returns>
+    public bool IsUnknown() => UnitType == UnitTypeEnum.Unknown;
+
+    /// <summary>
     /// Converts the string representation of a quantity to its Quantity equivalent.
     /// </summary>
     /// <param name="input">A string containing a number and optionally a unit of measure.</param>
@@ -215,7 +221,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// Converts the numberic value and defining unit of measure to its string equivalent.
     /// </summary>
     /// <returns>A string that represents the Quantity value.</returns>
-    public override string ToString() => Format(Units);
+    public override string ToString() => Format(Unit);
 
     public bool Equals(Quantity other)
     {
@@ -279,7 +285,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         if (AreCompatible(q1, q2))
         {
             var temp = (q1.BaseValue + q2.BaseValue) / q1.Factor;
-            return new Quantity(temp, q1.Units);
+            return new Quantity(temp, q1.Unit);
         }
         else
         {
@@ -296,7 +302,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         if (AreCompatible(q1, q2))
         {
             var temp = (q1.BaseValue - q2.BaseValue) / q1.Factor;
-            return new Quantity(temp, q1.Units);
+            return new Quantity(temp, q1.Unit);
         }
         else
         {
@@ -320,12 +326,12 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
         if (q1.UnitType == UnitTypeEnum.Scalar)
         {
-            return new Quantity(q1.Value * q2.Value, q2.Units);
+            return new Quantity(q1.Value * q2.Value, q2.Unit);
         }
 
         if (q2.UnitType == UnitTypeEnum.Scalar)
         {
-            return new Quantity(q1.Value * q2.Value, q1.Units);
+            return new Quantity(q1.Value * q2.Value, q1.Unit);
         }
 
         throw new InvalidOperationException("Cannot multiply quantities with units");
@@ -336,7 +342,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of multiplying q and d.</returns>
     /// </summary>
     public static Quantity operator *(Quantity q, decimal d)
-            => new(q.Value * d, q.Units);
+            => new(q.Value * d, q.Unit);
 
     /// <summary>
     /// Multiplies a Quantity values with a decimal value.
@@ -350,7 +356,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of multiplying q and d.</returns>
     /// </summary>
     public static Quantity operator *(Quantity q, double d)
-            => new(q.Value * (decimal)d, q.Units);
+            => new(q.Value * (decimal)d, q.Unit);
 
     /// <summary>
     /// Multiplies a Quantity values with a decimal value.
@@ -364,7 +370,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of multiplying q and i.</returns>
     /// </summary>
     public static Quantity operator *(Quantity q, int i)
-            => new(q.Value * i, q.Units);
+            => new(q.Value * i, q.Unit);
 
     /// <summary>
     /// Multiplies a Quantity values with a decimal value.
@@ -390,7 +396,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
         if (q2.UnitType == UnitTypeEnum.Scalar)
         {
-            return new(q1.Value / q2.Value, q1.Units);
+            return new(q1.Value / q2.Value, q1.Unit);
         }
 
         throw new InvalidOperationException("Cannot divide quantities with units");
@@ -401,12 +407,12 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of dividing q by i.</returns>
     /// </summary>
     public static Quantity operator /(Quantity q, int i)
-            => new(q.Value / i, q.Units);
+            => new(q.Value / i, q.Unit);
 
     public static Quantity operator /(int i, Quantity q)
     {
         if (q.UnitType == UnitTypeEnum.Scalar)
-            return new(i / q.Value, q.Units);
+            return new(i / q.Value, q.Unit);
         else
             throw new InvalidOperationException("Cannot divide integers by quantities with units");
     }
@@ -416,7 +422,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of dividing q by d.</returns>
     /// </summary>
     public static Quantity operator /(Quantity q, double d)
-            => new(q.Value / (decimal)d, q.Units);
+            => new(q.Value / (decimal)d, q.Unit);
 
     //public static Quantity operator /(double d, Quantity q)
     //    => new ((decimal)d / q.Value, q.Units);
@@ -426,7 +432,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The result of dividing q by d.</returns>
     /// </summary>
     public static Quantity operator /(Quantity q, decimal d)
-            => new(q.Value / d, q.Units);
+            => new(q.Value / d, q.Unit);
 
     //public static Quantity operator /(decimal d, Quantity q)
     //    => new (d / q.Value, q.Units );
@@ -444,7 +450,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         {
             //convert each quantity and return the modulo
             var temp = ((q1.Factor * q1.Value) % (q2.Factor * q2.Value)) / q1.Factor;
-            return new Quantity(temp, q1.Units);
+            return new Quantity(temp, q1.Unit);
         } else
             throw new InvalidOperationException(
                 "Cannot perform a modulo operation on two dissimmilar units of measures.");
@@ -455,7 +461,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <returns>The remainder result from dividing q by i.</returns>
     /// </summary>
     public static Quantity operator %(Quantity q, int i)
-            => new(q.Value % i, q.Units);
+            => new(q.Value % i, q.Unit);
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by an integer value. Only works with a scalar Quantity.
@@ -463,35 +469,35 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// </summary>
 
     public static Quantity operator %(int i, Quantity q)
-        => new(i % q.Value, q.Units);
+        => new(i % q.Value, q.Unit);
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by a decimal value. Only works with a scalar Quantity.
     /// <returns>The remainder result from dividing q by d.</returns>
     /// </summary>
     public static Quantity operator %(Quantity q, decimal d)
-                    => new(q.Value % d, q.Units);
+                    => new(q.Value % d, q.Unit);
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by a decimal value. Only works with a scalar Quantity.
     /// <returns>The remainder result from dividing q by d.</returns>
     /// </summary>
     public static Quantity operator %(decimal d, Quantity q)
-        => new(d % q.Value, q.Units);
+        => new(d % q.Value, q.Unit);
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by a double value. Only works with a scalar Quantity.
     /// <returns>The remainder result from dividing q by d.</returns>
     /// </summary>
     public static Quantity operator %(Quantity q, double d)
-            => new(q.Value % (decimal)d, q.Units);
+            => new(q.Value % (decimal)d, q.Unit);
 
     /// <summary>
     /// Returns the remainder resulting from dividing a Quantity values by a double value. Only works with a scalar Quantity.
     /// <returns>The remainder result from dividing q by d.</returns>
     /// </summary>
     public static Quantity operator %(double d, Quantity q)
-            => new((decimal)d % q.Value, q.Units);
+            => new((decimal)d % q.Value, q.Unit);
 
     #endregion
     #region Comparison Operators

@@ -115,16 +115,16 @@ public class QuantityOperatorTests
         Quantity s1 = 3;
         var result = q1 * s1;
         Assert.That(result.Value, Is.EqualTo(4.5));
-        Assert.That(q1.Units, Is.EqualTo("in"));
+        Assert.That(q1.Unit, Is.EqualTo("in"));
 
         var result2 = s1 * q1;
         Assert.That(result2.Value, Is.EqualTo(4.5));
-        Assert.That(q1.Units, Is.EqualTo("in"));
+        Assert.That(q1.Unit, Is.EqualTo("in"));
 
         Quantity s2 = 6;
         var s3 = s2 / s1;
         Assert.That(s3.Value, Is.EqualTo(2));
-        Assert.That(s2.Units, Is.EqualTo("ul"));
+        Assert.That(s2.Unit, Is.EqualTo("ul"));
     }
 
     [Test]
@@ -133,11 +133,11 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("6in");
         Quantity q2 = q1 * 2;
         Assert.That(q2.Value, Is.EqualTo(12));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
 
         var q3 = 2 * q1;
         Assert.That(q3.Value, Is.EqualTo(12));
-        Assert.That(q1.Units, Is.EqualTo(q3.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
     }
 
     [Test]
@@ -146,11 +146,11 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("5in");
         Quantity q2 = q1 * 2;
         Assert.That(q2.Value, Is.EqualTo(10));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
 
         var q3 = 3 * q1;
         Assert.That(q3.Value, Is.EqualTo(15));
-        Assert.That(q1.Units, Is.EqualTo(q3.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
     }
 
     [Test]
@@ -159,7 +159,7 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("1.5in");
         Quantity q2 = q1 * (decimal)2.5;
         Assert.That(q2.Value, Is.EqualTo((decimal)3.75));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
 
         var q3 = (decimal)2.5 * q1;
         Assert.That(q3.Value, Is.EqualTo(3.75));
@@ -214,7 +214,7 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("8in");
         Quantity q2 = q1 / 2;
         Assert.That(q2.Value, Is.EqualTo(4));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
 
     }
 
@@ -225,12 +225,12 @@ public class QuantityOperatorTests
         Quantity s1 = 3;
         var result = q1 / s1;
         Assert.That(result.Value, Is.EqualTo(0.5));
-        Assert.That(q1.Units, Is.EqualTo("in"));
+        Assert.That(q1.Unit, Is.EqualTo("in"));
 
         Quantity s2 = 6;
         var result3 = s2 / s1;
         Assert.That(result3.Value, Is.EqualTo(2));
-        Assert.That(result3.Units, Is.EqualTo("ul"));
+        Assert.That(result3.Unit, Is.EqualTo("ul"));
     }
 
     [Test]
@@ -239,7 +239,7 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("8in");
         Quantity q2 = q1 / (Double)2;
         Assert.That(q2.Value, Is.EqualTo(4));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
     }
 
     [Test]
@@ -248,7 +248,7 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("10 in");
         Quantity q2 = q1 / (decimal)5;
         Assert.That(q2.Value, Is.EqualTo(2));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
     }
 
     #endregion
@@ -270,10 +270,10 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("8in");
         Quantity q2 = q1 % 3;
         Assert.That(q2.Value, Is.EqualTo(2));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
         var q3 = 3 % q1;
         Assert.That(q3.Value, Is.EqualTo(3));
-        Assert.That(q1.Units, Is.EqualTo(q3.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
     }
 
     //test modulo integer decimal
@@ -283,10 +283,10 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("8in");
         Quantity q2 = q1 % (decimal)3;
         Assert.That(q2.Value, Is.EqualTo((decimal)2));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
         var q3 = (decimal)3.5 % q1;
         Assert.That(q3.Value, Is.EqualTo((decimal)3.5));
-        Assert.That(q1.Units, Is.EqualTo(q3.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
     }
 
     [Test]
@@ -295,10 +295,10 @@ public class QuantityOperatorTests
         Quantity q1 = Quantity.Parse("8in");
         Quantity q2 = q1 % (double)3;
         Assert.That(q2.Value, Is.EqualTo((double)2));
-        Assert.That(q1.Units, Is.EqualTo(q2.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
         var q3 = 3.5 % q1;
         Assert.That(q3.Value, Is.EqualTo(3.5));
-        Assert.That(q1.Units, Is.EqualTo(q3.Units));
+        Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
     }
 
     #endregion

@@ -286,5 +286,9 @@ public static class UnitDefinitions
             new UnitDefinition("mrad", 0.001M, UnitTypeEnum.Angle, new HashSet<string>{"mrad", "milliradian", "milliradians"}),
             new UnitDefinition("rev", 6.283185307179586476925286766559M, UnitTypeEnum.Angle, new HashSet<string>{"rev", "revolution", "revolutions", "circle", "circles", "turn", "turns"}),
             new UnitDefinition("quadrant", 1.5707963267948966192313216916398M, UnitTypeEnum.Angle, new HashSet<string>{"quadrant", "quadrants"}),
+
+            //Unknown
+            new UnitDefinition("?", 1, UnitTypeEnum.Unknown, new HashSet<string> { "unknown"})
+
         };
 }

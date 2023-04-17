@@ -22,7 +22,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | Properties | |
 | :--- | :--- |
 | [Default](Tare.Quantity.Default.md 'Tare.Quantity.Default') | Returns the default Quantity of "0 ul". |
-| [Units](Tare.Quantity.Units.md 'Tare.Quantity.Units') | A string representation of the Quantity's units of measure. |
+| [Unit](Tare.Quantity.Unit.md 'Tare.Quantity.Unit') | A string representation of the Quantity's units of measure. |
 | [UnitType](Tare.Quantity.UnitType.md 'Tare.Quantity.UnitType') | Returns the Quantity's UnitTypeEnum; e.g. Length, Mass, Velocity, etc. |
 | [Value](Tare.Quantity.Value.md 'Tare.Quantity.Value') | Returns the Quantity's numeric value. This is of limited use as the units of measure are not specified. |
 
@@ -33,6 +33,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [Convert(string)](Tare.Quantity.Convert(string).md 'Tare.Quantity.Convert(string)') | Represents the Quantity value as a decimal in the specified units. |
 | [Format(string, string)](Tare.Quantity.Format(string,string).md 'Tare.Quantity.Format(string, string)') | Format the quantity using the specified unit and optional format string.<br/>Format specifier are the standard numeric format specifiers:<br/>"G" => 16325.62 in<br/>"C" => $16,325.62<br/>"E04" => 1.6326E+004 in<br/>"F" => 16325.62 in<br/>"N" => 16,325.62 in<br/>"P" => 163.26 %<br/><br/>Also supports using custom numeric format specifiers.<br/>"0,0.000" => 16,325.620 in |
 | [IsDefault()](Tare.Quantity.IsDefault().md 'Tare.Quantity.IsDefault()') | Check if the Quantity is of the default value: numeric value = 0, unit type = scalar. |
+| [IsUnknown()](Tare.Quantity.IsUnknown().md 'Tare.Quantity.IsUnknown()') | Check if the Quantity unit is unknown. |
 | [Parse(decimal, string)](Tare.Quantity.Parse(decimal,string).md 'Tare.Quantity.Parse(decimal, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(double, string)](Tare.Quantity.Parse(double,string).md 'Tare.Quantity.Parse(double, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(int, string)](Tare.Quantity.Parse(int,string).md 'Tare.Quantity.Parse(int, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
