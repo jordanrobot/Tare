@@ -1,11 +1,11 @@
 ### [Tare](Tare.md 'Tare').[Quantity](Tare.Quantity.md 'Tare.Quantity')
 
-## Quantity.Units Property
+## Quantity.Unit Property
 
 A string representation of the Quantity's units of measure.
 
 ```csharp
-public string Units { get; }
+public string Unit { get; }
 ```
 
 #### Property Value

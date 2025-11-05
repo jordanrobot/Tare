@@ -23,4 +23,4 @@ Quantity object
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-Returnns true if the Quantities unit types are compatible. Return false if they are not compatible.
+Returns true if the Quantities unit types are compatible. Return false if they are not compatible.

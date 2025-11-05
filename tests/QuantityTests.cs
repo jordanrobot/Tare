@@ -54,26 +54,32 @@ public class QuantityTests
         Quantity q = Quantity.Parse("1.5 in");
         Assert.IsNotNull(q);
         Assert.That(q.Value, Is.EqualTo(1.5));
-        Assert.That(q.Units, Is.EqualTo("in"));
+        Assert.That(q.Unit, Is.EqualTo("in"));
+
+        Quantity q2 = Quantity.Parse("1.5\"");
+        Assert.That(q2.UnitType == UnitTypeEnum.Length);
+
+        Quantity q1 = Quantity.Parse("1.5''");
+        Assert.That(q1.UnitType == UnitTypeEnum.Length);
 
         Quantity r = Quantity.Parse("1.5 in^2");
         Assert.That(r.Value, Is.EqualTo(1.5));
-        Assert.That(r.Units, Is.EqualTo("in^2"));
+        Assert.That(r.Unit, Is.EqualTo("in^2"));
 
         Quantity t = Quantity.Parse("1.5 in*lbf");
         Assert.That(t.Value, Is.EqualTo(1.5));
-        Assert.That(t.Units, Is.EqualTo("in*lbf"));
+        Assert.That(t.Unit, Is.EqualTo("in*lbf"));
 
         Quantity u = Quantity.Parse("1.5 ft/s");
         Assert.That(u.Value, Is.EqualTo(1.5));
-        Assert.That(u.Units, Is.EqualTo("ft/s"));
+        Assert.That(u.Unit, Is.EqualTo("ft/s"));
     }
 
     [Test]
     public void Ctor_StringWithNoValue_Works()
     {
         Quantity q = Quantity.Parse("in");
-        Assert.That(q.Units, Is.EqualTo("in"));
+        Assert.That(q.Unit, Is.EqualTo("in"));
         Assert.That(q.Value, Is.EqualTo(0));
     }
 
@@ -137,5 +143,23 @@ public class QuantityTests
 
         var failvalue = Quantity.TryParse("11 m/gs", out var failure);
         Assert.IsFalse(failvalue);
+    }
+
+    [Test]
+    public void Convert_Works()
+    {
+        var test = Quantity.Parse("12in");
+        var result = test.Convert("mm");
+
+        Assert.That(result, Is.EqualTo(304.8));
+    }
+
+    [Test]
+    public void As_Works()
+    {
+        var input = Quantity.Parse("12in");
+        var test = input.As("mm");
+
+        Assert.That(test.Value, Is.EqualTo(304.8));
     }
 }

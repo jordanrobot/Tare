@@ -2,6 +2,7 @@
 
 | Classes | |
 | :--- | :--- |
+| [Extensions](Tare.Extensions.md 'Tare.Extensions') | Extension methods for Quantity value types |
 | [UnitDefinitions](Tare.UnitDefinitions.md 'Tare.UnitDefinitions') | Static helper class to query unit definitions. |
 
 | Structs | |
