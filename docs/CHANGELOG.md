@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 97.43% line coverage with comprehensive unit tests
   - Compatible with netstandard2.0 and net7.0 target frameworks
 
+### Changed
+
+- **F-002: Optimized DimensionSignature struct size** - Changed dimension exponent types from `int` to `sbyte`, reducing struct size from 28 bytes to 7 bytes while maintaining sufficient range (-128 to 127) for all practical dimensional analysis use cases.
+
 ---
 
 ## [0.1.0](https://github.com/jordanrobot/Tare) - 2023-03-18

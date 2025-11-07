@@ -6,8 +6,8 @@
 Exponent for Mass dimension (M) - kilogram.
 
 ```csharp
-public int Mass { get; }
+public sbyte Mass { get; }
 ```
 
 #### Property Value
-[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
+[System.SByte](https://docs.microsoft.com/en-us/dotnet/api/System.SByte 'System.SByte')

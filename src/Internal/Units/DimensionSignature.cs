@@ -16,37 +16,37 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     /// <summary>
     /// Exponent for Length dimension (L) - meter.
     /// </summary>
-    public int Length { get; }
+    public sbyte Length { get; }
 
     /// <summary>
     /// Exponent for Mass dimension (M) - kilogram.
     /// </summary>
-    public int Mass { get; }
+    public sbyte Mass { get; }
 
     /// <summary>
     /// Exponent for Time dimension (T) - second.
     /// </summary>
-    public int Time { get; }
+    public sbyte Time { get; }
 
     /// <summary>
     /// Exponent for Electric Current dimension (I) - ampere.
     /// </summary>
-    public int ElectricCurrent { get; }
+    public sbyte ElectricCurrent { get; }
 
     /// <summary>
     /// Exponent for Thermodynamic Temperature dimension (Θ) - kelvin.
     /// </summary>
-    public int Temperature { get; }
+    public sbyte Temperature { get; }
 
     /// <summary>
     /// Exponent for Amount of Substance dimension (N) - mole.
     /// </summary>
-    public int AmountOfSubstance { get; }
+    public sbyte AmountOfSubstance { get; }
 
     /// <summary>
     /// Exponent for Luminous Intensity dimension (J) - candela.
     /// </summary>
-    public int LuminousIntensity { get; }
+    public sbyte LuminousIntensity { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DimensionSignature"/> struct.
@@ -59,13 +59,13 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     /// <param name="amountOfSubstance">Exponent for Amount of Substance dimension (N).</param>
     /// <param name="luminousIntensity">Exponent for Luminous Intensity dimension (J).</param>
     public DimensionSignature(
-        int length,
-        int mass,
-        int time,
-        int electricCurrent,
-        int temperature,
-        int amountOfSubstance,
-        int luminousIntensity)
+        sbyte length,
+        sbyte mass,
+        sbyte time,
+        sbyte electricCurrent,
+        sbyte temperature,
+        sbyte amountOfSubstance,
+        sbyte luminousIntensity)
     {
         Length = length;
         Mass = mass;
@@ -170,13 +170,13 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     public DimensionSignature Multiply(DimensionSignature other)
     {
         return new DimensionSignature(
-            Length + other.Length,
-            Mass + other.Mass,
-            Time + other.Time,
-            ElectricCurrent + other.ElectricCurrent,
-            Temperature + other.Temperature,
-            AmountOfSubstance + other.AmountOfSubstance,
-            LuminousIntensity + other.LuminousIntensity);
+            (sbyte)(Length + other.Length),
+            (sbyte)(Mass + other.Mass),
+            (sbyte)(Time + other.Time),
+            (sbyte)(ElectricCurrent + other.ElectricCurrent),
+            (sbyte)(Temperature + other.Temperature),
+            (sbyte)(AmountOfSubstance + other.AmountOfSubstance),
+            (sbyte)(LuminousIntensity + other.LuminousIntensity));
     }
 
     /// <summary>
@@ -187,13 +187,13 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     public DimensionSignature Divide(DimensionSignature other)
     {
         return new DimensionSignature(
-            Length - other.Length,
-            Mass - other.Mass,
-            Time - other.Time,
-            ElectricCurrent - other.ElectricCurrent,
-            Temperature - other.Temperature,
-            AmountOfSubstance - other.AmountOfSubstance,
-            LuminousIntensity - other.LuminousIntensity);
+            (sbyte)(Length - other.Length),
+            (sbyte)(Mass - other.Mass),
+            (sbyte)(Time - other.Time),
+            (sbyte)(ElectricCurrent - other.ElectricCurrent),
+            (sbyte)(Temperature - other.Temperature),
+            (sbyte)(AmountOfSubstance - other.AmountOfSubstance),
+            (sbyte)(LuminousIntensity - other.LuminousIntensity));
     }
 
     /// <summary>
@@ -378,7 +378,7 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
         return string.Join("", parts);
     }
 
-    private static void AddDimensionPart(System.Collections.Generic.List<string> parts, string symbol, int exponent)
+    private static void AddDimensionPart(System.Collections.Generic.List<string> parts, string symbol, sbyte exponent)
     {
         if (exponent == 0)
             return;
@@ -390,7 +390,7 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
         }
     }
 
-    private static string FormatExponent(int exponent)
+    private static string FormatExponent(sbyte exponent)
     {
         // Convert to superscript notation
         string expStr = exponent.ToString();

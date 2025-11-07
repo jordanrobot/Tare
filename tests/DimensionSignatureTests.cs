@@ -585,19 +585,21 @@ public class DimensionSignatureTests
     [Test]
     public void Constructor_WithLargePositiveExponents_HandlesCorrectly()
     {
-        var signature = new DimensionSignature(100, 200, 300, 400, 500, 600, 700);
+        var signature = new DimensionSignature(100, 110, 120, 125, 126, 127, 127);
 
         Assert.That(signature.Length, Is.EqualTo(100));
-        Assert.That(signature.Mass, Is.EqualTo(200));
+        Assert.That(signature.Mass, Is.EqualTo(110));
+        Assert.That(signature.LuminousIntensity, Is.EqualTo(127));
     }
 
     [Test]
     public void Constructor_WithLargeNegativeExponents_HandlesCorrectly()
     {
-        var signature = new DimensionSignature(-100, -200, -300, -400, -500, -600, -700);
+        var signature = new DimensionSignature(-100, -110, -120, -125, -126, -127, -128);
 
         Assert.That(signature.Length, Is.EqualTo(-100));
-        Assert.That(signature.Mass, Is.EqualTo(-200));
+        Assert.That(signature.Mass, Is.EqualTo(-110));
+        Assert.That(signature.LuminousIntensity, Is.EqualTo(-128));
     }
 
     [Test]

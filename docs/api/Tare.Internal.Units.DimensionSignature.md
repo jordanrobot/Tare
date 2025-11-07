@@ -21,7 +21,7 @@ Multiplication and division of quantities combine signatures by adding or subtra
 
 | Constructors | |
 | :--- | :--- |
-| [DimensionSignature(int, int, int, int, int, int, int)](Tare.Internal.Units.DimensionSignature.DimensionSignature(int,int,int,int,int,int,int).md 'Tare.Internal.Units.DimensionSignature.DimensionSignature(int, int, int, int, int, int, int)') | Initializes a new instance of the [DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature') struct. |
+| [DimensionSignature(sbyte, sbyte, sbyte, sbyte, sbyte, sbyte, sbyte)](Tare.Internal.Units.DimensionSignature.DimensionSignature(sbyte,sbyte,sbyte,sbyte,sbyte,sbyte,sbyte).md 'Tare.Internal.Units.DimensionSignature.DimensionSignature(sbyte, sbyte, sbyte, sbyte, sbyte, sbyte, sbyte)') | Initializes a new instance of the [DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature') struct. |
 
 | Properties | |
 | :--- | :--- |
