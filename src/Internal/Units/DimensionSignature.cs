@@ -202,8 +202,8 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     /// <returns>True if all exponents are zero; otherwise, false.</returns>
     public bool IsDimensionless()
     {
-        return Length == 0 && Mass == 0 && Time == 0 && ElectricCurrent == 0 &&
-               Temperature == 0 && AmountOfSubstance == 0 && LuminousIntensity == 0;
+        // Optimize by using bitwise OR to check all exponents at once
+        return (Length | Mass | Time | ElectricCurrent | Temperature | AmountOfSubstance | LuminousIntensity) == 0;
     }
 
     /// <summary>
@@ -211,7 +211,15 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     /// </summary>
     public static DimensionSignature operator *(DimensionSignature left, DimensionSignature right)
     {
-        return left.Multiply(right);
+        // Inline the operation to avoid extra method call
+        return new DimensionSignature(
+            (sbyte)(left.Length + right.Length),
+            (sbyte)(left.Mass + right.Mass),
+            (sbyte)(left.Time + right.Time),
+            (sbyte)(left.ElectricCurrent + right.ElectricCurrent),
+            (sbyte)(left.Temperature + right.Temperature),
+            (sbyte)(left.AmountOfSubstance + right.AmountOfSubstance),
+            (sbyte)(left.LuminousIntensity + right.LuminousIntensity));
     }
 
     /// <summary>
@@ -219,7 +227,15 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     /// </summary>
     public static DimensionSignature operator /(DimensionSignature left, DimensionSignature right)
     {
-        return left.Divide(right);
+        // Inline the operation to avoid extra method call
+        return new DimensionSignature(
+            (sbyte)(left.Length - right.Length),
+            (sbyte)(left.Mass - right.Mass),
+            (sbyte)(left.Time - right.Time),
+            (sbyte)(left.ElectricCurrent - right.ElectricCurrent),
+            (sbyte)(left.Temperature - right.Temperature),
+            (sbyte)(left.AmountOfSubstance - right.AmountOfSubstance),
+            (sbyte)(left.LuminousIntensity - right.LuminousIntensity));
     }
 
     #endregion
@@ -254,17 +270,17 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
     public override int GetHashCode()
     {
 #if NETSTANDARD2_0
-        // netstandard2.0 compatible implementation
+        // netstandard2.0 compatible implementation - avoid boxing by directly using int values
         unchecked
         {
             int hash = 17;
-            hash = hash * 31 + Length.GetHashCode();
-            hash = hash * 31 + Mass.GetHashCode();
-            hash = hash * 31 + Time.GetHashCode();
-            hash = hash * 31 + ElectricCurrent.GetHashCode();
-            hash = hash * 31 + Temperature.GetHashCode();
-            hash = hash * 31 + AmountOfSubstance.GetHashCode();
-            hash = hash * 31 + LuminousIntensity.GetHashCode();
+            hash = hash * 31 + Length;
+            hash = hash * 31 + Mass;
+            hash = hash * 31 + Time;
+            hash = hash * 31 + ElectricCurrent;
+            hash = hash * 31 + Temperature;
+            hash = hash * 31 + AmountOfSubstance;
+            hash = hash * 31 + LuminousIntensity;
             return hash;
         }
 #else
@@ -365,40 +381,49 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
             return "Dimensionless";
         }
 
-        var parts = new System.Collections.Generic.List<string>();
+        // Pre-calculate capacity to reduce allocations
+        int capacity = 0;
+        if (Length != 0) capacity += Length == 1 ? 1 : 3;
+        if (Mass != 0) capacity += Mass == 1 ? 1 : 3;
+        if (Time != 0) capacity += Time == 1 ? 1 : 3;
+        if (ElectricCurrent != 0) capacity += ElectricCurrent == 1 ? 1 : 3;
+        if (Temperature != 0) capacity += Temperature == 1 ? 1 : 3;
+        if (AmountOfSubstance != 0) capacity += AmountOfSubstance == 1 ? 1 : 3;
+        if (LuminousIntensity != 0) capacity += LuminousIntensity == 1 ? 1 : 3;
 
-        AddDimensionPart(parts, "L", Length);
-        AddDimensionPart(parts, "M", Mass);
-        AddDimensionPart(parts, "T", Time);
-        AddDimensionPart(parts, "I", ElectricCurrent);
-        AddDimensionPart(parts, "Θ", Temperature);
-        AddDimensionPart(parts, "N", AmountOfSubstance);
-        AddDimensionPart(parts, "J", LuminousIntensity);
+        var sb = new System.Text.StringBuilder(capacity);
+        
+        AppendDimensionPart(sb, "L", Length);
+        AppendDimensionPart(sb, "M", Mass);
+        AppendDimensionPart(sb, "T", Time);
+        AppendDimensionPart(sb, "I", ElectricCurrent);
+        AppendDimensionPart(sb, "Θ", Temperature);
+        AppendDimensionPart(sb, "N", AmountOfSubstance);
+        AppendDimensionPart(sb, "J", LuminousIntensity);
 
-        return string.Join("", parts);
+        return sb.ToString();
     }
 
-    private static void AddDimensionPart(System.Collections.Generic.List<string> parts, string symbol, sbyte exponent)
+    private static void AppendDimensionPart(System.Text.StringBuilder sb, string symbol, sbyte exponent)
     {
         if (exponent == 0)
             return;
 
-        parts.Add(symbol);
+        sb.Append(symbol);
         if (exponent != 1)
         {
-            parts.Add(FormatExponent(exponent));
+            AppendExponent(sb, exponent);
         }
     }
 
-    private static string FormatExponent(sbyte exponent)
+    private static void AppendExponent(System.Text.StringBuilder sb, sbyte exponent)
     {
-        // Convert to superscript notation
+        // Convert to superscript notation directly into StringBuilder
         string expStr = exponent.ToString();
-        string superscript = "";
-
+        
         foreach (char c in expStr)
         {
-            superscript += c switch
+            sb.Append(c switch
             {
                 '-' => '⁻',
                 '0' => '⁰',
@@ -412,10 +437,8 @@ internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IC
                 '8' => '⁸',
                 '9' => '⁹',
                 _ => c
-            };
+            });
         }
-
-        return superscript;
     }
 
     #endregion

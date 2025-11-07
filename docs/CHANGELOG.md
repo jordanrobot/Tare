@@ -26,6 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **F-002: Optimized DimensionSignature struct size** - Changed dimension exponent types from `int` to `sbyte`, reducing struct size from 28 bytes to 7 bytes while maintaining sufficient range (-128 to 127) for all practical dimensional analysis use cases.
+- **F-002: Performance optimizations** - Multiple performance improvements to reduce allocations and improve execution speed:
+  - Inlined operator implementations (`*` and `/`) to eliminate extra method call overhead
+  - Optimized `IsDimensionless()` using bitwise OR instead of multiple comparisons
+  - Eliminated boxing in `GetHashCode()` for netstandard2.0 by using direct int conversion
+  - Optimized `ToString()` to use `StringBuilder` with pre-calculated capacity instead of `List<string>`, reducing allocations and string concatenations
 
 ---
 
