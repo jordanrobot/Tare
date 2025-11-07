@@ -1,3 +1,4 @@
+#### [Tare](index.md 'index')
 ### [Tare](Tare.md 'Tare').[Quantity](Tare.Quantity.md 'Tare.Quantity')
 
 ## Quantity.Default Property
