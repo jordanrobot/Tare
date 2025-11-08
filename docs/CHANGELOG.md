@@ -14,6 +14,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-006: Composite Unit Formatter (Internal)** - Implemented internal composite unit string formatter for dimension signatures as part of E-001 (Option A Hybrid Core) epic.
+  - Internal `ICompositeFormatter` interface defining signature-to-string formatting contract
+  - Internal `CompositeFormatter` sealed singleton service implementing deterministic, idempotent formatting
+  - Internal `CompositeFormatterOptions` class for future formatting style customization
+  - Internal `ExponentFormat` enum defining notation styles (Caret, Unicode)
+  - Canonical ordering: dimensions formatted in stable order (L, M, T, I, Θ, N, J)
+  - Formatting rules:
+    - Positive exponents in numerator (e.g., "m·kg")
+    - Negative exponents in denominator with absolute values (e.g., "/s^2")
+    - Exponent 1 is implicit (shown as "m" not "m^1")
+    - Exponents >1 use caret notation (e.g., "m^2", "s^3")
+    - Middle dot "·" separator between units
+    - Forward slash "/" between numerator and denominator
+    - Dimensionless returns empty string ""
+    - Denominator-only formats as "1/denominator"
+  - Custom base unit token support for future non-SI formatting (e.g., US Customary)
+  - Thread-safe pure functions with no shared mutable state
+  - Efficient StringBuilder usage for minimal memory allocations
+  - 50 comprehensive unit tests following `MethodName_Condition_ExpectedResult()` naming convention covering:
+    - Base dimension formatting (all 7 SI base dimensions)
+    - Dimensionless formatting
+    - Positive/negative exponent handling
+    - Mixed numerator/denominator formatting (velocity, force, energy, pressure, etc.)
+    - Canonical ordering verification
+    - Determinism and idempotence validation
+    - Custom base unit tokens
+    - Edge cases (large exponents, min/max sbyte values)
+  - All 293 tests pass (243 original + 50 new) with zero regressions
+  - Ready for F-007 (Operators Integration) and F-008 (Format Extensions) consumption
+  - Compatible with netstandard2.0 and net7.0 target frameworks
+
 - **F-005: Known-Signature Naming Map (Internal)** - Implemented internal signature-to-name resolution service for common physical quantities as part of E-001 (Option A Hybrid Core) epic.
   - Internal `PreferredUnit` readonly struct representing canonical unit names with optional alternatives (e.g., "J" for energy, "Nm" alternative for torque)
   - Internal `IKnownSignatureMap` interface defining signature resolution contract with TryGet pattern
