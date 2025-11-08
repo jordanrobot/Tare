@@ -14,6 +14,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-005: Known-Signature Naming Map (Internal)** - Implemented internal signature-to-name resolution service for common physical quantities as part of E-001 (Option A Hybrid Core) epic.
+  - Internal `PreferredUnit` readonly struct representing canonical unit names with optional alternatives (e.g., "J" for energy, "Nm" alternative for torque)
+  - Internal `IKnownSignatureMap` interface defining signature resolution contract with TryGet pattern
+  - Internal `KnownSignatureMap` sealed singleton service with immutable dictionary providing O(1) lookup performance
+  - SI-first policy: maps dimension signatures to SI unit names (meters, newtons, pascals, etc.)
+  - Comprehensive initial map covering 25+ known signatures:
+    - Base SI dimensions (m, kg, s, A, K, mol, cd)
+    - Geometric dimensions (m², m³)
+    - Kinematic dimensions (m/s, m/s²)
+    - Dynamic dimensions (N, J, W, Pa)
+    - Electrical dimensions (C, V, Ω, F, H, Wb, T)
+    - Additional common dimensions (Hz, kg/m³, momentum, angular momentum)
+  - Alternative names for context-dependent usage (e.g., "Nm" for torque, "m^2" for area)
+  - Thread-safe immutable implementation with minimal memory footprint
+  - 52 comprehensive unit tests following `MethodName_Condition_ExpectedResult()` naming convention covering:
+    - Value object behavior (construction, equality, hash code, ToString)
+    - Base dimension resolution (all 8 SI base dimensions + dimensionless)
+    - Derived dimension resolution (geometric, kinematic, dynamic, electrical)
+    - Unknown signature handling (returns false, no exceptions)
+    - Alternative names validation (Energy/Torque "Nm", Area "m^2")
+    - Singleton pattern verification
+  - All 243 tests pass (191 original + 52 new) with zero regressions
+  - Ready for F-006 (Composite Unit Formatter) and F-007 (Operators Integration) consumption
+  - Compatible with netstandard2.0 and net7.0 target frameworks
+
 - **F-004: Dimensional Math Engine (Internal)** - Implemented internal dimensional algebra engine for combining quantities through multiplication and division as part of E-001 (Option A Hybrid Core) epic.
   - Internal `IDimensionalMath` interface defining dimensional algebra operations contract
   - Internal `DimensionalMath` sealed singleton service implementing stateless, thread-safe multiplication and division
