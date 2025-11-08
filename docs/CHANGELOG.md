@@ -14,6 +14,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-004: Dimensional Math Engine (Internal)** - Implemented internal dimensional algebra engine for combining quantities through multiplication and division as part of E-001 (Option A Hybrid Core) epic.
+  - Internal `IDimensionalMath` interface defining dimensional algebra operations contract
+  - Internal `DimensionalMath` sealed singleton service implementing stateless, thread-safe multiplication and division
+  - Internal `DimensionalResult` readonly struct encapsulating operation results with value, signature, and factor
+  - Multiplication operation: combines signatures by adding exponents, multiplies factors and values
+  - Division operation: combines signatures by subtracting exponents, divides factors and values, validates divide-by-zero
+  - Uses decimal arithmetic per S-005 decision for adequate precision in dimensional calculations
+  - Dimensional cancellation: automatically detects when operations produce dimensionless (scalar) results
+  - 32 comprehensive unit tests following `MethodName_Condition_ExpectedResult()` naming convention covering:
+    - Basic dimensional algebra (Length×Length→Area, Force×Length→Torque, Length÷Time→Velocity, etc.)
+    - Scalar interactions (scalar × dimensioned, dimensioned ÷ scalar, etc.)
+    - Factor combination with mixed units (inch × foot, square meter ÷ foot, etc.)
+    - Edge cases (zero values, very large/small values, divide-by-zero)
+    - Precision validation (multi-unit conversions, chained operations)
+  - 100% test coverage for new components
+  - All 191 tests pass (159 original + 32 new) with zero regressions
+  - Ready for F-007 (Operators Integration) to wire public `Quantity` operators
+  - Compatible with netstandard2.0 and net7.0 target frameworks
+
 - **F-003: Unit Normalization and Alias Resolver (Internal)** - Implemented internal unit normalization pipeline with O(1) performance optimization (S-006) as part of E-001 (Option A Hybrid Core) epic.
   - Dictionary-based optimization for `UnitDefinitions` achieving 100-1000x performance improvement (O(n) → O(1) lookups)
   - Internal `UnitToken` value type for canonical unit identifiers with full equality and hash code support
