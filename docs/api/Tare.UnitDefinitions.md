@@ -11,6 +11,14 @@ public static class UnitDefinitions
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; UnitDefinitions
 
+| Constructors | |
+| :--- | :--- |
+| [UnitDefinitions()](Tare.UnitDefinitions.UnitDefinitions().md 'Tare.UnitDefinitions.UnitDefinitions()') | Static constructor builds dictionary indexes for O(1) lookup performance. |
+
+| Properties | |
+| :--- | :--- |
+| [AliasIndex](Tare.UnitDefinitions.AliasIndex.md 'Tare.UnitDefinitions.AliasIndex') | Internal accessor for UnitResolver to reuse indexes. |
+
 | Methods | |
 | :--- | :--- |
 | [IsValidUnit(string)](Tare.UnitDefinitions.IsValidUnit(string).md 'Tare.UnitDefinitions.IsValidUnit(string)') | Determines if a supplied string is a valid unit or unit abbreviation. |

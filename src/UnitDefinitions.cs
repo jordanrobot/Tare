@@ -5,6 +5,43 @@
 /// </summary>
 public static class UnitDefinitions
 {
+    // Internal dictionary indexes for O(1) lookups (S-006 Option 1)
+    private static readonly Dictionary<string, UnitDefinition> _aliasIndex;
+    private static readonly Dictionary<string, UnitDefinition> _nameIndex;
+    private static readonly Dictionary<UnitTypeEnum, List<UnitDefinition>> _typeIndex;
+
+    /// <summary>
+    /// Static constructor builds dictionary indexes for O(1) lookup performance.
+    /// </summary>
+    static UnitDefinitions()
+    {
+        var definitionsList = (Definitions as List<UnitDefinition>) ?? Definitions.ToList();
+
+        // Build name index (exact match, case-sensitive)
+        _nameIndex = definitionsList.ToDictionary(d => d.Name, StringComparer.Ordinal);
+
+        // Build alias index (case-insensitive, includes all aliases)
+        _aliasIndex = new Dictionary<string, UnitDefinition>(StringComparer.OrdinalIgnoreCase);
+        foreach (var def in definitionsList)
+        {
+            foreach (var alias in def.Aliases)
+            {
+                // Use first definition if duplicate alias exists
+                if (!_aliasIndex.ContainsKey(alias))
+                    _aliasIndex[alias] = def;
+            }
+        }
+
+        // Build type index (for categorization queries)
+        _typeIndex = definitionsList.GroupBy(d => d.UnitType)
+                                     .ToDictionary(g => g.Key, g => g.ToList());
+    }
+
+    /// <summary>
+    /// Internal accessor for UnitResolver to reuse indexes.
+    /// </summary>
+    internal static IReadOnlyDictionary<string, UnitDefinition> AliasIndex => _aliasIndex;
+
     /// <summary>
     /// Determines if a supplied string is a valid unit or unit abbreviation.
     /// </summary>
@@ -12,7 +49,7 @@ public static class UnitDefinitions
     /// <returns>Returns true if the string is a valid unit, otherwise returns false.</returns>
     public static bool IsValidUnit(string unit)
     {
-        return Definitions.Any(def => def.Aliases.Contains(unit));
+        return _aliasIndex.ContainsKey(unit);
     }
 
     /// <summary>
@@ -23,21 +60,8 @@ public static class UnitDefinitions
     /// <exception cref="ArgumentException">If the parsed input cannot be found in the Unit Definition list, an Argument Exception is thrown.</exception>
     public static UnitDefinition Parse(string unit)
     {
-        foreach (var def in Definitions)
-        {
-            if (def.Name == unit)
-            {
-                return def;
-            }
-        }
-
-        foreach (var def in Definitions)
-        {
-            if (def.Aliases.Contains(unit.ToLower()))
-            {
-                return def;
-            }
-        }
+        if (_aliasIndex.TryGetValue(unit, out var definition))
+            return definition;
 
         throw new ArgumentException("No matching unit " + unit + " was found.");
     }
@@ -49,9 +73,7 @@ public static class UnitDefinitions
     /// <returns></returns>
     public static UnitTypeEnum ParseUnitType(string unit)
     {
-        return Definitions.Where(def => def.Aliases.Contains(unit))
-            .Select(def => def.UnitType)
-            .FirstOrDefault();
+        return _aliasIndex.TryGetValue(unit, out var def) ? def.UnitType : UnitTypeEnum.Unknown;
     }
 
     private static IEnumerable<UnitDefinition> Definitions = new List<UnitDefinition>()
@@ -59,6 +81,12 @@ public static class UnitDefinitions
             new UnitDefinition("each", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "each", "ea", "ul",  string.Empty }),
             new UnitDefinition("sheet", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "sheet", "sheets" }),
             new UnitDefinition("stick", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "stick", "sticks" }),
+            
+            // Dimensionless/Scalar units (relative to empty string "" base = 1, "each" is optional alias)
+            new UnitDefinition("percent", 0.01M, UnitTypeEnum.Scalar, new HashSet<string> { "percent", "%", "pct" }),
+            new UnitDefinition("ppm", 0.000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppm", "parts per million" }),
+            new UnitDefinition("ppb", 0.000000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppb", "parts per billion" }),
+            new UnitDefinition("ppt", 0.000000000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppt", "parts per trillion" }),
 
             //add length units relative to meters
             new UnitDefinition("in", 0.0254M, UnitTypeEnum.Length, new HashSet<string> { "in", "inch", "inches", "\"", @"''" }),
@@ -207,11 +235,10 @@ public static class UnitDefinitions
             new UnitDefinition("N", 1M, UnitTypeEnum.Force, new HashSet<string>{"N", "newton", "newtons"}),
             new UnitDefinition("kN", 1000M, UnitTypeEnum.Force, new HashSet<string>{"kN", "kiloNewton", "kiloNewtons", "kilo newton"}),
             new UnitDefinition("lbf", 4.4482216152605M, UnitTypeEnum.Force, new HashSet<string>{"lbf", "pound force", "pound forces"}),
-            new UnitDefinition("tf", 8896.443230521M, UnitTypeEnum.Force, new HashSet<string>{"tf", "ton force", "ton forces"}),
+            new UnitDefinition("tf", 8896.443230521M, UnitTypeEnum.Force, new HashSet<string>{"tf", "ton force", "ton forces", "ton-force", "ton-forces"}),
             new UnitDefinition("dyn", 0.00001M, UnitTypeEnum.Force, new HashSet<string>{"dyn", "dyne", "dynes"}),
             new UnitDefinition("J/m", 1M, UnitTypeEnum.Force, new HashSet<string>{"J/m", "joule per meter", "joules per meter"}),
             new UnitDefinition("J/cm", 100M, UnitTypeEnum.Force, new HashSet<string>{"J/cm", "joule per centimeter", "joules per centimeter"}),
-            new UnitDefinition("tf", 8896.443230521M, UnitTypeEnum.Force, new HashSet<string>{"tf", "ton-force", "ton-forces"}),
             new UnitDefinition("kipf", 4448.2216152605M, UnitTypeEnum.Force, new HashSet<string>{"kipf", "kip-force", "kip-forces"}),
             new UnitDefinition("ozf", 0.27801385095378M, UnitTypeEnum.Force, new HashSet<string>{"ozf", "ounce-force", "ounce-forces"}),
 
