@@ -1,0 +1,1 @@
+Please read through .github/features/E-001.md, dotnet-architecture-good-practices.instructions.md, and the copilot-instructions.md files. Use these to plan the next feature's implementation, tasks lists, acceptance criteria, and testing plan. Please save this to a markdown file for my review and comments. Filename format should be F-00x.md where 00x is the feature number.
