@@ -1,3 +1,4 @@
+#### [Tare](index.md 'index')
 ### [Tare](Tare.md 'Tare').[Extensions](Tare.Extensions.md 'Tare.Extensions')
 
 ## Extensions.As(this Quantity, string) Method
