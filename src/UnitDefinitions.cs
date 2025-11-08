@@ -216,7 +216,7 @@ public static class UnitDefinitions
             new UnitDefinition("ct", 0.2M, UnitTypeEnum.Mass, new HashSet<string>{"ct", "carat", "carats"}),
             new UnitDefinition("ton", 907184.74M, UnitTypeEnum.Mass, new HashSet<string>{"ton", "tons", "metric ton", "metric tons", "tonne", "tonnes"}),
             //US Ton
-            new UnitDefinition("T", 907184.74M, UnitTypeEnum.Mass, new HashSet<string>{"tn", "ton", "tons", "us ton", "us tons"}),
+            new UnitDefinition("T", 907184.74M, UnitTypeEnum.Mass, new HashSet<string>{"T", "tn", "ton", "tons", "us ton", "us tons"}),
             new UnitDefinition("cg", 0.01M, UnitTypeEnum.Mass, new HashSet<string>{"cg", "centigram", "centigrams"}),
             new UnitDefinition("dg", 0.1M, UnitTypeEnum.Mass, new HashSet<string>{"dg", "decigram", "decigrams"}),
             new UnitDefinition("dag", 10M, UnitTypeEnum.Mass, new HashSet<string>{"dag", "dekagram", "dekagrams"}),
@@ -315,7 +315,7 @@ public static class UnitDefinitions
             new UnitDefinition("quadrant", 1.5707963267948966192313216916398M, UnitTypeEnum.Angle, new HashSet<string>{"quadrant", "quadrants"}),
 
             //Unknown
-            new UnitDefinition("?", 1, UnitTypeEnum.Unknown, new HashSet<string> { "unknown"})
+            new UnitDefinition("?", 1, UnitTypeEnum.Unknown, new HashSet<string> { "?", "unknown"})
 
         };
 }
