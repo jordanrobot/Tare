@@ -362,8 +362,15 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
+        
+        // Convert result to target unit space
+        // result.Value × result.Factor = value in base units
+        // We need to divide by target unit's factor to get value in target unit space
+        var resultBaseValue = result.Value * result.Factor;
+        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
+        var resultValue = resultBaseValue / targetUnitDefinition.Factor;
 
-        return new Quantity(result.Value, resultUnit);
+        return new Quantity(resultValue, resultUnit);
     }
 
     /// <summary>
@@ -462,13 +469,20 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Check if result is dimensionless (unit cancellation across different unit types)
         if (result.Signature.IsDimensionless())
         {
-            return new Quantity(result.Value);
+            // For dimensionless results, the value is already correct (no unit conversion needed)
+            var resultBaseValue = result.Value * result.Factor;
+            return new Quantity(resultBaseValue);
         }
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
+        
+        // Convert result to target unit space
+        var resultBaseValue2 = result.Value * result.Factor;
+        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
+        var resultValue = resultBaseValue2 / targetUnitDefinition.Factor;
 
-        return new Quantity(result.Value, resultUnit);
+        return new Quantity(resultValue, resultUnit);
     }
 
     /// <summary>

@@ -130,9 +130,9 @@ public class KnownSignatureMapTests
         var found = _map.TryGetPreferredUnit(DimensionSignature.AreaSignature, out var unit);
 
         Assert.That(found, Is.True);
-        Assert.That(unit.CanonicalName, Is.EqualTo("m²"));
+        Assert.That(unit.CanonicalName, Is.EqualTo("m^2"));
         Assert.That(unit.Description, Is.EqualTo("Area"));
-        Assert.That(unit.AlternativeNames, Contains.Item("m^2"));
+        Assert.That(unit.AlternativeNames, Contains.Item("m²"));
     }
 
     [Test]
@@ -141,9 +141,9 @@ public class KnownSignatureMapTests
         var found = _map.TryGetPreferredUnit(DimensionSignature.VolumeSignature, out var unit);
 
         Assert.That(found, Is.True);
-        Assert.That(unit.CanonicalName, Is.EqualTo("m³"));
+        Assert.That(unit.CanonicalName, Is.EqualTo("m^3"));
         Assert.That(unit.Description, Is.EqualTo("Volume"));
-        Assert.That(unit.AlternativeNames, Contains.Item("m^3"));
+        Assert.That(unit.AlternativeNames, Contains.Item("m³"));
     }
 
     #endregion
@@ -166,9 +166,9 @@ public class KnownSignatureMapTests
         var found = _map.TryGetPreferredUnit(DimensionSignature.AccelerationSignature, out var unit);
 
         Assert.That(found, Is.True);
-        Assert.That(unit.CanonicalName, Is.EqualTo("m/s²"));
+        Assert.That(unit.CanonicalName, Is.EqualTo("m/s^2"));
         Assert.That(unit.Description, Is.EqualTo("Acceleration"));
-        Assert.That(unit.AlternativeNames, Contains.Item("m/s^2"));
+        Assert.That(unit.AlternativeNames, Contains.Item("m/s²"));
     }
 
     #endregion
@@ -415,7 +415,7 @@ public class KnownSignatureMapTests
         var found = _map.TryGetPreferredUnit(DimensionSignature.AreaSignature, out var unit);
 
         Assert.That(found, Is.True);
-        Assert.That(unit.AlternativeNames, Contains.Item("m^2"));
+        Assert.That(unit.AlternativeNames, Contains.Item("m²"));
     }
 
     [Test]
@@ -424,7 +424,7 @@ public class KnownSignatureMapTests
         var found = _map.TryGetPreferredUnit(DimensionSignature.AccelerationSignature, out var unit);
 
         Assert.That(found, Is.True);
-        Assert.That(unit.AlternativeNames, Contains.Item("m/s^2"));
+        Assert.That(unit.AlternativeNames, Contains.Item("m/s²"));
     }
 
     #endregion

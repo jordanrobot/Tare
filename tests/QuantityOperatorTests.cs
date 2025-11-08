@@ -101,11 +101,18 @@ public class QuantityOperatorTests
     #region Multiplication
 
     [Test]
-    public void Quantity_MultiplyUnits_Throws()
+    public void Multiply_LengthByLength_ReturnsArea()
     {
         Quantity q1 = Quantity.Parse("1.5in");
         Quantity q2 = Quantity.Parse("2.5in");
-        Assert.Throws<InvalidOperationException>(() => _ = q1 * q2);
+        var result = q1 * q2;
+        
+        // Result should be area in base units (m^2)
+        // 1.5 in × 2.5 in = 3.75 in²
+        // Converting to m²: 1 in = 0.0254 m, so 3.75 in² = 3.75 × (0.0254)² = 0.00241935 m²
+        Assert.That(result.Unit, Is.EqualTo("m^2"));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+        Assert.That(result.Value, Is.EqualTo(0.00241935m).Within(0.0000001m));
     }
 
     [Test]
@@ -169,11 +176,16 @@ public class QuantityOperatorTests
     #region Division
 
     [Test]
-    public void Quantity_DivideIncompatibleUnits_Throws()
+    public void Divide_LengthByLength_ReturnsScalar()
     {
-        Quantity q1 = Quantity.Parse("1.5in");
-        Quantity q2 = Quantity.Parse("2.5ft/s");
-        Assert.Throws<InvalidOperationException>(() => _ = q1 / q2);
+        // This test verifies dimensional cancellation works correctly
+        Quantity q1 = Quantity.Parse("12in");
+        Quantity q2 = Quantity.Parse("4in");
+        var result = q1 / q2;
+        
+        // Same unit types should cancel to produce a scalar
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.That(result.Value, Is.EqualTo(3m));
     }
 
     [Test]
