@@ -1,3 +1,5 @@
+#### [Tare](index.md 'index')
+
 ## Tare Namespace
 
 | Classes | |
