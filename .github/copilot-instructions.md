@@ -87,6 +87,10 @@ This repo contains a small .NET library that implements a unit-of-measure value 
 	- “publish” task is for packaging validation; use sparingly for local checks
 - Versioning scripts (`update-version.ps1`) and packaging metadata live in `src/Tare.csproj`—don’t modify versions unless explicitly asked.
 
+## Feature Backlog
+
+- A feature backlog is maintained in `.github/features/feature-backlog.md` to track planned work. A sample feature entry is included there for reference (F-000).
+
 ---
 
 Keep edits focused, additive, and verifiable. If a change would ripple across multiple files or alter public behavior, pause and request explicit confirmation before proceeding.

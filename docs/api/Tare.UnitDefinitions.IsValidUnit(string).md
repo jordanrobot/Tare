@@ -1,3 +1,4 @@
+#### [Tare](index.md 'index')
 ### [Tare](Tare.md 'Tare').[UnitDefinitions](Tare.UnitDefinitions.md 'Tare.UnitDefinitions')
 
 ## UnitDefinitions.IsValidUnit(string) Method

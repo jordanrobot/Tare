@@ -12,6 +12,9 @@
     <Version>0.7.0-alpha0001</Version>
   </PropertyGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="TareTests" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
