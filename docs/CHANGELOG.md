@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Internal `NormalizedUnit` value type containing token, base conversion factor, unit type, and dimension signature
   - Internal `IUnitResolver` interface and `UnitResolver` singleton service for normalization and resolution operations
   - `BaseUnitMap` configuration defining SI base units for each dimension family
-  - Added dimensionless scalar units: percent (%), parts per million (ppm), parts per billion (ppb), parts per trillion (ppt)
+  - Added dimensionless scalar units: percent (%), parts per million (ppm), parts per billion (ppb), parts per trillion (ppt), dozen (doz, dz)
   - Fixed pre-existing data issues: duplicate "tf" unit definition (merged aliases), missing unit names "T" and "?" in aliases
   - 35 comprehensive unit tests following `MethodName_Condition_ExpectedResult()` naming convention
   - All 156 tests pass (121 original + 35 new) with backward compatibility maintained

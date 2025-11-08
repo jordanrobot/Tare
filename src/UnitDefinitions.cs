@@ -81,6 +81,7 @@ public static class UnitDefinitions
             new UnitDefinition("each", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "each", "ea", "ul",  string.Empty }),
             new UnitDefinition("sheet", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "sheet", "sheets" }),
             new UnitDefinition("stick", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "stick", "sticks" }),
+            new UnitDefinition("dozen", 12M, UnitTypeEnum.Scalar, new HashSet<string> { "dozen", "doz", "dz" }),
             
             // Dimensionless/Scalar units (relative to empty string "" base = 1, "each" is optional alias)
             new UnitDefinition("percent", 0.01M, UnitTypeEnum.Scalar, new HashSet<string> { "percent", "%", "pct" }),
