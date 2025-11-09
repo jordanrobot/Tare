@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Text.RegularExpressions;
 using static Tare.Extensions;
+using Tare.Internal.Units;
 
 namespace Tare;
 //TODO: add documentation to operators.
@@ -314,27 +315,62 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     #region Multiplication Operators
 
     /// <summary>
-    /// Multiplies two specified Quantity values; will only multiply a unit QUantity with a scalar Quantity.
-    /// <returns>The result of multiplying q1 and q2.</returns>
+    /// Multiplies two specified Quantity values using dimensional algebra.
     /// </summary>
+    /// <param name="q1">The first quantity.</param>
+    /// <param name="q2">The second quantity.</param>
+    /// <returns>The result of multiplying q1 by q2 with dimensional unit composition.</returns>
+    /// <remarks>
+    /// Supports:
+    /// - Scalar × Scalar → Scalar
+    /// - Scalar × Quantity → Quantity (preserves unit)
+    /// - Quantity × Scalar → Quantity (preserves unit)
+    /// - Quantity × Quantity → Quantity (dimensional algebra: adds signatures)
+    /// 
+    /// Examples:
+    /// - 10m × 5m → 50m²
+    /// - 10N × 2m → 20Nm (torque)
+    /// - 5kg × 2m/s² → 10N (force)
+    /// </remarks>
     public static Quantity operator *(Quantity q1, Quantity q2)
     {
+        // Fast path: both scalars
         if (q1.UnitType == UnitTypeEnum.Scalar && q2.UnitType == UnitTypeEnum.Scalar)
         {
             return new Quantity(q1.Value * q2.Value);
         }
 
+        // Fast path: scalar × quantity (preserve quantity's unit)
         if (q1.UnitType == UnitTypeEnum.Scalar)
         {
             return new Quantity(q1.Value * q2.Value, q2.Unit);
         }
 
+        // Fast path: quantity × scalar (preserve quantity's unit)
         if (q2.UnitType == UnitTypeEnum.Scalar)
         {
             return new Quantity(q1.Value * q2.Value, q1.Unit);
         }
 
-        throw new InvalidOperationException("Cannot multiply quantities with units");
+        // Dimensional algebra path: both have units
+        var resolver = UnitResolver.Instance;
+        var left = resolver.Resolve(q1.Unit);
+        var right = resolver.Resolve(q2.Unit);
+        
+        var engine = DimensionalMath.Instance;
+        var result = engine.Multiply(left, right, q1.Value, q2.Value);
+
+        // Name the result using known signatures or composite fallback
+        string resultUnit = ResolveUnitName(result.Signature);
+        
+        // Convert result to target unit space
+        // result.Value × result.Factor = value in base units
+        // We need to divide by target unit's factor to get value in target unit space
+        var resultBaseValue = result.Value * result.Factor;
+        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
+        var resultValue = resultBaseValue / targetUnitDefinition.Factor;
+
+        return new Quantity(resultValue, resultUnit);
     }
 
     /// <summary>
@@ -383,23 +419,70 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     #region Division Operators
 
     /// <summary>
-    /// Divides two specified Quantity values; will only divide a unit Quantity by a scalar Quantity.
-    /// <returns>The result of dividing q1 by q2.</returns>
+    /// Divides two specified Quantity values using dimensional algebra.
     /// </summary>
+    /// <param name="q1">The dividend quantity.</param>
+    /// <param name="q2">The divisor quantity.</param>
+    /// <returns>The result of dividing q1 by q2 with dimensional unit composition.</returns>
+    /// <remarks>
+    /// Supports:
+    /// - Scalar ÷ Scalar → Scalar
+    /// - Quantity ÷ Scalar → Quantity (preserves unit)
+    /// - Quantity ÷ Quantity (same unit type) → Scalar (unit cancellation)
+    /// - Quantity ÷ Quantity (different types) → Quantity (dimensional algebra: subtracts signatures)
+    /// 
+    /// Examples:
+    /// - 50m² ÷ 10m → 5m
+    /// - 10m ÷ 2s → 5m/s (velocity)
+    /// - 20Nm ÷ 5m → 4N (force)
+    /// - 100kg ÷ 50kg → 2 (scalar)
+    /// </remarks>
     public static Quantity operator /(Quantity q1, Quantity q2)
     {
-        if (q1.UnitType == q2.UnitType)
+        // Fast path: same unit types cancel to scalar
+        if (q1.UnitType == q2.UnitType && q1.UnitType != UnitTypeEnum.Scalar)
         {
-            //convert each quantity and return a scalar
-            return ((q1.Factor * q1.Value) / (q2.Factor * q2.Value));
+            // Convert to base units and divide (existing behavior preserved)
+            return new Quantity((q1.Factor * q1.Value) / (q2.Factor * q2.Value));
         }
 
+        // Fast path: both scalars
+        if (q1.UnitType == UnitTypeEnum.Scalar && q2.UnitType == UnitTypeEnum.Scalar)
+        {
+            return new Quantity(q1.Value / q2.Value);
+        }
+
+        // Fast path: quantity ÷ scalar (preserve quantity's unit)
         if (q2.UnitType == UnitTypeEnum.Scalar)
         {
-            return new(q1.Value / q2.Value, q1.Unit);
+            return new Quantity(q1.Value / q2.Value, q1.Unit);
         }
 
-        throw new InvalidOperationException("Cannot divide quantities with units");
+        // Dimensional algebra path: cross-unit division
+        var resolver = UnitResolver.Instance;
+        var numerator = resolver.Resolve(q1.Unit);
+        var denominator = resolver.Resolve(q2.Unit);
+        
+        var engine = DimensionalMath.Instance;
+        var result = engine.Divide(numerator, denominator, q1.Value, q2.Value);
+
+        // Check if result is dimensionless (unit cancellation across different unit types)
+        if (result.Signature.IsDimensionless())
+        {
+            // For dimensionless results, the value is already correct (no unit conversion needed)
+            var resultBaseValue = result.Value * result.Factor;
+            return new Quantity(resultBaseValue);
+        }
+
+        // Name the result using known signatures or composite fallback
+        string resultUnit = ResolveUnitName(result.Signature);
+        
+        // Convert result to target unit space
+        var resultBaseValue2 = result.Value * result.Factor;
+        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
+        var resultValue = resultBaseValue2 / targetUnitDefinition.Factor;
+
+        return new Quantity(resultValue, resultUnit);
     }
 
     /// <summary>
@@ -574,4 +657,28 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     }
 
     #endregion
+
+    /// <summary>
+    /// Resolves a dimension signature to a preferred unit name.
+    /// </summary>
+    /// <param name="signature">The dimension signature to resolve.</param>
+    /// <returns>The preferred unit name or composite string.</returns>
+    /// <remarks>
+    /// Resolution priority:
+    /// 1. Known signature map (e.g., Force → "N", Torque → "Nm")
+    /// 2. Composite formatter fallback (e.g., "kg·m²/s²")
+    /// </remarks>
+    private static string ResolveUnitName(DimensionSignature signature)
+    {
+        // Try known signature resolution first
+        var knownMap = KnownSignatureMap.Instance;
+        if (knownMap.TryGetPreferredUnit(signature, out var preferredUnit))
+        {
+            return preferredUnit.CanonicalName;
+        }
+
+        // Fallback to composite formatting
+        var formatter = CompositeFormatter.Instance;
+        return formatter.Format(signature);
+    }
 }

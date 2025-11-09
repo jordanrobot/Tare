@@ -101,11 +101,18 @@ public class QuantityOperatorTests
     #region Multiplication
 
     [Test]
-    public void Quantity_MultiplyUnits_Throws()
+    public void Multiply_LengthByLength_ReturnsArea()
     {
         Quantity q1 = Quantity.Parse("1.5in");
         Quantity q2 = Quantity.Parse("2.5in");
-        Assert.Throws<InvalidOperationException>(() => _ = q1 * q2);
+        var result = q1 * q2;
+        
+        // Result should be area in base units (m^2)
+        // 1.5 in × 2.5 in = 3.75 in²
+        // Converting to m²: 1 in = 0.0254 m, so 3.75 in² = 3.75 × (0.0254)² = 0.00241935 m²
+        Assert.That(result.Unit, Is.EqualTo("m^2"));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+        Assert.That(result.Value, Is.EqualTo(0.00241935m).Within(0.0000001m));
     }
 
     [Test]
@@ -169,11 +176,16 @@ public class QuantityOperatorTests
     #region Division
 
     [Test]
-    public void Quantity_DivideIncompatibleUnits_Throws()
+    public void Divide_LengthByLength_ReturnsScalar()
     {
-        Quantity q1 = Quantity.Parse("1.5in");
-        Quantity q2 = Quantity.Parse("2.5ft/s");
-        Assert.Throws<InvalidOperationException>(() => _ = q1 / q2);
+        // This test verifies dimensional cancellation works correctly
+        Quantity q1 = Quantity.Parse("12in");
+        Quantity q2 = Quantity.Parse("4in");
+        var result = q1 / q2;
+        
+        // Same unit types should cancel to produce a scalar
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.That(result.Value, Is.EqualTo(3m));
     }
 
     [Test]
@@ -430,5 +442,137 @@ public class QuantityOperatorTests
         Assert.Throws<InvalidOperationException>(() => _ = q1 <= q6);
     }
 
+    #endregion
+    
+    #region Dimensional Algebra Tests
+    
+    [Test]
+    public void Multiply_MetersSquared_ReturnsCorrectArea()
+    {
+        // Test: 5m × 4m = 20m²
+        Quantity length = Quantity.Parse("5m");
+        Quantity width = Quantity.Parse("4m");
+        var area = length * width;
+        
+        Assert.That(area.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+        Assert.That(area.Unit, Is.EqualTo("m^2"));
+        Assert.That(area.Value, Is.EqualTo(20m));
+    }
+    
+    [Test]
+    public void Multiply_AreaByLength_ReturnsVolume()
+    {
+        // Test: 10m² × 3m = 30m³
+        Quantity area = Quantity.Parse("10m^2");
+        Quantity height = Quantity.Parse("3m");
+        var volume = area * height;
+        
+        Assert.That(volume.UnitType, Is.EqualTo(UnitTypeEnum.Volume));
+        Assert.That(volume.Unit, Is.EqualTo("m^3"));
+        Assert.That(volume.Value, Is.EqualTo(30m));
+    }
+    
+    [Test]
+    public void Divide_VolumeByArea_ReturnsLength()
+    {
+        // Test: 60m³ ÷ 12m² = 5m
+        Quantity volume = Quantity.Parse("60m^3");
+        Quantity area = Quantity.Parse("12m^2");
+        var length = volume / area;
+        
+        Assert.That(length.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+        Assert.That(length.Unit, Is.EqualTo("m"));
+        Assert.That(length.Value, Is.EqualTo(5m));
+    }
+    
+    [Test]
+    public void Divide_AreaByLength_ReturnsLength()
+    {
+        // Test: 20m² ÷ 5m = 4m
+        Quantity area = Quantity.Parse("20m^2");
+        Quantity length = Quantity.Parse("5m");
+        var result = area / length;
+        
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+        Assert.That(result.Unit, Is.EqualTo("m"));
+        Assert.That(result.Value, Is.EqualTo(4m));
+    }
+    
+    [Test]
+    public void Multiply_MixedUnits_ConvertsCorrectly()
+    {
+        // Test: 2ft × 3ft = 6ft² converted to m²
+        Quantity length1 = Quantity.Parse("2ft");
+        Quantity length2 = Quantity.Parse("3ft");
+        var area = length1 * length2;
+        
+        Assert.That(area.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+        Assert.That(area.Unit, Is.EqualTo("m^2"));
+        // 6 ft² = 6 × (0.3048)² = 0.557418 m²
+        Assert.That(area.Value, Is.EqualTo(0.557418m).Within(0.000001m));
+    }
+    
+    [Test]
+    public void Divide_InchSquaredByInch_ReturnsInch()
+    {
+        // Test: 12in² ÷ 3in = 4in (but results in meters)
+        Quantity area = Quantity.Parse("12in^2");
+        Quantity length = Quantity.Parse("3in");
+        var result = area / length;
+        
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+        Assert.That(result.Unit, Is.EqualTo("m"));
+        // 12 in² ÷ 3 in = 4 in = 4 × 0.0254 = 0.1016 m
+        Assert.That(result.Value, Is.EqualTo(0.1016m).Within(0.0001m));
+    }
+    
+    [Test]
+    public void Divide_SameUnitType_ProducesScalar()
+    {
+        // Test: 15m ÷ 3m = 5 (dimensionless)
+        Quantity q1 = Quantity.Parse("15m");
+        Quantity q2 = Quantity.Parse("3m");
+        var result = q1 / q2;
+        
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.That(result.Value, Is.EqualTo(5m));
+    }
+    
+    [Test]
+    public void Divide_DifferentLengthUnits_ProducesScalar()
+    {
+        // Test: 100cm ÷ 1m = 1 (dimensionless, unit cancellation)
+        Quantity q1 = Quantity.Parse("100cm");
+        Quantity q2 = Quantity.Parse("1m");
+        var result = q1 / q2;
+        
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.That(result.Value, Is.EqualTo(1m));
+    }
+    
+    [Test]
+    public void Multiply_ZeroQuantities_ReturnsZero()
+    {
+        // Test: 0m × 5m = 0m²
+        Quantity zero = Quantity.Parse("0m");
+        Quantity length = Quantity.Parse("5m");
+        var result = zero * length;
+        
+        Assert.That(result.Value, Is.EqualTo(0m));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+    }
+    
+    [Test]
+    public void Multiply_VerySmallValues_MaintainsPrecision()
+    {
+        // Test: 0.001m × 0.002m = 0.000002m²
+        Quantity q1 = Quantity.Parse("0.001m");
+        Quantity q2 = Quantity.Parse("0.002m");
+        var result = q1 * q2;
+        
+        Assert.That(result.Value, Is.EqualTo(0.000002m).Within(0.0000001m));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+    }
+    
     #endregion
 }

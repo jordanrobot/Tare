@@ -88,11 +88,11 @@ internal sealed class KnownSignatureMap : IKnownSignatureMap
         
         // Area - L²M⁰T⁰I⁰Θ⁰N⁰J⁰
         map[DimensionSignature.AreaSignature] = 
-            new PreferredUnit("m²", "Area", "m^2");
+            new PreferredUnit("m^2", "Area", "m²");
         
         // Volume - L³M⁰T⁰I⁰Θ⁰N⁰J⁰
         map[DimensionSignature.VolumeSignature] = 
-            new PreferredUnit("m³", "Volume", "m^3");
+            new PreferredUnit("m^3", "Volume", "m³");
         
         // Derived Dimensions - Kinematics
         
@@ -102,7 +102,7 @@ internal sealed class KnownSignatureMap : IKnownSignatureMap
         
         // Acceleration - L¹M⁰T⁻²I⁰Θ⁰N⁰J⁰
         map[DimensionSignature.AccelerationSignature] = 
-            new PreferredUnit("m/s²", "Acceleration", "m/s^2");
+            new PreferredUnit("m/s^2", "Acceleration", "m/s²");
         
         // Derived Dimensions - Dynamics
         

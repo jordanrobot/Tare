@@ -296,7 +296,7 @@ public static class UnitDefinitions
             new UnitDefinition("day", 86400000M, UnitTypeEnum.Time, new HashSet<string>{"day", "days"}),
             new UnitDefinition("hour", 3600000M, UnitTypeEnum.Time, new HashSet<string>{"hour", "hours"}),
             new UnitDefinition("minute", 60000M, UnitTypeEnum.Time, new HashSet<string>{"minute", "minutes"}),
-            new UnitDefinition("second", 1000M, UnitTypeEnum.Time, new HashSet<string>{"second", "seconds"}),
+            new UnitDefinition("second", 1000M, UnitTypeEnum.Time, new HashSet<string>{"second", "seconds", "s"}),
             new UnitDefinition("ms", 1M, UnitTypeEnum.Time, new HashSet<string>{"millisecond", "milliseconds", "ms"}),
             new UnitDefinition("µs", 0.001M, UnitTypeEnum.Time, new HashSet<string>{"microsecond", "microseconds", "µs"}),
             new UnitDefinition("ns", 0.000001M, UnitTypeEnum.Time, new HashSet<string>{"nanosecond", "nanoseconds", "ns"}),

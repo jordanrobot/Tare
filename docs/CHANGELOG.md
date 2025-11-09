@@ -14,6 +14,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-007: Operators Integration** - Integrated dimensional algebra engine with `Quantity` multiplication and division operators, enabling full cross-unit arithmetic operations as part of E-001 (Option A Hybrid Core) epic.
+  - Modified `operator *` to support dimensional multiplication:
+    - Preserved existing scalar fast paths for backward compatibility and performance
+    - Integrated with `DimensionalMath.Instance.Multiply()` for cross-unit operations
+    - Automatic unit name resolution via `KnownSignatureMap` (preferred) and `CompositeFormatter` (fallback)
+    - Examples: 10m × 5m → 50m², 10N × 2m → 20Nm (torque), 5kg × 2m/s² → 10N (force)
+  - Modified `operator /` to support dimensional division:
+    - Preserved existing scalar fast paths and same-unit cancellation for backward compatibility
+    - Integrated with `DimensionalMath.Instance.Divide()` for cross-unit operations
+    - Automatic dimensional cancellation detection (e.g., 10m ÷ 5m → 2 scalar)
+    - Examples: 50m² ÷ 10m → 5m, 20Nm ÷ 5m → 4N (force), 100kg ÷ 50kg → 2 (scalar)
+  - Added private `ResolveUnitName()` helper method for signature-to-unit resolution
+  - **Breaking Change**: Removed exceptions for cross-unit multiplication and division operations
+    - Before: `quantity1 * quantity2` threw `InvalidOperationException` for quantities with units
+    - After: `quantity1 * quantity2` performs dimensional algebra and returns correctly dimensioned result
+    - Migration: Remove try-catch blocks that handled these exceptions
+  - All numeric scalar operators unchanged (×decimal, ×double, ×int, ÷decimal, ÷int, etc.)
+  - Updated XML documentation with comprehensive examples and behavior descriptions
+  - 10 new dimensional algebra tests added covering multiplication, division, unit cancellation, mixed units, precision, and edge cases
+  - All 303 tests pass (293 original + 10 new) with zero regressions
+  - Fixed integration issues between F-005 (KnownSignatureMap) and unit catalog:
+    - Changed canonical names from Unicode superscripts to caret notation (m^2 instead of m²) to match unit catalog format
+    - Added "s" as alias for "second" unit in UnitDefinitions
+    - Updated KnownSignatureMapTests to reflect corrected format
+  - Thread-safe pure functions with immutable return values
+  - Compatible with netstandard2.0 and net7.0 target frameworks
+
 - **F-006: Composite Unit Formatter (Internal)** - Implemented internal composite unit string formatter for dimension signatures as part of E-001 (Option A Hybrid Core) epic.
   - Internal `ICompositeFormatter` interface defining signature-to-string formatting contract
   - Internal `CompositeFormatter` sealed singleton service implementing deterministic, idempotent formatting
