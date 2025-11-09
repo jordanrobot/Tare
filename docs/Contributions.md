@@ -1,8 +1,12 @@
-[api documentation](api/Tare.md 'Tare API') | [changelog](CHANGELOG.md) | [readme](../Readme.md 'Readme')
+[api documentation](api/Tare.md 'Tare API') | [changelog](CHANGELOG.md) | [readme](../Readme.md 'Readme') | [copilot config](../.github/COPILOT.md 'Copilot Configuration')
 
 ---
 
 # Contributions
+
+## GitHub Copilot
+
+This repository is configured with comprehensive GitHub Copilot instructions to ensure consistent, high-quality contributions. See [.github/COPILOT.md](../.github/COPILOT.md) for details about the Copilot configuration and how it helps maintain code quality and consistency.
 
 ## Dependencies
 
