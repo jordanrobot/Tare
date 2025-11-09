@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Tare.Internal.Units;
@@ -23,6 +24,7 @@ internal sealed class CompositeParser : ICompositeParser
         @"([a-zA-Z]+)(?:\^([\-\+]?\d+))?",
         RegexOptions.Compiled);
     
+    // Pattern for valid composite syntax: letters, digits (for exponents), operators
     private static readonly Regex CompositePattern = new Regex(
         @"^[\w\*·\/\^\(\)\s\-\+]+$",
         RegexOptions.Compiled);
@@ -50,7 +52,15 @@ internal sealed class CompositeParser : ICompositeParser
             return false;
         }
         
-        // Quick validation
+        // Quick validation - reject strings with standalone digits (not part of ^exponent)
+        // Strategy: remove all valid exponent patterns, then check if any digits remain
+        var tempString = Regex.Replace(compositeUnit, @"\^[\-\+]?\d+", "X"); // Replace exponents with placeholder
+        if (tempString.Any(char.IsDigit))
+        {
+            return false; // Contains standalone digits after removing exponents, invalid
+        }
+        
+        // Basic pattern validation
         if (!CompositePattern.IsMatch(compositeUnit))
         {
             return false;
