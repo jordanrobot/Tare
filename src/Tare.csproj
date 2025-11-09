@@ -6,10 +6,10 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\artifacts\</BaseOutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>0.7.0.0</AssemblyVersion>
-    <FileVersion>0.7.0.0</FileVersion>
-    <InformationalVersion>0.7.0-alpha.1+1.Branch.alpha.Sha.a4be031f78cf899c108bfe5fc76b686943b54961</InformationalVersion>
-    <Version>0.7.0-alpha0001</Version>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
+    <FileVersion>0.8.0.0</FileVersion>
+    <InformationalVersion>0.8.0-vNext.1+104.Branch.vNext.Sha.44e07557d5e1106c588db8a5d9c700ef776a9736</InformationalVersion>
+    <Version>0.8.0-vNext.1</Version>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="TareTests" />
@@ -35,7 +35,7 @@
     <Title>Tare</Title>
     <Authors>jordanrobot</Authors>
     <Copyright>(C) 2023</Copyright>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/jordanrobot/Tare</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Tare</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -45,6 +45,7 @@
     <RepositoryUrl>https://github.com/jordanrobot/Tare</RepositoryUrl>
     <PackageTags>unit, units, , unit conversion, units of measure, measurement, quantity, quantities, physical quantities, metrology</PackageTags>
     <PackageReleaseNotes>Initial release. See repository page for more details.</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <!-- Build stuff -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

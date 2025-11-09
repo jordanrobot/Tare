@@ -23,5 +23,5 @@ in the numerator and negative exponents in the denominator.
 
 | Methods | |
 | :--- | :--- |
-| [Format(DimensionSignature, string[])](Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature,string[]).md 'Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature, string[])') | Formats a dimension signature with custom base unit tokens (for future use with non-SI bases). |
 | [Format(DimensionSignature)](Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature).md 'Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature)') | Formats a dimension signature as a composite unit string using canonical base units. |
+| [Format(DimensionSignature, string[])](Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature,string[]).md 'Tare.Internal.Units.CompositeFormatter.Format(Tare.Internal.Units.DimensionSignature, string[])') | Formats a dimension signature with custom base unit tokens (for future use with non-SI bases). |
