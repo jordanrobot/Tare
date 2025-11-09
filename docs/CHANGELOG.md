@@ -14,6 +14,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-008: Format Extensions (Composite & Known Targets)** - Extended `Quantity.Format()` method to support composite unit strings and arbitrary unit combinations as target units, completing dimensional algebra formatting capability from E-001 (Option A Hybrid Core) epic.
+  - **Composite Unit Formatting**: Format quantities using composite unit strings:
+    - Supports multiplication operators: `*` (asterisk) and `·` (middle dot)
+    - Supports division operator: `/` (slash)
+    - Supports exponents: `^n` notation (e.g., `m^2`, `s^-2`)
+    - Examples: `torque.Format("lbf*in")`, `pressure.Format("N/m^2")`, `area.Format("ft^2")`
+  - **Dimensional Compatibility Validation**: Validates dimensional compatibility before conversion:
+    - Throws `InvalidOperationException` for incompatible dimensions with clear error messages
+    - Example: Cannot format length (m) as force (N)
+  - **Backward Compatibility Preserved**:
+    - Simple unit formatting unchanged (fast path preserved)
+    - All existing Format behavior maintained
+    - Format string parameter works with composite targets
+  - **Integration with Operators**: Seamlessly formats results from dimensional arithmetic:
+    - `(force * distance).Format("lbf*in")` → Converts Nm to lbf·in
+    - `(distance / time).Format("ft/s")` → Converts m/s to ft/s
+  - **New Internal Components**:
+    - `ICompositeParser` interface for parsing composite unit strings
+    - `CompositeParser` implementation with deterministic parsing logic
+    - Rejects malformed inputs (e.g., strings with standalone numbers like "3 ft/s")
+  - **Error Handling**:
+    - `ArgumentNullException`: When unit parameter is null
+    - `ArgumentException`: When unit is empty, whitespace, or contains unknown base units
+    - `InvalidOperationException`: When dimensions are incompatible
+    - `FormatException`: Implied for malformed composite strings (returns via ArgumentException)
+
 - **F-007: Operators Integration** - Integrated dimensional algebra engine with `Quantity` multiplication and division operators, enabling full cross-unit arithmetic operations as part of E-001 (Option A Hybrid Core) epic.
   - Modified `operator *` to support dimensional multiplication:
     - Preserved existing scalar fast paths for backward compatibility and performance
