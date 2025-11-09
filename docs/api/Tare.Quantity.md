@@ -19,6 +19,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | Constructors | |
 | :--- | :--- |
 | [Quantity()](Tare.Quantity.Quantity().md 'Tare.Quantity.Quantity()') | Return a default Quantity value. |
+| [Quantity(decimal, string)](Tare.Quantity.Quantity(decimal,string).md 'Tare.Quantity.Quantity(decimal, string)') | Creates a Quantity with the specified value and unit.<br/>Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2"). |
+| [Quantity(string)](Tare.Quantity.Quantity(string).md 'Tare.Quantity.Quantity(string)') | Creates a Quantity from a string containing a value and unit.<br/>Supports both catalog units (e.g., "10 m", "5 kg") and composite units (e.g., "200 Nm", "1500 lbf*in"). |
 
 | Properties | |
 | :--- | :--- |
@@ -35,6 +37,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [Format(string, string)](Tare.Quantity.Format(string,string).md 'Tare.Quantity.Format(string, string)') | Format the quantity using the specified unit and optional format string.<br/>Supports simple units, known composite units (Nm, Pa, W), and arbitrary composites (lbf*in, kg·m²/s²).<br/>Format specifier are the standard numeric format specifiers:<br/>"G" => 16325.62 in<br/>"C" => $16,325.62<br/>"E04" => 1.6326E+004 in<br/>"F" => 16325.62 in<br/>"N" => 16,325.62 in<br/>"P" => 163.26 %<br/><br/>Also supports using custom numeric format specifiers.<br/>"0,0.000" => 16,325.620 in |
 | [IsDefault()](Tare.Quantity.IsDefault().md 'Tare.Quantity.IsDefault()') | Check if the Quantity is of the default value: numeric value = 0, unit type = scalar. |
 | [IsUnknown()](Tare.Quantity.IsUnknown().md 'Tare.Quantity.IsUnknown()') | Check if the Quantity unit is unknown. |
+| [MapDescriptionToUnitType(string)](Tare.Quantity.MapDescriptionToUnitType(string).md 'Tare.Quantity.MapDescriptionToUnitType(string)') | Maps a PreferredUnit description to its corresponding UnitTypeEnum. |
 | [Parse(decimal, string)](Tare.Quantity.Parse(decimal,string).md 'Tare.Quantity.Parse(decimal, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(double, string)](Tare.Quantity.Parse(double,string).md 'Tare.Quantity.Parse(double, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(int, string)](Tare.Quantity.Parse(int,string).md 'Tare.Quantity.Parse(int, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |

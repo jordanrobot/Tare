@@ -14,6 +14,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-009: Composite Unit Construction** - Extended `Quantity` constructors and Parse methods to support composite unit strings, providing symmetrical composite unit support with F-008 formatting.
+  - **Composite Unit Construction**: Create quantities using composite unit strings:
+    - Supports multiplication operators: `*` (asterisk) and `·` (middle dot)
+    - Supports division operator: `/` (slash)
+    - Supports exponents: `^n` notation including negative exponents (e.g., `m^2`, `s^-2`)
+    - Examples: `Quantity.Parse(200, "Nm")`, `Quantity.Parse(1500, "lbf*in")`, `Quantity.Parse("10 m/s")`
+  - **Dual-Path Resolution**:
+    - **Fast path**: Catalog units resolved first (O(1) lookup, zero performance impact on existing code)
+    - **Slow path**: Composite units parsed via `CompositeParser` when catalog lookup fails
+    - Catalog entries always take precedence (e.g., "Nm" uses catalog, not parsed as N*m)
+  - **UnitType Determination**: Automatically determines UnitType for composite quantities:
+    - Known signatures (e.g., N*m → Energy, m/s → Velocity) get proper UnitType
+    - Unknown signatures (e.g., m*s) are marked as `UnitTypeEnum.Unknown`
+    - Uses `MapDescriptionToUnitType` helper to convert signature descriptions to enums
+  - **Backward Compatibility Preserved**:
+    - All existing catalog unit behavior unchanged
+    - Aliases continue to resolve to canonical names
+    - All 347 existing tests pass without modification
+  - **Error Handling**:
+    - `ArgumentNullException`: When unit parameter is null
+    - `ArgumentException`: When unit is empty, whitespace, or contains unknown base units
+    - Clear error messages guide users on valid syntax and available options
+  - **Symmetry with Format**: Construction and formatting now support the same composite syntax:
+    - Can format: `torque.Format("lbf*in")` ✓
+    - Can construct: `Quantity.Parse(1500, "lbf*in")` ✓
+    - Round-trip consistency: `Parse(value, unit).Format(unit)` maintains values
+  - **Test Coverage**: 40 comprehensive new tests covering:
+    - Composite construction (known and arbitrary composites)
+    - Parse/TryParse methods with composites
+    - Error handling and validation
+    - Backward compatibility verification
+    - Round-trip consistency
+    - Unknown signature handling
+    - Exponent notation (including negative exponents)
+
 - **F-008: Format Extensions (Composite & Known Targets)** - Extended `Quantity.Format()` method to support composite unit strings and arbitrary unit combinations as target units, completing dimensional algebra formatting capability from E-001 (Option A Hybrid Core) epic.
   - **Composite Unit Formatting**: Format quantities using composite unit strings:
     - Supports multiplication operators: `*` (asterisk) and `·` (middle dot)

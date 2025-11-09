@@ -29,18 +29,60 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         Value = value;
     }
 
+    /// <summary>
+    /// Creates a Quantity from a string containing a value and unit.
+    /// Supports both catalog units (e.g., "10 m", "5 kg") and composite units (e.g., "200 Nm", "1500 lbf*in").
+    /// </summary>
+    /// <param name="value">String containing numeric value and unit (e.g., "10 m", "200 Nm").</param>
+    /// <exception cref="ArgumentException">Thrown when unit is unknown or contains unknown base units.</exception>
+    /// <exception cref="FormatException">Thrown when composite unit syntax is malformed.</exception>
     private Quantity(string value)
     {
+        // Extract unit string if present
         if (UnitsPattern.IsMatch(value))
         {
             var tempUnits = UnitsPattern.Match(value).Value;
-            var definition = UnitDefinitions.Parse(tempUnits);
-
-            Unit = definition.Name;
-            Factor = definition.Factor;
-            UnitType = definition.UnitType;
+            
+            // Try fast path first - catalog units
+            if (UnitDefinitions.IsValidUnit(tempUnits))
+            {
+                var definition = UnitDefinitions.Parse(tempUnits);
+                Unit = definition.Name;
+                Factor = definition.Factor;
+                UnitType = definition.UnitType;
+            }
+            else
+            {
+                // Try slow path - composite units
+                var parser = CompositeParser.Instance;
+                if (parser.TryParse(tempUnits, out var signature, out var factor))
+                {
+                    // Valid composite
+                    Unit = tempUnits;
+                    Factor = factor;
+                    
+                    // Determine UnitType from signature
+                    var knownMap = KnownSignatureMap.Instance;
+                    if (knownMap.TryGetPreferredUnit(signature, out var preferred))
+                    {
+                        UnitType = MapDescriptionToUnitType(preferred.Description);
+                    }
+                    else
+                    {
+                        UnitType = UnitTypeEnum.Unknown;
+                    }
+                }
+                else
+                {
+                    // Neither catalog nor valid composite - throw
+                    throw new ArgumentException(
+                        $"Unknown or malformed unit: '{tempUnits}'. " +
+                        "Unit must be either a valid catalog unit or a composite unit.");
+                }
+            }
         }
 
+        // Extract numeric value if present
         if (ValuePattern.IsMatch(value))
         {
             var temp = ValuePattern.Match(value).Value;
@@ -48,18 +90,76 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         }
     }
 
+    /// <summary>
+    /// Creates a Quantity with the specified value and unit.
+    /// Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2").
+    /// </summary>
+    /// <param name="value">The numeric value of the quantity.</param>
+    /// <param name="unit">The unit of measure (catalog or composite).</param>
+    /// <exception cref="ArgumentNullException">Thrown when unit is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when unit is empty, whitespace, or contains unknown base units.</exception>
+    /// <exception cref="FormatException">Thrown when composite unit syntax is malformed.</exception>
+    /// <remarks>
+    /// Resolution order:
+    /// 1. Fast path: Try catalog unit first (O(1) lookup, zero performance impact)
+    /// 2. Slow path: Try parsing as composite unit using CompositeParser
+    /// 
+    /// Examples:
+    /// - new Quantity(10, "m") → catalog unit (fast path)
+    /// - new Quantity(200, "Nm") → composite unit (slow path)
+    /// - new Quantity(1500, "lbf*in") → composite unit (slow path)
+    /// </remarks>
     private Quantity(decimal value, string unit)
     {
+        if (unit == null)
+        {
+            throw new ArgumentNullException(nameof(unit));
+        }
+        
+        if (string.IsNullOrWhiteSpace(unit))
+        {
+            throw new ArgumentException("Unit string cannot be empty or whitespace.", nameof(unit));
+        }
+
         Value = value;
 
-        if (UnitsPattern.IsMatch(unit))
+        // Fast path: try catalog unit first (existing behavior, unchanged)
+        if (UnitDefinitions.IsValidUnit(unit))
         {
-            var tempUnits = UnitsPattern.Match(unit).Value;
-            var definition = UnitDefinitions.Parse(tempUnits);
-
+            var definition = UnitDefinitions.Parse(unit);
             Unit = definition.Name;
             Factor = definition.Factor;
             UnitType = definition.UnitType;
+            return; // Early return for catalog units (fast path)
+        }
+
+        // Slow path: try parsing as composite unit (new behavior)
+        var parser = CompositeParser.Instance;
+        if (!parser.TryParse(unit, out var signature, out var factor))
+        {
+            // Neither catalog nor valid composite - throw clear exception
+            throw new ArgumentException(
+                $"Unknown or malformed unit: '{unit}'. " +
+                "Unit must be either a valid catalog unit or a composite unit. " +
+                "Valid composite syntax: 'N*m', 'm/s', 'kg*m^2/s^2'. " +
+                "Use UnitDefinitions.IsValidUnit() to check catalog units.",
+                nameof(unit));
+        }
+
+        // Valid composite - use composite unit string and computed factor
+        Unit = unit;  // Store composite string as-is (e.g., "lbf*in")
+        Factor = factor;  // Conversion factor from composite to base units
+
+        // Determine UnitType based on signature
+        var knownMap = KnownSignatureMap.Instance;
+        if (knownMap.TryGetPreferredUnit(signature, out var preferred))
+        {
+            UnitType = MapDescriptionToUnitType(preferred.Description);
+        }
+        else
+        {
+            // Unknown signature - mark as Unknown
+            UnitType = UnitTypeEnum.Unknown;
         }
     }
 
@@ -733,5 +833,35 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Fallback to composite formatting
         var formatter = CompositeFormatter.Instance;
         return formatter.Format(signature);
+    }
+
+    /// <summary>
+    /// Maps a PreferredUnit description to its corresponding UnitTypeEnum.
+    /// </summary>
+    /// <param name="description">The description from PreferredUnit (e.g., "Length", "Force", "Energy").</param>
+    /// <returns>The corresponding UnitTypeEnum, or Unknown if not mapped.</returns>
+    private static UnitTypeEnum MapDescriptionToUnitType(string description)
+    {
+        return description switch
+        {
+            "Dimensionless" => UnitTypeEnum.Scalar,
+            "Length" => UnitTypeEnum.Length,
+            "Area" => UnitTypeEnum.Area,
+            "Volume" => UnitTypeEnum.Volume,
+            "Mass" => UnitTypeEnum.Mass,
+            "Force" => UnitTypeEnum.Force,
+            "Pressure" => UnitTypeEnum.Pressure,
+            "Temperature" => UnitTypeEnum.Temperature,
+            "Time" => UnitTypeEnum.Time,
+            "Velocity" => UnitTypeEnum.Velocity,
+            "Acceleration" => UnitTypeEnum.Acceleration,
+            "Energy" => UnitTypeEnum.Energy,
+            "Power" => UnitTypeEnum.Power,
+            "Angle" => UnitTypeEnum.Angle,
+            "Frequency" => UnitTypeEnum.Frequency,
+            "Angular Acceleration" => UnitTypeEnum.AngularAcceleration,
+            "Angular Velocity" => UnitTypeEnum.AngularVelocity,
+            _ => UnitTypeEnum.Unknown
+        };
     }
 }
