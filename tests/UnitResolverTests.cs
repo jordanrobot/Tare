@@ -349,4 +349,102 @@ public class UnitResolverTests
     }
 
     #endregion
+
+    #region Composite Unit Resolution Tests (F-010)
+
+    [Test]
+    public void Resolve_CompositeUnit_ReturnsCorrectSignatureAndFactor()
+    {
+        // Arrange & Act
+        var result = _resolver.Resolve("m*s");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Unknown));
+        Assert.That(result.Signature, Is.Not.EqualTo(DimensionSignature.Dimensionless));
+        // Factor is 1000 because s = 1000ms (base time unit is ms)
+        Assert.That(result.FactorToBase, Is.EqualTo(1000m));
+    }
+
+    [Test]
+    public void Resolve_KnownComposite_ReturnsCorrectUnitType()
+    {
+        // Arrange & Act - kg*m/s^2 is Force
+        var result = _resolver.Resolve("kg*m/s^2");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Force));
+    }
+
+    [Test]
+    public void Resolve_VelocityComposite_ReturnsVelocityType()
+    {
+        // Arrange & Act
+        var result = _resolver.Resolve("m/s");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Velocity));
+    }
+
+    [Test]
+    public void Resolve_EnergyComposite_ReturnsEnergyType()
+    {
+        // Arrange & Act - Nm is Energy
+        var result = _resolver.Resolve("Nm");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Energy));
+    }
+
+    [Test]
+    public void Resolve_UnknownComposite_ReturnsUnknownType()
+    {
+        // Arrange & Act - m^2*s is not a standard physical quantity
+        var result = _resolver.Resolve("m^2*s");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Unknown));
+        Assert.That(result.Signature, Is.Not.EqualTo(DimensionSignature.Dimensionless));
+    }
+
+    [Test]
+    public void Resolve_CatalogUnit_StillWorksCorrectly()
+    {
+        // Arrange & Act - Ensure catalog units still work (no regression)
+        var result = _resolver.Resolve("m");
+        
+        // Assert
+        Assert.That(result.Token.Canonical, Is.EqualTo("m"));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+        Assert.That(result.FactorToBase, Is.EqualTo(1.0m));
+    }
+
+    [Test]
+    public void Resolve_InvalidUnit_ThrowsArgumentException()
+    {
+        // Arrange & Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => _resolver.Resolve("xyz123"));
+        Assert.That(ex.Message, Does.Contain("Unknown or malformed unit"));
+    }
+
+    [Test]
+    public void Resolve_CompositeWithExponent_ReturnsCorrectSignature()
+    {
+        // Arrange & Act - m^2 is Area
+        var result = _resolver.Resolve("m^2");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Area));
+    }
+
+    [Test]
+    public void Resolve_CompositeAcceleration_ReturnsAccelerationType()
+    {
+        // Arrange & Act
+        var result = _resolver.Resolve("m/s^2");
+        
+        // Assert
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Acceleration));
+    }
+
+    #endregion
 }

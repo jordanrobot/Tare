@@ -520,8 +520,8 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // result.Value × result.Factor = value in base units
         // We need to divide by target unit's factor to get value in target unit space
         var resultBaseValue = result.Value * result.Factor;
-        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
-        var resultValue = resultBaseValue / targetUnitDefinition.Factor;
+        var targetUnit = resolver.Resolve(resultUnit);
+        var resultValue = resultBaseValue / targetUnit.FactorToBase;
 
         return new Quantity(resultValue, resultUnit);
     }
@@ -632,8 +632,8 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         
         // Convert result to target unit space
         var resultBaseValue2 = result.Value * result.Factor;
-        var targetUnitDefinition = UnitDefinitions.Parse(resultUnit);
-        var resultValue = resultBaseValue2 / targetUnitDefinition.Factor;
+        var targetUnit = resolver.Resolve(resultUnit);
+        var resultValue = resultBaseValue2 / targetUnit.FactorToBase;
 
         return new Quantity(resultValue, resultUnit);
     }
