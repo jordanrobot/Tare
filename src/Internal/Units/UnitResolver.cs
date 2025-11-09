@@ -72,19 +72,43 @@ internal sealed class UnitResolver : IUnitResolver
 
     /// <summary>
     /// Resolves a unit to its normalized representation with base conversion factor.
+    /// Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2").
     /// </summary>
     /// <param name="unit">The unit string to resolve.</param>
     /// <returns>The normalized unit with token, factor, and dimension.</returns>
     /// <exception cref="ArgumentException">Thrown when unit is unknown or invalid.</exception>
     public NormalizedUnit Resolve(string unit)
     {
-        var token = Normalize(unit);
-        var definition = _tokenToDefinition[token];
-        var baseToken = GetBaseUnit(definition.UnitType);
-        var factorToBase = ComputeFactorToBase(token, baseToken, definition);
-        var signature = GetSignatureForUnitType(definition.UnitType);
+        // Try catalog first (fast path)
+        if (IsValidUnit(unit))
+        {
+            var token = Normalize(unit);
+            var definition = _tokenToDefinition[token];
+            var baseToken = GetBaseUnit(definition.UnitType);
+            var factorToBase = ComputeFactorToBase(token, baseToken, definition);
+            var signature = GetSignatureForUnitType(definition.UnitType);
+            
+            return new NormalizedUnit(token, factorToBase, definition.UnitType, signature);
+        }
         
-        return new NormalizedUnit(token, factorToBase, definition.UnitType, signature);
+        // Try composite parsing (new path for F-010)
+        var parser = CompositeParser.Instance;
+        if (parser.TryParse(unit, out var compositeSignature, out var compositeFactor))
+        {
+            // Create a synthetic token for the composite
+            var compositeToken = new UnitToken(unit);
+            
+            // Determine UnitType from signature
+            var knownMap = KnownSignatureMap.Instance;
+            var compositeUnitType = knownMap.TryGetPreferredUnit(compositeSignature, out var preferred)
+                ? MapDescriptionToUnitType(preferred.Description)
+                : UnitTypeEnum.Unknown;
+            
+            return new NormalizedUnit(compositeToken, compositeFactor, compositeUnitType, compositeSignature);
+        }
+        
+        // Neither catalog nor valid composite
+        throw new ArgumentException($"Unknown or malformed unit: '{unit}'");
     }
 
     /// <summary>
@@ -154,6 +178,37 @@ internal sealed class UnitResolver : IUnitResolver
             UnitTypeEnum.Frequency => new DimensionSignature(0, 0, -1, 0, 0, 0, 0), // T⁻¹
             UnitTypeEnum.Unknown => DimensionSignature.Dimensionless,
             _ => DimensionSignature.Dimensionless
+        };
+    }
+
+    /// <summary>
+    /// Maps a PreferredUnit description to its corresponding UnitTypeEnum.
+    /// Used for composite unit resolution.
+    /// </summary>
+    /// <param name="description">The description from PreferredUnit (e.g., "Length", "Force", "Energy").</param>
+    /// <returns>The corresponding UnitTypeEnum, or Unknown if not mapped.</returns>
+    private static UnitTypeEnum MapDescriptionToUnitType(string description)
+    {
+        return description switch
+        {
+            "Dimensionless" => UnitTypeEnum.Scalar,
+            "Length" => UnitTypeEnum.Length,
+            "Area" => UnitTypeEnum.Area,
+            "Volume" => UnitTypeEnum.Volume,
+            "Mass" => UnitTypeEnum.Mass,
+            "Force" => UnitTypeEnum.Force,
+            "Pressure" => UnitTypeEnum.Pressure,
+            "Temperature" => UnitTypeEnum.Temperature,
+            "Time" => UnitTypeEnum.Time,
+            "Velocity" => UnitTypeEnum.Velocity,
+            "Acceleration" => UnitTypeEnum.Acceleration,
+            "Energy" => UnitTypeEnum.Energy,
+            "Power" => UnitTypeEnum.Power,
+            "Angle" => UnitTypeEnum.Angle,
+            "Frequency" => UnitTypeEnum.Frequency,
+            "Angular Acceleration" => UnitTypeEnum.AngularAcceleration,
+            "Angular Velocity" => UnitTypeEnum.AngularVelocity,
+            _ => UnitTypeEnum.Unknown
         };
     }
 }
