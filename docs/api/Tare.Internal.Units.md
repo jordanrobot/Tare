@@ -7,6 +7,7 @@
 | [BaseUnitMap](Tare.Internal.Units.BaseUnitMap.md 'Tare.Internal.Units.BaseUnitMap') | Static mapping of dimension types to their base units.<br/>Base units are the reference for each dimensional family, typically SI base or derived units. |
 | [CompositeFormatter](Tare.Internal.Units.CompositeFormatter.md 'Tare.Internal.Units.CompositeFormatter') | Formats dimension signatures as composite unit strings using canonical ordering and notation. |
 | [CompositeFormatterOptions](Tare.Internal.Units.CompositeFormatterOptions.md 'Tare.Internal.Units.CompositeFormatterOptions') | Configuration options for composite unit formatting. |
+| [CompositeParser](Tare.Internal.Units.CompositeParser.md 'Tare.Internal.Units.CompositeParser') | Parses composite unit strings into dimension signatures and conversion factors. |
 | [DimensionalMath](Tare.Internal.Units.DimensionalMath.md 'Tare.Internal.Units.DimensionalMath') | Implements dimensional algebra operations for combining quantities through multiplication and division. |
 | [KnownSignatureMap](Tare.Internal.Units.KnownSignatureMap.md 'Tare.Internal.Units.KnownSignatureMap') | Provides a mapping from dimension signatures to preferred unit names.<br/>Implements the known-signature naming map for common physical quantities. |
 | [UnitResolver](Tare.Internal.Units.UnitResolver.md 'Tare.Internal.Units.UnitResolver') | Domain service providing unit normalization and resolution using the UnitDefinitions catalog.<br/>Implements singleton pattern as it is a stateless service with immutable data. |
@@ -22,6 +23,7 @@
 | Interfaces | |
 | :--- | :--- |
 | [ICompositeFormatter](Tare.Internal.Units.ICompositeFormatter.md 'Tare.Internal.Units.ICompositeFormatter') | Service interface for formatting dimension signatures as composite unit strings. |
+| [ICompositeParser](Tare.Internal.Units.ICompositeParser.md 'Tare.Internal.Units.ICompositeParser') | Service interface for parsing composite unit strings into dimension signatures and factors. |
 | [IDimensionalMath](Tare.Internal.Units.IDimensionalMath.md 'Tare.Internal.Units.IDimensionalMath') | Defines dimensional algebra operations for combining quantities through multiplication and division. |
 | [IKnownSignatureMap](Tare.Internal.Units.IKnownSignatureMap.md 'Tare.Internal.Units.IKnownSignatureMap') | Service interface for resolving dimension signatures to preferred unit names. |
 | [IUnitResolver](Tare.Internal.Units.IUnitResolver.md 'Tare.Internal.Units.IUnitResolver') | Service interface for unit normalization and resolution operations. |

@@ -118,6 +118,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
     /// <summary>
     /// Format the quantity using the specified unit and optional format string.
+    /// Supports simple units, known composite units (Nm, Pa, W), and arbitrary composites (lbf*in, kg·m²/s²).
     /// Format specifier are the standard numeric format specifiers:
     /// "G" => 16325.62 in
     /// "C" => $16,325.62
@@ -129,17 +130,69 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// Also supports using custom numeric format specifiers.
     /// "0,0.000" => 16,325.620 in
     /// </summary>
-    /// <param name="unit"></param>
-    /// <param name="format"></param>
+    /// <param name="unit">Target unit (simple, known composite, or arbitrary composite)</param>
+    /// <param name="format">Optional numeric format specifier (default "G")</param>
     /// <returns>String value of Quantity formatted in the specified units of measure.</returns>
+    /// <exception cref="ArgumentException">Thrown when unit is null, empty, or contains unknown base units</exception>
+    /// <exception cref="InvalidOperationException">Thrown when dimensions are incompatible</exception>
+    /// <remarks>
+    /// Format resolution order:
+    /// 1. Simple unit from catalog (existing behavior)
+    /// 2. Arbitrary composite parsed and resolved (e.g., lbf*in, kg*m/s^2)
+    /// 
+    /// Examples:
+    /// - Format("m") → "10 m" (simple unit)
+    /// - Format("Nm") → "20 Nm" (known composite - defined in catalog)
+    /// - Format("lbf*in") → "177.1 lbf*in" (arbitrary composite)
+    /// - Format("kg·m²/s²", "F2") → "200.00 kg·m²/s²" (arbitrary with formatting)
+    /// </remarks>
     public string Format(string unit, string format = "G")
     {
-        var targetUnit = UnitDefinitions.Parse(unit);
+        if (unit == null)
+        {
+            throw new ArgumentNullException(nameof(unit));
+        }
+        
+        if (string.IsNullOrWhiteSpace(unit))
+        {
+            throw new ArgumentException("Unit string cannot be empty or whitespace.", nameof(unit));
+        }
 
-        var thisFactor = Factor;
-        var targetFactor = targetUnit.Factor;
+        // Fast path: try simple unit from catalog first
+        if (UnitDefinitions.IsValidUnit(unit))
+        {
+            // Existing simple unit behavior (unchanged)
+            var targetUnit = UnitDefinitions.Parse(unit);
+            var thisFactor = Factor;
+            var targetFactor = targetUnit.Factor;
+            return ((thisFactor * Value) / targetFactor).ToString(format) + " " + unit;
+        }
 
-        return ((thisFactor * Value) / targetFactor).ToString(format) + " " + unit;
+        // Try parsing as composite unit
+        var parser = CompositeParser.Instance;
+        if (!parser.TryParse(unit, out var targetSignature, out var compositeTargetFactor))
+        {
+            throw new ArgumentException($"Unknown or malformed unit: {unit}", nameof(unit));
+        }
+
+        // Validate dimensional compatibility
+        var resolver = UnitResolver.Instance;
+        var sourceResolved = resolver.Resolve(Unit);
+        
+        if (!sourceResolved.Signature.Equals(targetSignature))
+        {
+            throw new InvalidOperationException(
+                $"Cannot format {Unit} (dimension: {sourceResolved.Signature}) as {unit} " +
+                $"(dimension: {targetSignature}): incompatible dimensions.");
+        }
+
+        // Convert value from source to target units
+        // sourceValue * sourceFactor = base units
+        // baseUnits / targetFactor = target units
+        var baseValue = Value * Factor;
+        var targetValue = baseValue / compositeTargetFactor;
+
+        return targetValue.ToString(format) + " " + unit;
     }
 
     /// <summary>
