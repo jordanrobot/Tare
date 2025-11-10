@@ -3,7 +3,8 @@
 
 ## UnitDefinitions.Parse(string) Method
 
-Converts the string unit expression to it's UnitDefinition, if it exists.
+Converts the string unit expression to it's UnitDefinition, if it exists.  
+Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
 
 ```csharp
 public static Tare.UnitDefinition Parse(string unit);

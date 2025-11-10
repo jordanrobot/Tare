@@ -3,7 +3,8 @@
 
 ## UnitDefinitions.ParseUnitType(string) Method
 
-Returns a UnitTypeEnum from a specified string.
+Returns a UnitTypeEnum from a specified string.  
+Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
 
 ```csharp
 public static Tare.UnitTypeEnum ParseUnitType(string unit);

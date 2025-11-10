@@ -9,6 +9,7 @@ public static class UnitDefinitions
 {
     // Internal dictionary indexes for O(1) lookups (S-006 Option 1)
     private static readonly Dictionary<string, UnitDefinition> _aliasIndex;
+    private static readonly Dictionary<string, UnitDefinition> _aliasIndexCaseInsensitive;
     private static readonly Dictionary<string, UnitDefinition> _nameIndex;
     private static readonly Dictionary<UnitTypeEnum, List<UnitDefinition>> _typeIndex;
 
@@ -22,8 +23,8 @@ public static class UnitDefinitions
         // Build name index (exact match, case-sensitive)
         _nameIndex = definitionsList.ToDictionary(d => d.Name, StringComparer.Ordinal);
 
-        // Build alias index (case-insensitive, includes all aliases)
-        _aliasIndex = new Dictionary<string, UnitDefinition>(StringComparer.OrdinalIgnoreCase);
+        // Build alias index (case-sensitive for exact matches)
+        _aliasIndex = new Dictionary<string, UnitDefinition>(StringComparer.Ordinal);
         foreach (var def in definitionsList)
         {
             foreach (var alias in def.Aliases)
@@ -31,6 +32,19 @@ public static class UnitDefinitions
                 // Use first definition if duplicate alias exists
                 if (!_aliasIndex.ContainsKey(alias))
                     _aliasIndex[alias] = def;
+            }
+        }
+
+        // Build case-insensitive alias index (fallback for user convenience)
+        // This allows "METER", "Meter", "meter" to all work, while still keeping "g" and "G" distinct
+        _aliasIndexCaseInsensitive = new Dictionary<string, UnitDefinition>(StringComparer.OrdinalIgnoreCase);
+        foreach (var def in definitionsList)
+        {
+            foreach (var alias in def.Aliases)
+            {
+                // Use first definition if duplicate alias exists
+                if (!_aliasIndexCaseInsensitive.ContainsKey(alias))
+                    _aliasIndexCaseInsensitive[alias] = def;
             }
         }
 
@@ -46,23 +60,35 @@ public static class UnitDefinitions
 
     /// <summary>
     /// Determines if a supplied string is a valid unit or unit abbreviation.
+    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to evaluate.</param>
     /// <returns>Returns true if the string is a valid unit, otherwise returns false.</returns>
     public static bool IsValidUnit(string unit)
     {
-        return _aliasIndex.ContainsKey(unit);
+        // Try exact match first (case-sensitive) to handle g vs G correctly
+        if (_aliasIndex.ContainsKey(unit))
+            return true;
+        
+        // Fall back to case-insensitive for user convenience (METER = meter)
+        return _aliasIndexCaseInsensitive.ContainsKey(unit);
     }
 
     /// <summary>
     /// Converts the string unit expression to it's UnitDefinition, if it exists.
+    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to parse.</param>
     /// <returns>Returns the UnitDefinition for a given string expression if found. If not found, throws an exception.</returns>
     /// <exception cref="ArgumentException">If the parsed input cannot be found in the Unit Definition list, an Argument Exception is thrown.</exception>
     public static UnitDefinition Parse(string unit)
     {
+        // Try exact match first (case-sensitive) to handle g vs G correctly
         if (_aliasIndex.TryGetValue(unit, out var definition))
+            return definition;
+        
+        // Fall back to case-insensitive for user convenience (METER = meter)
+        if (_aliasIndexCaseInsensitive.TryGetValue(unit, out definition))
             return definition;
 
         throw new ArgumentException("No matching unit " + unit + " was found.");
@@ -70,12 +96,18 @@ public static class UnitDefinitions
 
     /// <summary>
     /// Returns a UnitTypeEnum from a specified string.
+    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to evaluate.</param>
     /// <returns></returns>
     public static UnitTypeEnum ParseUnitType(string unit)
     {
-        return _aliasIndex.TryGetValue(unit, out var def) ? def.UnitType : UnitTypeEnum.Unknown;
+        // Try exact match first (case-sensitive) to handle g vs G correctly
+        if (_aliasIndex.TryGetValue(unit, out var def))
+            return def.UnitType;
+        
+        // Fall back to case-insensitive for user convenience (METER = meter)
+        return _aliasIndexCaseInsensitive.TryGetValue(unit, out def) ? def.UnitType : UnitTypeEnum.Unknown;
     }
 
     private static IEnumerable<UnitDefinition> Definitions = new List<UnitDefinition>()

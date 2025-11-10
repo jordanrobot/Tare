@@ -224,11 +224,11 @@ public class UnitConversionValidationTests
     [Test]
     public void Pressure_PSIToPascal_UsesExactDefinition()
     {
-        // 1 psi = 1 lbf/in² = 4.4482216152605 N / 0.00064516 m² = 6894.757293168... Pa
+        // 1 psi = 1 lbf/in² = 4.4482216152605 N / 0.00064516 m² = 6894.757293168 Pa exactly
         var psi = Quantity.Parse("1 psi");
         var result = psi.Format("Pa");
         
-        Assert.That(decimal.Parse(result.Split(' ')[0]), Is.EqualTo(6894.757293M).Within(TOLERANCE));
+        Assert.That(decimal.Parse(result.Split(' ')[0]), Is.EqualTo(6894.757293168M).Within(TOLERANCE));
     }
 
     [Test]
@@ -610,38 +610,5 @@ public class UnitConversionValidationTests
         Assert.That(decimal.Parse(result.Split(' ')[0]), Is.EqualTo(0M).Within(TOLERANCE));
     }
 
-    #endregion
-
-    #region Debug Tests
-    
-    [Test]
-    public void Debug_OunceToGram()
-    {
-        var oz = Quantity.Parse("1 oz");
-        Console.WriteLine($"oz.Value={oz.Value}, oz.Unit={oz.Unit}, oz.Factor={oz.Factor}");
-        
-        var ozDef = UnitDefinitions.Parse("oz");
-        Console.WriteLine($"oz definition: Factor={ozDef.Factor}");
-        
-        var gDef = UnitDefinitions.Parse("g");
-        Console.WriteLine($"g definition: Factor={gDef.Factor}");
-        
-        var converted = oz.Convert("g");
-        Console.WriteLine($"oz.Convert('g')={converted}");
-        Console.WriteLine($"Expected: 1 * (28.349523125 / 1) = 28.349523125");
-        Console.WriteLine($"Actual: {converted}");
-        Console.WriteLine($"Ratio: {converted} / 28.349523125 = {converted / 28.349523125M}");
-        
-        var formatted = oz.Format("g");
-        Console.WriteLine($"oz.Format('g')='{formatted}'");
-        
-        // Also test the reverse
-        var g = Quantity.Parse("28.349523125 g");
-        var toOz = g.Convert("oz");
-        Console.WriteLine($"\nReverse: 28.349523125 g = {toOz} oz (expected 1)");
-        
-        Assert.Pass($"Result: {converted}");
-    }
-    
     #endregion
 }
