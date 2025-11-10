@@ -85,7 +85,7 @@ internal sealed class UnitResolver : IUnitResolver
             var token = Normalize(unit);
             var definition = _tokenToDefinition[token];
             var baseToken = GetBaseUnit(definition.UnitType);
-            var factorToBase = ComputeFactorToBase(token, baseToken, definition);
+            var factorToBase = ComputeFactorToBaseRational(token, baseToken, definition);
             var signature = GetSignatureForUnitType(definition.UnitType);
             
             return new NormalizedUnit(token, factorToBase, definition.UnitType, signature);
@@ -104,7 +104,9 @@ internal sealed class UnitResolver : IUnitResolver
                 ? MapDescriptionToUnitType(preferred.Description)
                 : UnitTypeEnum.Unknown;
             
-            return new NormalizedUnit(compositeToken, compositeFactor, compositeUnitType, compositeSignature);
+            // Convert decimal factor to rational for exact arithmetic
+            var compositeFactorRational = Rational.FromDecimal(compositeFactor);
+            return new NormalizedUnit(compositeToken, compositeFactorRational, compositeUnitType, compositeSignature);
         }
         
         // Neither catalog nor valid composite
@@ -138,6 +140,19 @@ internal sealed class UnitResolver : IUnitResolver
         return UnitDefinitions.IsValidUnit(unit);
     }
 
+    /// <summary>
+    /// Computes the conversion factor from a unit to the base unit of its dimension (exact rational).
+    /// </summary>
+    private Rational ComputeFactorToBaseRational(UnitToken token, UnitToken baseToken, UnitDefinition definition)
+    {
+        // If token is already the base unit, factor is 1
+        if (token == baseToken)
+            return Rational.One;
+        
+        // Otherwise, use definition.FactorRational (exact conversion factor)
+        return definition.FactorRational;
+    }
+    
     /// <summary>
     /// Computes the conversion factor from a unit to the base unit of its dimension.
     /// </summary>

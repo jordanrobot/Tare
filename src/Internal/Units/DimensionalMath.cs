@@ -39,7 +39,7 @@ internal sealed class DimensionalMath : IDimensionalMath
     /// <remarks>
     /// Implements dimensional multiplication where:
     /// - Dimension signatures are combined by adding exponents (L¹ × L¹ → L²)
-    /// - Conversion factors are multiplied to maintain proper scaling
+    /// - Conversion factors are multiplied using exact rational arithmetic
     /// - Values are multiplied to compute the result
     /// 
     /// Example: 2 meters × 3 meters = 6 square meters
@@ -52,13 +52,13 @@ internal sealed class DimensionalMath : IDimensionalMath
         // Combine dimension signatures by adding exponents (dimensional multiplication)
         var resultSignature = left.Signature.Multiply(right.Signature);
         
-        // Multiply conversion factors
-        var resultFactor = left.FactorToBase * right.FactorToBase;
+        // Multiply conversion factors using exact rational arithmetic
+        var resultFactorRational = left.FactorToBaseRational * right.FactorToBaseRational;
         
         // Multiply values
         var resultValue = leftValue * rightValue;
         
-        return new DimensionalResult(resultValue, resultSignature, resultFactor);
+        return new DimensionalResult(resultValue, resultSignature, resultFactorRational);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ internal sealed class DimensionalMath : IDimensionalMath
     /// <remarks>
     /// Implements dimensional division where:
     /// - Dimension signatures are combined by subtracting exponents (L² ÷ L¹ → L¹)
-    /// - Conversion factors are divided to maintain proper scaling
+    /// - Conversion factors are divided using exact rational arithmetic
     /// - Values are divided to compute the result
     /// 
     /// Example: 12 square meters ÷ 4 meters = 3 meters
@@ -103,12 +103,12 @@ internal sealed class DimensionalMath : IDimensionalMath
         // Combine dimension signatures by subtracting exponents (dimensional division)
         var resultSignature = numerator.Signature.Divide(denominator.Signature);
         
-        // Divide conversion factors
-        var resultFactor = numerator.FactorToBase / denominator.FactorToBase;
+        // Divide conversion factors using exact rational arithmetic
+        var resultFactorRational = numerator.FactorToBaseRational / denominator.FactorToBaseRational;
         
         // Divide values
         var resultValue = numeratorValue / denominatorValue;
         
-        return new DimensionalResult(resultValue, resultSignature, resultFactor);
+        return new DimensionalResult(resultValue, resultSignature, resultFactorRational);
     }
 }

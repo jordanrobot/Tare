@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using static Tare.Extensions;
 using Tare.Internal.Units;
+using Tare.Internal;
 
 namespace Tare;
 //TODO: add documentation to operators.
@@ -48,7 +49,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             {
                 var definition = UnitDefinitions.Parse(tempUnits);
                 Unit = definition.Name;
-                Factor = definition.Factor;
+                FactorRational = definition.FactorRational;
                 UnitType = definition.UnitType;
             }
             else
@@ -59,7 +60,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
                 {
                     // Valid composite
                     Unit = tempUnits;
-                    Factor = factor;
+                    FactorRational = Rational.FromDecimal(factor);
                     
                     // Determine UnitType from signature
                     var knownMap = KnownSignatureMap.Instance;
@@ -128,7 +129,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         {
             var definition = UnitDefinitions.Parse(unit);
             Unit = definition.Name;
-            Factor = definition.Factor;
+            FactorRational = definition.FactorRational;
             UnitType = definition.UnitType;
             return; // Early return for catalog units (fast path)
         }
@@ -148,7 +149,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
         // Valid composite - use composite unit string and computed factor
         Unit = unit;  // Store composite string as-is (e.g., "lbf*in")
-        Factor = factor;  // Conversion factor from composite to base units
+        FactorRational = Rational.FromDecimal(factor);  // Exact conversion factor
 
         // Determine UnitType based on signature
         var knownMap = KnownSignatureMap.Instance;
@@ -170,7 +171,16 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
     private decimal BaseValue { get => Value * Factor; }
 
-    public decimal Factor { get; } = 1;
+    /// <summary>
+    /// Gets the conversion factor as a decimal value.
+    /// For exact calculations, FactorRational is used internally.
+    /// </summary>
+    public decimal Factor => FactorRational.ToDecimal();
+    
+    /// <summary>
+    /// Gets the exact conversion factor as a rational number (internal use).
+    /// </summary>
+    internal Rational FactorRational { get; } = Rational.One;
 
     /// <summary>
     /// Returns the default Quantity of "0 ul".
@@ -209,11 +219,13 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public decimal Convert(string unit)
     {
         var TargetUnit = UnitDefinitions.Parse(unit);
-        var thisFactor = Factor;
-        var targetFactor = TargetUnit.Factor;
+        var thisFactor = FactorRational;
+        var targetFactor = TargetUnit.FactorRational;
 
-        Decimal result = ((thisFactor * Value) / targetFactor);
-        return result;
+        // Use exact Rational arithmetic for factor ratio
+        // Compute as (Value * numerator) / denominator to maintain precision
+        var factorRatio = thisFactor / targetFactor;
+        return (Value * factorRatio.Numerator) / factorRatio.Denominator;
     }
 
     /// <summary>
@@ -261,11 +273,23 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Fast path: try simple unit from catalog first
         if (UnitDefinitions.IsValidUnit(unit))
         {
-            // Existing simple unit behavior (unchanged)
-            var targetUnit = UnitDefinitions.Parse(unit);
-            var thisFactor = Factor;
-            var targetFactor = targetUnit.Factor;
-            return ((thisFactor * Value) / targetFactor).ToString(format) + " " + unit;
+            try
+            {
+                // Use exact Rational arithmetic for factor ratio
+                var targetUnit = UnitDefinitions.Parse(unit);
+                var thisFactor = FactorRational;
+                var targetFactor = targetUnit.FactorRational;
+                var factorRatio = thisFactor / targetFactor;
+                var convertedValue = (Value * factorRatio.Numerator) / factorRatio.Denominator;
+                return convertedValue.ToString(format) + " " + unit;
+            }
+            catch (OverflowException)
+            {
+                // Fall back to decimal if Rational arithmetic overflows
+                var targetUnit = UnitDefinitions.Parse(unit);
+                var convertedValue = Value * (Factor / targetUnit.Factor);
+                return convertedValue.ToString(format) + " " + unit;
+            }
         }
 
         // Try parsing as composite unit
@@ -287,11 +311,8 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         }
 
         // Convert value from source to target units
-        // sourceValue * sourceFactor = base units
-        // baseUnits / targetFactor = target units
-        var baseValue = Value * Factor;
-        var targetValue = baseValue / compositeTargetFactor;
-
+        // For composite units, use decimal arithmetic to avoid overflow from FromDecimal
+        var targetValue = (Value * FactorRational.ToDecimal()) / compositeTargetFactor;
         return targetValue.ToString(format) + " " + unit;
     }
 
@@ -516,12 +537,10 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
         
-        // Convert result to target unit space
-        // result.Value × result.Factor = value in base units
-        // We need to divide by target unit's factor to get value in target unit space
-        var resultBaseValue = result.Value * result.Factor;
+        // Convert result to target unit space using exact Rational arithmetic
         var targetUnit = resolver.Resolve(resultUnit);
-        var resultValue = resultBaseValue / targetUnit.FactorToBase;
+        var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
+        var resultValue = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
 
         return new Quantity(resultValue, resultUnit);
     }
@@ -622,20 +641,21 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Check if result is dimensionless (unit cancellation across different unit types)
         if (result.Signature.IsDimensionless())
         {
-            // For dimensionless results, the value is already correct (no unit conversion needed)
-            var resultBaseValue = result.Value * result.Factor;
-            return new Quantity(resultBaseValue);
+            // For dimensionless results, use exact Rational factor
+            var factorRational = result.FactorRational;
+            var resultValue = (result.Value * factorRational.Numerator) / factorRational.Denominator;
+            return new Quantity(resultValue);
         }
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
         
-        // Convert result to target unit space
-        var resultBaseValue2 = result.Value * result.Factor;
+        // Convert result to target unit space using exact Rational arithmetic
         var targetUnit = resolver.Resolve(resultUnit);
-        var resultValue = resultBaseValue2 / targetUnit.FactorToBase;
+        var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
+        var resultValue2 = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
 
-        return new Quantity(resultValue, resultUnit);
+        return new Quantity(resultValue2, resultUnit);
     }
 
     /// <summary>

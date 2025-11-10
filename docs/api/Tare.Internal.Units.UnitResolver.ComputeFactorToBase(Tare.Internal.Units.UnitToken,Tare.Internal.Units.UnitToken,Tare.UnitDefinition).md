@@ -20,7 +20,7 @@ private decimal ComputeFactorToBase(Tare.Internal.Units.UnitToken token, Tare.In
 
 <a name='Tare.Internal.Units.UnitResolver.ComputeFactorToBase(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken,Tare.UnitDefinition).definition'></a>
 
-`definition` [Tare.UnitDefinition](https://docs.microsoft.com/en-us/dotnet/api/Tare.UnitDefinition 'Tare.UnitDefinition')
+`definition` [UnitDefinition](Tare.UnitDefinition.md 'Tare.UnitDefinition')
 
 #### Returns
 [System.Decimal](https://docs.microsoft.com/en-us/dotnet/api/System.Decimal 'System.Decimal')

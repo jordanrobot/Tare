@@ -1,4 +1,6 @@
-﻿namespace Tare;
+﻿using Tare.Internal;
+
+namespace Tare;
 
 /// <summary>
 /// Static helper class to query unit definitions.
@@ -78,76 +80,80 @@ public static class UnitDefinitions
 
     private static IEnumerable<UnitDefinition> Definitions = new List<UnitDefinition>()
         {
-            new UnitDefinition("each", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "each", "ea", "ul",  string.Empty }),
-            new UnitDefinition("sheet", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "sheet", "sheets" }),
-            new UnitDefinition("stick", 1M, UnitTypeEnum.Scalar, new HashSet<string> { "stick", "sticks" }),
-            new UnitDefinition("dozen", 12M, UnitTypeEnum.Scalar, new HashSet<string> { "dozen", "doz", "dz" }),
+            // Scalar/Dimensionless units
+            new UnitDefinition("each", new Rational(1, 1), UnitTypeEnum.Scalar, new HashSet<string> { "each", "ea", "ul",  string.Empty }),
+            new UnitDefinition("sheet", new Rational(1, 1), UnitTypeEnum.Scalar, new HashSet<string> { "sheet", "sheets" }),
+            new UnitDefinition("stick", new Rational(1, 1), UnitTypeEnum.Scalar, new HashSet<string> { "stick", "sticks" }),
+            new UnitDefinition("dozen", new Rational(12, 1), UnitTypeEnum.Scalar, new HashSet<string> { "dozen", "doz", "dz" }),
             
             // Dimensionless/Scalar units (relative to empty string "" base = 1, "each" is optional alias)
-            new UnitDefinition("percent", 0.01M, UnitTypeEnum.Scalar, new HashSet<string> { "percent", "%", "pct" }),
-            new UnitDefinition("ppm", 0.000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppm", "parts per million" }),
-            new UnitDefinition("ppb", 0.000000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppb", "parts per billion" }),
-            new UnitDefinition("ppt", 0.000000000001M, UnitTypeEnum.Scalar, new HashSet<string> { "ppt", "parts per trillion" }),
+            new UnitDefinition("percent", new Rational(1, 100), UnitTypeEnum.Scalar, new HashSet<string> { "percent", "%", "pct" }),
+            new UnitDefinition("ppm", new Rational(1, 1000000), UnitTypeEnum.Scalar, new HashSet<string> { "ppm", "parts per million" }),
+            new UnitDefinition("ppb", new Rational(1, 1000000000), UnitTypeEnum.Scalar, new HashSet<string> { "ppb", "parts per billion" }),
+            new UnitDefinition("ppt", new Rational(1, 1000000000000), UnitTypeEnum.Scalar, new HashSet<string> { "ppt", "parts per trillion" }),
 
-            //add length units relative to meters
-            new UnitDefinition("in", 0.0254M, UnitTypeEnum.Length, new HashSet<string> { "in", "inch", "inches", "\"", @"''" }),
-            new UnitDefinition("ft", 0.3048M, UnitTypeEnum.Length, new HashSet<string> {"ft", "feet", "foot", "\'"}),
-            new UnitDefinition("yd", 0.9144M, UnitTypeEnum.Length, new HashSet<string> {"yd", "yard", "yards"}),
-            new UnitDefinition("mm", 0.001M, UnitTypeEnum.Length, new HashSet<string> {"mm", "millimeter","millimeters"}),
-            new UnitDefinition("cm", 0.01M, UnitTypeEnum.Length, new HashSet < string > { "cm", "centimeter", "centimeters" }),
-            new UnitDefinition("m", 1M, UnitTypeEnum.Length, new HashSet<string> {"m", "meter", "meters"}),
-            new UnitDefinition("km", 1000M, UnitTypeEnum.Length, new HashSet < string > { "km", "kilometer", "kilometers" }),
-            new UnitDefinition("mile", 1609.344M, UnitTypeEnum.Length, new HashSet<string> {"mile", "miles"}),
+            // Length units relative to meters (exact by international definition)
+            new UnitDefinition("in", new Rational(254, 10000), UnitTypeEnum.Length, new HashSet<string> { "in", "inch", "inches", "\"", @"''" }),  // Exactly 25.4mm by 1959 international yard & pound agreement
+            new UnitDefinition("ft", new Rational(3048, 10000), UnitTypeEnum.Length, new HashSet<string> {"ft", "feet", "foot", "\'"}),  // Exactly 12 × 25.4mm
+            new UnitDefinition("yd", new Rational(9144, 10000), UnitTypeEnum.Length, new HashSet<string> {"yd", "yard", "yards"}),  // Exactly 36 × 25.4mm
+            new UnitDefinition("mm", new Rational(1, 1000), UnitTypeEnum.Length, new HashSet<string> {"mm", "millimeter","millimeters"}),
+            new UnitDefinition("cm", new Rational(1, 100), UnitTypeEnum.Length, new HashSet < string > { "cm", "centimeter", "centimeters" }),
+            new UnitDefinition("m", new Rational(1, 1), UnitTypeEnum.Length, new HashSet<string> {"m", "meter", "meters"}),
+            new UnitDefinition("km", new Rational(1000, 1), UnitTypeEnum.Length, new HashSet < string > { "km", "kilometer", "kilometers" }),
+            new UnitDefinition("mile", new Rational(1609344, 1000), UnitTypeEnum.Length, new HashSet<string> {"mile", "miles"}),  // Exactly 5280 ft × 0.3048
             new UnitDefinition("rod", 5.0292100584M, UnitTypeEnum.Length, new HashSet<string>{"rod", "rods"}),
             new UnitDefinition("US Survey Foot", 0.3048006096M, UnitTypeEnum.Length, new HashSet<string>{"US Survey Foot", "Survey ft"}),
-            new UnitDefinition("Fathom", 1.8288M, UnitTypeEnum.Length, new HashSet<string>{"fathom", "fathoms", "ftm"}),
+            new UnitDefinition("Fathom", new Rational(18288, 10000), UnitTypeEnum.Length, new HashSet<string>{"fathom", "fathoms", "ftm"}),  // Exactly 6 feet
 
-            //add area units relative to square meters
-            new UnitDefinition("in^2", 0.00064516M, UnitTypeEnum.Area, new HashSet<string> {"in^2", "inches squared", "square inch", "square inches"}),
-            new UnitDefinition("ft^2", 0.09290304M, UnitTypeEnum.Area, new HashSet<string> {"ft^2", "feet squared", "square foot", "square feet"}),
-            new UnitDefinition("yd^2", 0.83612736M, UnitTypeEnum.Area, new HashSet<string> {"yd^2", "yards squared", "square yard", "square yards"}),
-            new UnitDefinition("mm^2", 0.000001M, UnitTypeEnum.Area, new HashSet<string> {"mm^2", "millimeters squared", "square millimeter", "square millimeters"}),
-            new UnitDefinition("cm^2", 0.0001M, UnitTypeEnum.Area, new HashSet<string> {"cm^2", "centimeters squared", "square centimeter", "square centimeters"}),
-            new UnitDefinition("m^2", 1M, UnitTypeEnum.Area, new HashSet<string> {"m^2", "meters squared", "square meter", "square meters"}),
-            new UnitDefinition("mi^2", 2589988.110336M, UnitTypeEnum.Area, new HashSet<string> {"mi^2", "miles squared", "square mile", "square miles"}),
-            new UnitDefinition("km^2", 1000000M, UnitTypeEnum.Area, new HashSet<string> {"km^2", "kilometers squared", "square kilometer", "square kilometers"}),
-            new UnitDefinition("acre", 4046.8564224M, UnitTypeEnum.Area, new HashSet<string> {"acre", "acres"}),
-            new UnitDefinition("ha", 10000M, UnitTypeEnum.Area, new HashSet<string> {"ha", "hectare", "hectares"}),
+            // Area units relative to square meters (squares of exact length conversions)
+            new UnitDefinition("in^2", new Rational(64516, 100000000), UnitTypeEnum.Area, new HashSet<string> {"in^2", "inches squared", "square inch", "square inches"}),  // (254/10000)^2
+            new UnitDefinition("ft^2", new Rational(9290304, 100000000), UnitTypeEnum.Area, new HashSet<string> {"ft^2", "feet squared", "square foot", "square feet"}),  // (3048/10000)^2
+            new UnitDefinition("yd^2", new Rational(83612736, 100000000), UnitTypeEnum.Area, new HashSet<string> {"yd^2", "yards squared", "square yard", "square yards"}),  // (9144/10000)^2
+            new UnitDefinition("mm^2", new Rational(1, 1000000), UnitTypeEnum.Area, new HashSet<string> {"mm^2", "millimeters squared", "square millimeter", "square millimeters"}),
+            new UnitDefinition("cm^2", new Rational(1, 10000), UnitTypeEnum.Area, new HashSet<string> {"cm^2", "centimeters squared", "square centimeter", "square centimeters"}),
+            new UnitDefinition("m^2", new Rational(1, 1), UnitTypeEnum.Area, new HashSet<string> {"m^2", "meters squared", "square meter", "square meters"}),
+            new UnitDefinition("mi^2", new Rational(2589988110336, 1000000), UnitTypeEnum.Area, new HashSet<string> {"mi^2", "miles squared", "square mile", "square miles"}),  // (1609344/1000)^2
+            new UnitDefinition("km^2", new Rational(1000000, 1), UnitTypeEnum.Area, new HashSet<string> {"km^2", "kilometers squared", "square kilometer", "square kilometers"}),
+            new UnitDefinition("acre", new Rational(40468564224, 10000000), UnitTypeEnum.Area, new HashSet<string> {"acre", "acres"}),  // 1 acre = 43560 ft² exact
+            new UnitDefinition("ha", new Rational(10000, 1), UnitTypeEnum.Area, new HashSet<string> {"ha", "hectare", "hectares"}),
 
-            //add Energy units relative to Nm
-            new UnitDefinition("in*lbf", 0.112985M, UnitTypeEnum.Energy, new HashSet<string> {"in*lbf", "in-lbf", "lbf*in", "lbf-in", "inch lbsforce", "inch pound", "inch pounds", "pound inch", "pound inches"}),
-            new UnitDefinition("oz*in", 0.007061551833M, UnitTypeEnum.Energy, new HashSet<string> {"oz*in", "oz-in", "in*oz", "in-oz", "oz inch", "oz inches", "inch oz", "inches oz", "ounce inch", "ounce inches", "inch ounce", "inches ounce"}),
-            new UnitDefinition("ft*lbf", 1.355818M, UnitTypeEnum.Energy, new HashSet<string> {"ft*lbf", "ft-lbf", "lbf*ft", "lbf-ft", "foot lbsforce", "foot pound", "foot pounds", "pound foot", "pound feet"}),
-            new UnitDefinition("Nm", 1M, UnitTypeEnum.Energy, new HashSet<string>{"Nm", "newton meter", "newton meters"}),
-            new UnitDefinition("J", 1M, UnitTypeEnum.Energy, new HashSet<string>{"J", "joule", "joules"}),
-            new UnitDefinition("kJ", 1000M, UnitTypeEnum.Energy, new HashSet<string>{"kJ", "kilojoule", "kilojoules"}),
-            new UnitDefinition("kcal", 4184M, UnitTypeEnum.Energy, new HashSet<string>{"kcal", "kilocalorie", "kilocalories"}),
-            new UnitDefinition("cal", 4.184M, UnitTypeEnum.Energy, new HashSet<string>{"cal", "calorie", "calories"}),
-            new UnitDefinition("N*cm", 0.01M, UnitTypeEnum.Energy, new HashSet<string>{"N*cm", "newton centimeter", "newton centimeters"}),
+            // Energy units relative to Nm
+            // Note: in*lbf and ft*lbf computed from exact inch/foot × lbf
+            new UnitDefinition("in*lbf", new Rational(1129848290276167, 10000000000000000), UnitTypeEnum.Energy, new HashSet<string> {"in*lbf", "in-lbf", "lbf*in", "lbf-in", "inch lbsforce", "inch pound", "inch pounds", "pound inch", "pound inches"}),  // (254/10000) × (8896443230521/2000000000000)
+            new UnitDefinition("oz*in", new Rational(1129848290276167, 160000000000000000), UnitTypeEnum.Energy, new HashSet<string> {"oz*in", "oz-in", "in*oz", "in-oz", "oz inch", "oz inches", "inch oz", "inches oz", "ounce inch", "ounce inches", "inch ounce", "inches ounce"}),  // in*lbf / 16
+            new UnitDefinition("ft*lbf", new Rational(3389544870828501, 2500000000000000), UnitTypeEnum.Energy, new HashSet<string> {"ft*lbf", "ft-lbf", "lbf*ft", "lbf-ft", "foot lbsforce", "foot pound", "foot pounds", "pound foot", "pound feet"}),  // (3048/10000) × (8896443230521/2000000000000)
+            new UnitDefinition("Nm", new Rational(1, 1), UnitTypeEnum.Energy, new HashSet<string>{"Nm", "newton meter", "newton meters"}),
+            new UnitDefinition("J", new Rational(1, 1), UnitTypeEnum.Energy, new HashSet<string>{"J", "joule", "joules"}),
+            new UnitDefinition("kJ", new Rational(1000, 1), UnitTypeEnum.Energy, new HashSet<string>{"kJ", "kilojoule", "kilojoules"}),
+            new UnitDefinition("kcal", new Rational(4184, 1), UnitTypeEnum.Energy, new HashSet<string>{"kcal", "kilocalorie", "kilocalories"}),
+            new UnitDefinition("cal", new Rational(4184, 1000), UnitTypeEnum.Energy, new HashSet<string>{"cal", "calorie", "calories"}),
+            new UnitDefinition("N*cm", new Rational(1, 100), UnitTypeEnum.Energy, new HashSet<string>{"N*cm", "newton centimeter", "newton centimeters"}),
 
-            //VELOCITY units relative to m/s
-            new UnitDefinition("in/s", 0.0254M, UnitTypeEnum.Velocity, new HashSet<string> {"in/s", "in/sec", "ips", "in per sec", "in per second", "in per secs", "in per seconds", "inch per sec", "inch per second", "inch per secs", "inch per seconds", "inch per second", "inch per seconds"}),
-            new UnitDefinition("ft/s", 0.3048M, UnitTypeEnum.Velocity, new HashSet<string> {"ft/s", "ft/sec", "fps", "ft per sec", "ft per second", "ft per secs", "ft per seconds", "feet per sec", "feet per second", "feet per secs", "feet per seconds", "feet per second", "feet per seconds", "feet per second", "feet per seconds"}),
-            new UnitDefinition("yd/s", 0.9144M, UnitTypeEnum.Velocity, new HashSet<string> {"yd/s", "yd/sec", "yds", "yd per sec", "yd per second", "yd per secs", "yd per seconds", "yard per sec", "yard per second", "yard per secs", "yard per seconds", "yard per second", "yard per seconds"}),
-            new UnitDefinition("mi/s", 1609.344M, UnitTypeEnum.Velocity, new HashSet<string> {"mi/s", "mi/sec", "mi per sec", "mi per second", "mi per secs", "mi per seconds", "mile per sec", "mile per second", "mile per secs", "mile per seconds", "mile per second", "mile per seconds"}),
-            new UnitDefinition("mm/s", 0.001M, UnitTypeEnum.Velocity, new HashSet<string> {"mm/s", "mm/sec", "mmps", "mm per sec", "mm per second", "mm per secs", "mm per seconds", "millimeter per sec", "millimeter per second", "millimeter per secs", "millimeter per seconds", "millimeter per second", "millimeter per seconds"}),
-            new UnitDefinition("cm/s", 0.01M, UnitTypeEnum.Velocity, new HashSet<string> {"cm/s", "cm/sec", "cms", "cm per sec", "cm per second", "cm per secs", "cm per seconds", "centimeter per sec", "centimeter per second", "centimeter per secs", "centimeter per seconds", "centimeter per second", "centimeter per seconds"}),
-            new UnitDefinition("m/s", 1M, UnitTypeEnum.Velocity, new HashSet<string> {"m/s", "m/sec", "mps", "m per sec", "m per second", "m per secs", "m per seconds", "meter per sec", "meter per second", "meter per secs", "meter per seconds", "meter per second", "meter per seconds"}),
-            new UnitDefinition("km/s", 1000M, UnitTypeEnum.Velocity, new HashSet<string> {"km/s", "km/sec", "km per sec", "km per second", "km per secs", "km per seconds", "kilometer per sec", "kilometer per second", "kilometer per secs", "kilometer per seconds", "kilometer per second", "kilometer per seconds"}),
+            // Velocity units relative to m/s (length / time, using exact length definitions)
+            new UnitDefinition("in/s", new Rational(254, 10000), UnitTypeEnum.Velocity, new HashSet<string> {"in/s", "in/sec", "ips", "in per sec", "in per second", "in per secs", "in per seconds", "inch per sec", "inch per second", "inch per secs", "inch per seconds", "inch per second", "inch per seconds"}),
+            new UnitDefinition("ft/s", new Rational(3048, 10000), UnitTypeEnum.Velocity, new HashSet<string> {"ft/s", "ft/sec", "fps", "ft per sec", "ft per second", "ft per secs", "ft per seconds", "feet per sec", "feet per second", "feet per secs", "feet per seconds", "feet per second", "feet per seconds", "feet per second", "feet per seconds"}),
+            new UnitDefinition("yd/s", new Rational(9144, 10000), UnitTypeEnum.Velocity, new HashSet<string> {"yd/s", "yd/sec", "yds", "yd per sec", "yd per second", "yd per secs", "yd per seconds", "yard per sec", "yard per second", "yard per secs", "yard per seconds", "yard per second", "yard per seconds"}),
+            new UnitDefinition("mi/s", new Rational(1609344, 1000), UnitTypeEnum.Velocity, new HashSet<string> {"mi/s", "mi/sec", "mi per sec", "mi per second", "mi per secs", "mi per seconds", "mile per sec", "mile per second", "mile per secs", "mile per seconds", "mile per second", "mile per seconds"}),
+            new UnitDefinition("mm/s", new Rational(1, 1000), UnitTypeEnum.Velocity, new HashSet<string> {"mm/s", "mm/sec", "mmps", "mm per sec", "mm per second", "mm per secs", "mm per seconds", "millimeter per sec", "millimeter per second", "millimeter per secs", "millimeter per seconds", "millimeter per second", "millimeter per seconds"}),
+            new UnitDefinition("cm/s", new Rational(1, 100), UnitTypeEnum.Velocity, new HashSet<string> {"cm/s", "cm/sec", "cms", "cm per sec", "cm per second", "cm per secs", "cm per seconds", "centimeter per sec", "centimeter per second", "centimeter per secs", "centimeter per seconds", "centimeter per second", "centimeter per seconds"}),
+            new UnitDefinition("m/s", new Rational(1, 1), UnitTypeEnum.Velocity, new HashSet<string> {"m/s", "m/sec", "mps", "m per sec", "m per second", "m per secs", "m per seconds", "meter per sec", "meter per second", "meter per secs", "meter per seconds", "meter per second", "meter per seconds"}),
+            new UnitDefinition("km/s", new Rational(1000, 1), UnitTypeEnum.Velocity, new HashSet<string> {"km/s", "km/sec", "km per sec", "km per second", "km per secs", "km per seconds", "kilometer per sec", "kilometer per second", "kilometer per secs", "kilometer per seconds", "kilometer per second", "kilometer per seconds"}),
 
-            new UnitDefinition("in/min", 0.000423333333M, UnitTypeEnum.Velocity, new HashSet<string>{"in/min", "in/mins", "ipm", "in per min", "in per minute", "inch per minute", "inches per minute"}),
-            new UnitDefinition("ft/min", 0.00508M, UnitTypeEnum.Velocity, new HashSet<string> {"ft/min", "ft/mins", "fpm", "ft per min", "ft per mins", "ft per minute", "ft per minutes", "feet per min", "feet per mins", "feet per minute", "feet per minutes"}),
-            new UnitDefinition("yd/min", 0.0009144M, UnitTypeEnum.Velocity, new HashSet<string>{"yd/min", "yd/mins", "ypm", "yd per min", "yd per minute", "yard per minute", "yards per minute"}),
-            new UnitDefinition("mi/min", 0.00001666666666M, UnitTypeEnum.Velocity, new HashSet<string>{"mi/min", "mi/mins", "mpm", "mi per min", "mi per minute", "mile per minute", "miles per minute"}),
-            new UnitDefinition("mm/min", 0.00001666666666M, UnitTypeEnum.Velocity, new HashSet<string>{"mm/min", "mm/mins", "mm per min", "mm per minute", "millimeter per minute", "millimeters per minute"}),
-            new UnitDefinition("cm/min", 0.0001666666666M, UnitTypeEnum.Velocity, new HashSet<string>{"cm/min", "cm/mins", "cm per min", "cm per minute", "centimeter per minute", "centimeters per minute"}),
-            new UnitDefinition("m/min", 0.01666666666M, UnitTypeEnum.Velocity, new HashSet<string>{"m/min", "m/mins", "mpm", "m per min", "m per minute", "meter per minute", "meters per minute"}),
-            new UnitDefinition("km/min", 0.00001666666666M, UnitTypeEnum.Velocity, new HashSet<string>{"km/min", "km/mins", "km per min", "km per minute", "kilometer per minute", "kilometers per minute"}),
+            // Velocity per minute (divide by 60)
+            new UnitDefinition("in/min", new Rational(254, 600000), UnitTypeEnum.Velocity, new HashSet<string>{"in/min", "in/mins", "ipm", "in per min", "in per minute", "inch per minute", "inches per minute"}),  // (254/10000) / 60
+            new UnitDefinition("ft/min", new Rational(127, 25000), UnitTypeEnum.Velocity, new HashSet<string> {"ft/min", "ft/mins", "fpm", "ft per min", "ft per mins", "ft per minute", "ft per minutes", "feet per min", "feet per mins", "feet per minute", "feet per minutes"}),  // (3048/10000) / 60 = 3048/600000 = 127/25000
+            new UnitDefinition("yd/min", new Rational(381, 25000), UnitTypeEnum.Velocity, new HashSet<string>{"yd/min", "yd/mins", "ypm", "yd per min", "yd per minute", "yard per minute", "yards per minute"}),  // (9144/10000) / 60 
+            new UnitDefinition("mi/min", new Rational(1609344, 60000), UnitTypeEnum.Velocity, new HashSet<string>{"mi/min", "mi/mins", "mpm", "mi per min", "mi per minute", "mile per minute", "miles per minute"}),
+            new UnitDefinition("mm/min", new Rational(1, 60000), UnitTypeEnum.Velocity, new HashSet<string>{"mm/min", "mm/mins", "mm per min", "mm per minute", "millimeter per minute", "millimeters per minute"}),
+            new UnitDefinition("cm/min", new Rational(1, 6000), UnitTypeEnum.Velocity, new HashSet<string>{"cm/min", "cm/mins", "cm per min", "cm per minute", "centimeter per minute", "centimeters per minute"}),
+            new UnitDefinition("m/min", new Rational(1, 60), UnitTypeEnum.Velocity, new HashSet<string>{"m/min", "m/mins", "mpm", "m per min", "m per minute", "meter per minute", "meters per minute"}),
+            new UnitDefinition("km/min", new Rational(1000, 60), UnitTypeEnum.Velocity, new HashSet<string>{"km/min", "km/mins", "km per min", "km per minute", "kilometer per minute", "kilometers per minute"}),
 
-            new UnitDefinition("in/hr", 0.000007055555555M, UnitTypeEnum.Velocity, new HashSet<string>{"in/hr", "in/h", "in per hr", "in per h", "in per hour", "inch per hr", "inch per h", "inch per hour", "inches per hr", "inches per h", "inches per hour"}),
-            new UnitDefinition("ft/hr", 0.0003048M, UnitTypeEnum.Velocity, new HashSet<string>{"ft/hr", "ft/h", "ft per hr", "ft per h", "ft per hour", "feet per hr", "feet per h", "feet per hour"}),
-            new UnitDefinition("yd/hr", 0.0000003048M, UnitTypeEnum.Velocity, new HashSet<string>{"yd/hr", "yd/h", "yd per hr", "yd per h", "yd per hour", "yard per hr", "yard per h", "yard per hour", "yards per hr", "yards per h", "yards per hour"}),
-            new UnitDefinition("mph", 0.44704M, UnitTypeEnum.Velocity, new HashSet<string>{"mph", "mile per hour", "miles per hour"}),
+            // Velocity per hour (divide by 3600)
+            new UnitDefinition("in/hr", new Rational(254, 36000000), UnitTypeEnum.Velocity, new HashSet<string>{"in/hr", "in/h", "in per hr", "in per h", "in per hour", "inch per hr", "inch per h", "inch per hour", "inches per hr", "inches per h", "inches per hour"}),  // (254/10000) / 3600
+            new UnitDefinition("ft/hr", new Rational(3048, 36000000), UnitTypeEnum.Velocity, new HashSet<string>{"ft/hr", "ft/h", "ft per hr", "ft per h", "ft per hour", "feet per hr", "feet per h", "feet per hour"}),
+            new UnitDefinition("yd/hr", new Rational(9144, 36000000), UnitTypeEnum.Velocity, new HashSet<string>{"yd/hr", "yd/h", "yd per hr", "yd per h", "yd per hour", "yard per hr", "yard per h", "yard per hour", "yards per hr", "yards per h", "yards per hour"}),
+            new UnitDefinition("mph", new Rational(1609344, 3600000), UnitTypeEnum.Velocity, new HashSet<string>{"mph", "mile per hour", "miles per hour"}),  // (1609344/1000) / 3600
             new UnitDefinition("mm/hr", 0.0000002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"mm/hr", "mm/h", "mm per hr", "mm per h", "mm per hour", "millimeter per hr", "millimeter per h", "millimeter per hour", "millimeters per hr", "millimeters per h", "millimeters per hour"}),
             new UnitDefinition("cm/hr", 0.000002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"cm/hr", "cm/h", "cm per hr", "cm per h", "cm per hour", "centimeter per hr", "centimeter per h", "centimeter per hour", "centimeters per hr", "centimeters per h", "centimeters per hour"}),
             new UnitDefinition("m/hr", 0.0002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"m/hr", "m/h", "m per hr", "m per h", "m per hour", "meter per hr", "meter per h", "meter per hour", "meters per hr", "meters per h", "meters per hour"}),
@@ -231,17 +237,17 @@ public static class UnitDefinitions
             new UnitDefinition("slug", 14593.9029M, UnitTypeEnum.Mass, new HashSet<string>{"slug", "slugs"}),
             new UnitDefinition("st", 6350.29318M, UnitTypeEnum.Mass, new HashSet<string>{"st", "stone", "stones"}),
 
-            //FORCE relative to Newtons
-            new UnitDefinition("gf", 0.00980665M, UnitTypeEnum.Force, new HashSet<string>{"gf", "gram force", "gram forces"}),
-            new UnitDefinition("N", 1M, UnitTypeEnum.Force, new HashSet<string>{"N", "newton", "newtons"}),
-            new UnitDefinition("kN", 1000M, UnitTypeEnum.Force, new HashSet<string>{"kN", "kiloNewton", "kiloNewtons", "kilo newton"}),
-            new UnitDefinition("lbf", 4.4482216152605M, UnitTypeEnum.Force, new HashSet<string>{"lbf", "pound force", "pound forces"}),
-            new UnitDefinition("tf", 8896.443230521M, UnitTypeEnum.Force, new HashSet<string>{"tf", "ton force", "ton forces", "ton-force", "ton-forces"}),
-            new UnitDefinition("dyn", 0.00001M, UnitTypeEnum.Force, new HashSet<string>{"dyn", "dyne", "dynes"}),
-            new UnitDefinition("J/m", 1M, UnitTypeEnum.Force, new HashSet<string>{"J/m", "joule per meter", "joules per meter"}),
-            new UnitDefinition("J/cm", 100M, UnitTypeEnum.Force, new HashSet<string>{"J/cm", "joule per centimeter", "joules per centimeter"}),
-            new UnitDefinition("kipf", 4448.2216152605M, UnitTypeEnum.Force, new HashSet<string>{"kipf", "kip-force", "kip-forces"}),
-            new UnitDefinition("ozf", 0.27801385095378M, UnitTypeEnum.Force, new HashSet<string>{"ozf", "ounce-force", "ounce-forces"}),
+            // Force relative to Newtons
+            new UnitDefinition("gf", new Rational(196133, 20000000), UnitTypeEnum.Force, new HashSet<string>{"gf", "gram force", "gram forces"}),  // Exactly g/1000 where g = 9.80665 m/s²
+            new UnitDefinition("N", new Rational(1, 1), UnitTypeEnum.Force, new HashSet<string>{"N", "newton", "newtons"}),
+            new UnitDefinition("kN", new Rational(1000, 1), UnitTypeEnum.Force, new HashSet<string>{"kN", "kiloNewton", "kiloNewtons", "kilo newton"}),
+            new UnitDefinition("lbf", new Rational(8896443230521, 2000000000000), UnitTypeEnum.Force, new HashSet<string>{"lbf", "pound force", "pound forces"}),  // Exactly 0.45359237 kg × 9.80665 m/s²
+            new UnitDefinition("tf", new Rational(8896443230521, 1000000), UnitTypeEnum.Force, new HashSet<string>{"tf", "ton force", "ton forces", "ton-force", "ton-forces"}),  // 2000 × lbf
+            new UnitDefinition("dyn", new Rational(1, 100000), UnitTypeEnum.Force, new HashSet<string>{"dyn", "dyne", "dynes"}),
+            new UnitDefinition("J/m", new Rational(1, 1), UnitTypeEnum.Force, new HashSet<string>{"J/m", "joule per meter", "joules per meter"}),
+            new UnitDefinition("J/cm", new Rational(100, 1), UnitTypeEnum.Force, new HashSet<string>{"J/cm", "joule per centimeter", "joules per centimeter"}),
+            new UnitDefinition("kipf", new Rational(8896443230521, 2000000), UnitTypeEnum.Force, new HashSet<string>{"kipf", "kip-force", "kip-forces"}),  // 1000 × lbf
+            new UnitDefinition("ozf", new Rational(8896443230521, 32000000000000), UnitTypeEnum.Force, new HashSet<string>{"ozf", "ounce-force", "ounce-forces"}),  // lbf / 16
 
             //VOLUME relative to cubic meters
             new UnitDefinition("m^3", 1M, UnitTypeEnum.Volume, new HashSet<string>{"m^3", "m3", "m³", "cubic meter", "cubic meters"}),
