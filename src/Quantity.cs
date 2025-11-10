@@ -222,9 +222,10 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         var thisFactor = FactorRational;
         var targetFactor = TargetUnit.FactorRational;
 
-        // Use exact Rational arithmetic for factor ratio, multiply with decimal Value
+        // Use exact Rational arithmetic for factor ratio
+        // Compute as (Value * numerator) / denominator to maintain precision
         var factorRatio = thisFactor / targetFactor;
-        return Value * factorRatio.ToDecimal();
+        return (Value * factorRatio.Numerator) / factorRatio.Denominator;
     }
 
     /// <summary>
@@ -272,13 +273,23 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Fast path: try simple unit from catalog first
         if (UnitDefinitions.IsValidUnit(unit))
         {
-            // Use exact Rational arithmetic for factor ratio
-            var targetUnit = UnitDefinitions.Parse(unit);
-            var thisFactor = FactorRational;
-            var targetFactor = targetUnit.FactorRational;
-            var factorRatio = thisFactor / targetFactor;
-            var convertedValue = Value * factorRatio.ToDecimal();
-            return convertedValue.ToString(format) + " " + unit;
+            try
+            {
+                // Use exact Rational arithmetic for factor ratio
+                var targetUnit = UnitDefinitions.Parse(unit);
+                var thisFactor = FactorRational;
+                var targetFactor = targetUnit.FactorRational;
+                var factorRatio = thisFactor / targetFactor;
+                var convertedValue = (Value * factorRatio.Numerator) / factorRatio.Denominator;
+                return convertedValue.ToString(format) + " " + unit;
+            }
+            catch (OverflowException)
+            {
+                // Fall back to decimal if Rational arithmetic overflows
+                var targetUnit = UnitDefinitions.Parse(unit);
+                var convertedValue = Value * (Factor / targetUnit.Factor);
+                return convertedValue.ToString(format) + " " + unit;
+            }
         }
 
         // Try parsing as composite unit
@@ -299,12 +310,9 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
                 $"(dimension: {targetSignature}): incompatible dimensions.");
         }
 
-        // Convert value from source to target units using exact Rational arithmetic
-        // sourceValue * sourceFactor = base units
-        // baseUnits / targetFactor = target units
-        var compositeFactorRatio = FactorRational / Rational.FromDecimal(compositeTargetFactor);
-        var targetValue = Value * compositeFactorRatio.ToDecimal();
-
+        // Convert value from source to target units
+        // For composite units, use decimal arithmetic to avoid overflow from FromDecimal
+        var targetValue = (Value * FactorRational.ToDecimal()) / compositeTargetFactor;
         return targetValue.ToString(format) + " " + unit;
     }
 
@@ -530,10 +538,9 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         string resultUnit = ResolveUnitName(result.Signature);
         
         // Convert result to target unit space using exact Rational arithmetic
-        // Use factor ratio to avoid overflow: (result.FactorRational / targetFactorRational) * result.Value
         var targetUnit = resolver.Resolve(resultUnit);
         var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
-        var resultValue = result.Value * factorRatio.ToDecimal();
+        var resultValue = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
 
         return new Quantity(resultValue, resultUnit);
     }
@@ -635,7 +642,8 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         if (result.Signature.IsDimensionless())
         {
             // For dimensionless results, use exact Rational factor
-            var resultValue = result.Value * result.FactorRational.ToDecimal();
+            var factorRational = result.FactorRational;
+            var resultValue = (result.Value * factorRational.Numerator) / factorRational.Denominator;
             return new Quantity(resultValue);
         }
 
@@ -645,7 +653,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Convert result to target unit space using exact Rational arithmetic
         var targetUnit = resolver.Resolve(resultUnit);
         var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
-        var resultValue2 = result.Value * factorRatio.ToDecimal();
+        var resultValue2 = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
 
         return new Quantity(resultValue2, resultUnit);
     }

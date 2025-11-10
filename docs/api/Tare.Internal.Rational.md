@@ -4,10 +4,10 @@
 ## Rational Struct
 
 Represents an exact rational number as a normalized fraction.  
-Internal use only; not exposed in public API.
+Used for precise unit conversion factor calculations.
 
 ```csharp
-internal readonly struct Rational :
+public readonly struct Rational :
 System.IEquatable<Tare.Internal.Rational>,
 System.IComparable<Tare.Internal.Rational>
 ```

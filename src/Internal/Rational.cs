@@ -2,9 +2,9 @@ namespace Tare.Internal;
 
 /// <summary>
 /// Represents an exact rational number as a normalized fraction.
-/// Internal use only; not exposed in public API.
+/// Used for precise unit conversion factor calculations.
 /// </summary>
-internal readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
+public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
 {
     /// <summary>
     /// Gets the numerator of the normalized fraction.

@@ -34,7 +34,11 @@ public class UnitDefinition
     /// <summary>
     /// Creates a UnitDefinition with an exact rational factor.
     /// </summary>
-    internal UnitDefinition(string name, Rational factor, UnitTypeEnum unitType, HashSet<string> aliases)
+    /// <param name="name">The canonical name of the unit.</param>
+    /// <param name="factor">The exact conversion factor as a rational number.</param>
+    /// <param name="unitType">The type/dimension of the unit.</param>
+    /// <param name="aliases">Set of recognized aliases for the unit.</param>
+    public UnitDefinition(string name, Rational factor, UnitTypeEnum unitType, HashSet<string> aliases)
     {
         Name = name;
         FactorRational = factor;
