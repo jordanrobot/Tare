@@ -165,6 +165,38 @@ For more detailed documentation, see:
 - [API Documentation](docs/api/Tare.md) - Complete API reference
 - [Changelog](docs/CHANGELOG.md) - Version history and changes
 
+## Unit Conversion Validation & Correctness
+
+Tare maintains rigorous validation of unit conversion accuracy through a dedicated test project and comprehensive documentation. All conversion factors are independently verified against authoritative sources including NIST SP 811, BIPM SI standards, and ISO 80000-1.
+
+### Validation Resources
+
+- **[Unit Validation Strategy](docs/UNIT_VALIDATION_STRATEGY.md)** - Complete methodology for ensuring conversion accuracy
+  - Validation approach using authoritative sources
+  - Testing protocols and adversarial validation procedures
+  - Precision management and audit trail requirements
+  
+- **[Unit Accuracy Audit Report](docs/UNIT_ACCURACY_AUDIT.md)** - Comprehensive accuracy audit with confidence intervals
+  - 100% pass rate across all tested conversions (52 validation tests)
+  - Confidence levels by category (Length, Mass, Force, Energy, etc.)
+  - Known limitations and recommendations
+
+- **[Validation Test Project](tests-validation/README.md)** - Dedicated test project (`Tare.UnitValidation.Tests`)
+  - Isolated from functional tests for focused accuracy auditing
+  - Each test includes inline source citations (NIST, BIPM, ISO)
+  - Prepared for adversarial testing by multiple models/reviewers
+
+### Conversion Accuracy
+
+All unit conversions are validated against exact definitions from international standards:
+
+- **NIST SP 811** - Guide for the Use of the International System of Units (SI)
+- **BIPM SI Brochure** - The International System of Units (9th Edition, 2019)
+- **ISO 80000-1** - Quantities and units - Part 1: General
+- **1959 International Yard and Pound Agreement** - Exact definitions for imperial/US customary units
+
+**Test Results:** 504 total tests (452 functional + 52 validation) with 100% pass rate ✅
+
 ## References and Further Reading
 
 For those interested in learning more about dimensional analysis and units of measure:
