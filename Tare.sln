@@ -7,22 +7,61 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tare", "src\Tare.csproj", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TareTests", "tests\TareTests.csproj", "{DAC91C81-B50D-44EB-8D61-8EC26060D942}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests-validation", "tests-validation", "{9651F666-83A4-34F7-DDB0-8C50F19EECB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tare.UnitValidation.Tests", "tests-validation\Tare.UnitValidation.Tests.csproj", "{C29FE08E-5B5B-4415-81AA-92D26E9A810F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Debug|x86.Build.0 = Debug|Any CPU
 		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|x64.Build.0 = Release|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{3ED016F5-5CA6-449B-A6E5-42E5402FF1B0}.Release|x86.Build.0 = Release|Any CPU
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|x64.Build.0 = Debug|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Debug|x86.Build.0 = Debug|Any CPU
 		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|x64.ActiveCfg = Release|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|x64.Build.0 = Release|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|x86.ActiveCfg = Release|Any CPU
+		{DAC91C81-B50D-44EB-8D61-8EC26060D942}.Release|x86.Build.0 = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|x64.Build.0 = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C29FE08E-5B5B-4415-81AA-92D26E9A810F} = {9651F666-83A4-34F7-DDB0-8C50F19EECB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E99D8832-96E9-43D5-AB52-A3BFABE39E9B}

@@ -161,7 +161,7 @@ public static class UnitDefinitions
             new UnitDefinition("c", 299792458M, UnitTypeEnum.Velocity, new HashSet<string>{"c", "speed of light", "speed of light in vacuum", "speed of light in a vacuum"}),
 
             //ACCELERATION relative to m/s^2
-            new UnitDefinition("G", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"G", "gravity", "gravities"}),
+            new UnitDefinition("gravity", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"gravity", "gravities"}),
             new UnitDefinition("ft/s^2", 0.3048M, UnitTypeEnum.Acceleration, new HashSet<string>{"ft/s^2", "ft/s^2", "ft per s^2", "ft per s^2", "ft per second^2", "ft per second^2", "feet per s^2", "feet per s^2", "feet per second^2", "feet per second^2"}),
             new UnitDefinition("in/s^2", 0.0254M, UnitTypeEnum.Acceleration, new HashSet<string>{"in/s^2", "in/s^2", "in per s^2", "in per s^2", "in per second^2", "in per second^2", "inch per s^2", "inch per s^2", "inch per second^2", "inch per second^2", "inches per s^2", "inches per s^2", "inches per second^2", "inches per second^2"}),
             new UnitDefinition("yd/s^2", 0.9144M, UnitTypeEnum.Acceleration, new HashSet<string>{"yd/s^2", "yd/s^2", "yd per s^2", "yd per s^2", "yd per second^2", "yd per second^2", "yard per s^2", "yard per s^2", "yard per second^2", "yard per second^2", "yards per s^2", "yards per s^2", "yards per second^2", "yards per second^2"}),
