@@ -17,6 +17,11 @@ internal readonly struct NormalizedUnit
     public decimal FactorToBase { get; }
     
     /// <summary>
+    /// Gets the exact conversion factor to the dimension's base unit.
+    /// </summary>
+    internal Rational FactorToBaseRational { get; }
+    
+    /// <summary>
     /// Gets the unit type (dimension family).
     /// </summary>
     public UnitTypeEnum UnitType { get; }
@@ -27,7 +32,7 @@ internal readonly struct NormalizedUnit
     public DimensionSignature Signature { get; }
 
     /// <summary>
-    /// Constructs a normalized unit.
+    /// Constructs a normalized unit with decimal factor (converted to rational).
     /// </summary>
     /// <param name="token">The canonical unit token.</param>
     /// <param name="factorToBase">Conversion factor to the dimension's base unit.</param>
@@ -37,6 +42,19 @@ internal readonly struct NormalizedUnit
     {
         Token = token;
         FactorToBase = factorToBase;
+        FactorToBaseRational = Rational.FromDecimal(factorToBase);
+        UnitType = unitType;
+        Signature = signature;
+    }
+    
+    /// <summary>
+    /// Constructs a normalized unit with exact rational factor.
+    /// </summary>
+    internal NormalizedUnit(UnitToken token, Rational factorToBase, UnitTypeEnum unitType, DimensionSignature signature)
+    {
+        Token = token;
+        FactorToBaseRational = factorToBase;
+        FactorToBase = factorToBase.ToDecimal();
         UnitType = unitType;
         Signature = signature;
     }

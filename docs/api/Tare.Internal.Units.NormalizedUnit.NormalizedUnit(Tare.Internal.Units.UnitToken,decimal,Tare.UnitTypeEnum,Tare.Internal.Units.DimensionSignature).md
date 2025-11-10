@@ -3,7 +3,7 @@
 
 ## NormalizedUnit(UnitToken, decimal, UnitTypeEnum, DimensionSignature) Constructor
 
-Constructs a normalized unit.
+Constructs a normalized unit with decimal factor (converted to rational).
 
 ```csharp
 public NormalizedUnit(Tare.Internal.Units.UnitToken token, decimal factorToBase, Tare.UnitTypeEnum unitType, Tare.Internal.Units.DimensionSignature signature);

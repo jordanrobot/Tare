@@ -42,7 +42,7 @@ A [DimensionalResult](Tare.Internal.Units.DimensionalResult.md 'Tare.Internal.Un
 ### Remarks
 Implements dimensional multiplication where:  
 - Dimension signatures are combined by adding exponents (L¹ × L¹ → L²)  
-- Conversion factors are multiplied to maintain proper scaling  
+- Conversion factors are multiplied using exact rational arithmetic  
 - Values are multiplied to compute the result  
   
 Example: 2 meters × 3 meters = 6 square meters  

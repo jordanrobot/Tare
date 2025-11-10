@@ -30,6 +30,11 @@ internal readonly struct DimensionalResult
     public decimal Factor { get; }
     
     /// <summary>
+    /// Gets the exact combined conversion factor to base units.
+    /// </summary>
+    internal Rational FactorRational { get; }
+    
+    /// <summary>
     /// Gets a value indicating whether the result is dimensionless (scalar).
     /// </summary>
     /// <remarks>
@@ -39,15 +44,24 @@ internal readonly struct DimensionalResult
     public bool IsScalar => Signature.IsDimensionless();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DimensionalResult"/> struct.
+    /// Initializes a new instance with decimal factor (converted to rational).
     /// </summary>
-    /// <param name="value">The computed decimal value in base units.</param>
-    /// <param name="signature">The resulting dimension signature.</param>
-    /// <param name="factor">The combined conversion factor to base units.</param>
     public DimensionalResult(decimal value, DimensionSignature signature, decimal factor)
     {
         Value = value;
         Signature = signature;
         Factor = factor;
+        FactorRational = Rational.FromDecimal(factor);
+    }
+    
+    /// <summary>
+    /// Initializes a new instance with exact rational factor.
+    /// </summary>
+    internal DimensionalResult(decimal value, DimensionSignature signature, Rational factor)
+    {
+        Value = value;
+        Signature = signature;
+        FactorRational = factor;
+        Factor = factor.ToDecimal();
     }
 }

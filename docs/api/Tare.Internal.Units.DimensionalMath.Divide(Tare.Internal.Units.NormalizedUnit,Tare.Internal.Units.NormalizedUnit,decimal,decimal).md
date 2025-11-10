@@ -47,7 +47,7 @@ Thrown when [denominatorValue](Tare.Internal.Units.DimensionalMath.Divide(Tare.I
 ### Remarks
 Implements dimensional division where:  
 - Dimension signatures are combined by subtracting exponents (L² ÷ L¹ → L¹)  
-- Conversion factors are divided to maintain proper scaling  
+- Conversion factors are divided using exact rational arithmetic  
 - Values are divided to compute the result  
   
 Example: 12 square meters ÷ 4 meters = 3 meters  
