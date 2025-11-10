@@ -3,8 +3,7 @@
 
 ## UnitDefinitions.IsValidUnit(string) Method
 
-Determines if a supplied string is a valid unit or unit abbreviation.  
-Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
+Determines if a supplied string is a valid unit or unit abbreviation.
 
 ```csharp
 public static bool IsValidUnit(string unit);

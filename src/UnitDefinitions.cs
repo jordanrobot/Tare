@@ -9,7 +9,6 @@ public static class UnitDefinitions
 {
     // Internal dictionary indexes for O(1) lookups (S-006 Option 1)
     private static readonly Dictionary<string, UnitDefinition> _aliasIndex;
-    private static readonly Dictionary<string, UnitDefinition> _aliasIndexCaseInsensitive;
     private static readonly Dictionary<string, UnitDefinition> _nameIndex;
     private static readonly Dictionary<UnitTypeEnum, List<UnitDefinition>> _typeIndex;
 
@@ -23,8 +22,8 @@ public static class UnitDefinitions
         // Build name index (exact match, case-sensitive)
         _nameIndex = definitionsList.ToDictionary(d => d.Name, StringComparer.Ordinal);
 
-        // Build alias index (case-sensitive for exact matches)
-        _aliasIndex = new Dictionary<string, UnitDefinition>(StringComparer.Ordinal);
+        // Build alias index (case-insensitive, includes all aliases)
+        _aliasIndex = new Dictionary<string, UnitDefinition>(StringComparer.OrdinalIgnoreCase);
         foreach (var def in definitionsList)
         {
             foreach (var alias in def.Aliases)
@@ -32,19 +31,6 @@ public static class UnitDefinitions
                 // Use first definition if duplicate alias exists
                 if (!_aliasIndex.ContainsKey(alias))
                     _aliasIndex[alias] = def;
-            }
-        }
-
-        // Build case-insensitive alias index (fallback for user convenience)
-        // This allows "METER", "Meter", "meter" to all work, while still keeping "g" and "G" distinct
-        _aliasIndexCaseInsensitive = new Dictionary<string, UnitDefinition>(StringComparer.OrdinalIgnoreCase);
-        foreach (var def in definitionsList)
-        {
-            foreach (var alias in def.Aliases)
-            {
-                // Use first definition if duplicate alias exists
-                if (!_aliasIndexCaseInsensitive.ContainsKey(alias))
-                    _aliasIndexCaseInsensitive[alias] = def;
             }
         }
 
@@ -60,35 +46,23 @@ public static class UnitDefinitions
 
     /// <summary>
     /// Determines if a supplied string is a valid unit or unit abbreviation.
-    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to evaluate.</param>
     /// <returns>Returns true if the string is a valid unit, otherwise returns false.</returns>
     public static bool IsValidUnit(string unit)
     {
-        // Try exact match first (case-sensitive) to handle g vs G correctly
-        if (_aliasIndex.ContainsKey(unit))
-            return true;
-        
-        // Fall back to case-insensitive for user convenience (METER = meter)
-        return _aliasIndexCaseInsensitive.ContainsKey(unit);
+        return _aliasIndex.ContainsKey(unit);
     }
 
     /// <summary>
     /// Converts the string unit expression to it's UnitDefinition, if it exists.
-    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to parse.</param>
     /// <returns>Returns the UnitDefinition for a given string expression if found. If not found, throws an exception.</returns>
     /// <exception cref="ArgumentException">If the parsed input cannot be found in the Unit Definition list, an Argument Exception is thrown.</exception>
     public static UnitDefinition Parse(string unit)
     {
-        // Try exact match first (case-sensitive) to handle g vs G correctly
         if (_aliasIndex.TryGetValue(unit, out var definition))
-            return definition;
-        
-        // Fall back to case-insensitive for user convenience (METER = meter)
-        if (_aliasIndexCaseInsensitive.TryGetValue(unit, out definition))
             return definition;
 
         throw new ArgumentException("No matching unit " + unit + " was found.");
@@ -96,18 +70,12 @@ public static class UnitDefinitions
 
     /// <summary>
     /// Returns a UnitTypeEnum from a specified string.
-    /// Uses case-sensitive match first, then falls back to case-insensitive for user convenience.
     /// </summary>
     /// <param name="unit">The string to evaluate.</param>
     /// <returns></returns>
     public static UnitTypeEnum ParseUnitType(string unit)
     {
-        // Try exact match first (case-sensitive) to handle g vs G correctly
-        if (_aliasIndex.TryGetValue(unit, out var def))
-            return def.UnitType;
-        
-        // Fall back to case-insensitive for user convenience (METER = meter)
-        return _aliasIndexCaseInsensitive.TryGetValue(unit, out def) ? def.UnitType : UnitTypeEnum.Unknown;
+        return _aliasIndex.TryGetValue(unit, out var def) ? def.UnitType : UnitTypeEnum.Unknown;
     }
 
     private static IEnumerable<UnitDefinition> Definitions = new List<UnitDefinition>()
@@ -193,7 +161,7 @@ public static class UnitDefinitions
             new UnitDefinition("c", 299792458M, UnitTypeEnum.Velocity, new HashSet<string>{"c", "speed of light", "speed of light in vacuum", "speed of light in a vacuum"}),
 
             //ACCELERATION relative to m/s^2
-            new UnitDefinition("G", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"G", "gravity", "gravities"}),
+            new UnitDefinition("gravity", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"gravity", "gravities"}),
             new UnitDefinition("ft/s^2", 0.3048M, UnitTypeEnum.Acceleration, new HashSet<string>{"ft/s^2", "ft/s^2", "ft per s^2", "ft per s^2", "ft per second^2", "ft per second^2", "feet per s^2", "feet per s^2", "feet per second^2", "feet per second^2"}),
             new UnitDefinition("in/s^2", 0.0254M, UnitTypeEnum.Acceleration, new HashSet<string>{"in/s^2", "in/s^2", "in per s^2", "in per s^2", "in per second^2", "in per second^2", "inch per s^2", "inch per s^2", "inch per second^2", "inch per second^2", "inches per s^2", "inches per s^2", "inches per second^2", "inches per second^2"}),
             new UnitDefinition("yd/s^2", 0.9144M, UnitTypeEnum.Acceleration, new HashSet<string>{"yd/s^2", "yd/s^2", "yd per s^2", "yd per s^2", "yd per second^2", "yd per second^2", "yard per s^2", "yard per s^2", "yard per second^2", "yard per second^2", "yards per s^2", "yards per s^2", "yards per second^2", "yards per second^2"}),

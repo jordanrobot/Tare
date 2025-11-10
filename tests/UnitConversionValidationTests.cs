@@ -495,7 +495,7 @@ public class UnitConversionValidationTests
     public void Acceleration_StandardGravityToMeterPerSecondSquared_UsesExactDefinition()
     {
         // 1 g = 9.80665 m/s² exactly (by definition, standard gravity)
-        var g = Quantity.Parse("1 G");
+        var g = Quantity.Parse("1 gravity");
         var result = g.Format("m/s^2");
         
         Assert.That(decimal.Parse(result.Split(' ')[0]), Is.EqualTo(9.80665M).Within(TOLERANCE));
