@@ -17,7 +17,7 @@ public static Tare.UnitDefinition Parse(string unit);
 The string to parse.
 
 #### Returns
-[Tare.UnitDefinition](https://docs.microsoft.com/en-us/dotnet/api/Tare.UnitDefinition 'Tare.UnitDefinition')  
+[UnitDefinition](Tare.UnitDefinition.md 'Tare.UnitDefinition')  
 Returns the UnitDefinition for a given string expression if found. If not found, throws an exception.
 
 #### Exceptions

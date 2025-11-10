@@ -170,38 +170,77 @@ internal readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
     {
         // Extract the internal representation of decimal
         var bits = decimal.GetBits(value);
-        var lo = bits[0];
-        var mid = bits[1];
-        var hi = bits[2];
+        var lo = (uint)bits[0];
+        var mid = (uint)bits[1];
+        var hi = (uint)bits[2];
         var flags = bits[3];
         
         // Extract sign and scale
         var isNegative = (flags & 0x80000000) != 0;
         var scale = (flags >> 16) & 0xFF;
         
-        // Combine lo, mid, hi into a single long (we may lose precision for very large decimals)
-        // For most unit conversion factors, this is acceptable
+        // Build the mantissa as a 96-bit value
+        // For most practical unit conversions, we can work with this directly
+        // We need to be careful about overflow
+        
+        // Try to construct from the bits
+        decimal absValue = Math.Abs(value);
+        
+        // Multiply by 10^scale to get integer mantissa
         long mantissa;
-        if (hi != 0)
+        long denominator = 1;
+        
+        // Calculate denominator = 10^scale
+        for (int i = 0; i < scale; i++)
         {
-            // For very large decimals, just use the decimal directly with power of 10
-            mantissa = (long)decimal.Truncate(value * (decimal)Math.Pow(10, scale));
+            denominator *= 10;
         }
-        else
+        
+        // Now we need to convert the decimal mantissa to long
+        // decimal stores 96-bit mantissa, but we only have 64-bit long
+        // For values that fit in long range, this works:
+        try
         {
-            mantissa = ((long)mid << 32) | (long)(uint)lo;
+            // Truncate to integer part after scaling
+            decimal scaledValue = absValue * denominator;
+            
+            // Check if it fits in long
+            if (scaledValue > long.MaxValue)
+            {
+                // Value too large - use approximation
+                // Divide both mantissa and denominator until it fits
+                while (scaledValue > long.MaxValue && denominator > 1)
+                {
+                    scaledValue /= 10;
+                    denominator /= 10;
+                }
+                
+                if (scaledValue > long.MaxValue)
+                {
+                    // Still too large, use the decimal value directly with power of 10
+                    mantissa = (long)decimal.Truncate(absValue * 1000000000); // Use 10^9
+                    denominator = 1000000000;
+                }
+                else
+                {
+                    mantissa = (long)decimal.Truncate(scaledValue);
+                }
+            }
+            else
+            {
+                mantissa = (long)decimal.Truncate(scaledValue);
+            }
+        }
+        catch (OverflowException)
+        {
+            // Fallback: approximate with 10^9 precision
+            mantissa = (long)decimal.Truncate(absValue * 1000000000);
+            denominator = 1000000000;
         }
         
         if (isNegative)
         {
             mantissa = -mantissa;
-        }
-        
-        // denominator = 10^scale
-        long denominator = 1;
-        for (int i = 0; i < scale; i++)
-        {
-            denominator *= 10;
         }
         
         return new Rational(mantissa, denominator);
