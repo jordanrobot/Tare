@@ -82,10 +82,10 @@ internal sealed class CompositeParser : ICompositeParser
                 return false;
             }
             
-            // Parse numerator
+            // Parse numerator using exact Rational arithmetic
             var numeratorSig = DimensionSignature.Dimensionless;
-            var numeratorFactor = 1m;
-            if (!ParseProduct(parts[0], ref numeratorSig, ref numeratorFactor))
+            var numeratorFactorRational = Rational.One;
+            if (!ParseProduct(parts[0], ref numeratorSig, ref numeratorFactorRational))
             {
                 return false;
             }
@@ -94,20 +94,22 @@ internal sealed class CompositeParser : ICompositeParser
             if (parts.Length == 2)
             {
                 var denominatorSig = DimensionSignature.Dimensionless;
-                var denominatorFactor = 1m;
-                if (!ParseProduct(parts[1], ref denominatorSig, ref denominatorFactor))
+                var denominatorFactorRational = Rational.One;
+                if (!ParseProduct(parts[1], ref denominatorSig, ref denominatorFactorRational))
                 {
                     return false;
                 }
                 
                 // Divide signatures (subtracts exponents)
                 signature = numeratorSig.Divide(denominatorSig);
-                factor = numeratorFactor / denominatorFactor;
+                // Use exact Rational division, convert to decimal at the end
+                var factorRational = numeratorFactorRational / denominatorFactorRational;
+                factor = factorRational.ToDecimal();
             }
             else
             {
                 signature = numeratorSig;
-                factor = numeratorFactor;
+                factor = numeratorFactorRational.ToDecimal();
             }
             
             return true;
@@ -128,7 +130,7 @@ internal sealed class CompositeParser : ICompositeParser
     /// <summary>
     /// Parses a product expression (units separated by * or ·).
     /// </summary>
-    private bool ParseProduct(string expression, ref DimensionSignature signature, ref decimal factor)
+    private bool ParseProduct(string expression, ref DimensionSignature signature, ref Rational factorRational)
     {
         if (string.IsNullOrWhiteSpace(expression))
         {
@@ -140,7 +142,7 @@ internal sealed class CompositeParser : ICompositeParser
         
         foreach (var token in tokens)
         {
-            if (!ParseUnitToken(token.Trim(), ref signature, ref factor))
+            if (!ParseUnitToken(token.Trim(), ref signature, ref factorRational))
             {
                 return false;
             }
@@ -152,7 +154,7 @@ internal sealed class CompositeParser : ICompositeParser
     /// <summary>
     /// Parses a single unit token with optional exponent (e.g., "m", "kg^2", "s^-1").
     /// </summary>
-    private bool ParseUnitToken(string token, ref DimensionSignature signature, ref decimal factor)
+    private bool ParseUnitToken(string token, ref DimensionSignature signature, ref Rational factorRational)
     {
         var match = UnitTokenPattern.Match(token);
         if (!match.Success)
@@ -172,18 +174,18 @@ internal sealed class CompositeParser : ICompositeParser
         
         var resolved = _resolver.Resolve(unitName);
         
-        // Apply exponent to signature and factor
+        // Apply exponent to signature and factor using exact Rational arithmetic
         for (int i = 0; i < Math.Abs(exponent); i++)
         {
             if (exponent > 0)
             {
                 signature = signature.Multiply(resolved.Signature);
-                factor *= resolved.FactorToBase;
+                factorRational *= resolved.FactorToBaseRational;
             }
             else
             {
                 signature = signature.Divide(resolved.Signature);
-                factor /= resolved.FactorToBase;
+                factorRational /= resolved.FactorToBaseRational;
             }
         }
         

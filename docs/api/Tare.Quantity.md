@@ -25,6 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | Properties | |
 | :--- | :--- |
 | [Default](Tare.Quantity.Default.md 'Tare.Quantity.Default') | Returns the default Quantity of "0 ul". |
+| [Factor](Tare.Quantity.Factor.md 'Tare.Quantity.Factor') | Gets the conversion factor as a decimal value.<br/>For exact calculations, FactorRational is used internally. |
+| [FactorRational](Tare.Quantity.FactorRational.md 'Tare.Quantity.FactorRational') | Gets the exact conversion factor as a rational number (internal use). |
 | [Unit](Tare.Quantity.Unit.md 'Tare.Quantity.Unit') | A string representation of the Quantity's units of measure. |
 | [UnitType](Tare.Quantity.UnitType.md 'Tare.Quantity.UnitType') | Returns the Quantity's UnitTypeEnum; e.g. Length, Mass, Velocity, etc. |
 | [Value](Tare.Quantity.Value.md 'Tare.Quantity.Value') | Returns the Quantity's numeric value. This is of limited use as the units of measure are not specified. |
