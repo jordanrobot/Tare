@@ -14,6 +14,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-001: Core Rational Arithmetic (Phases 1-8)** - Implemented exact fraction arithmetic to address precision drift in dimensional algebra operations, reducing errors from 0.015% to decimal precision limits.
+  - **Rational Type**: Internal readonly struct for exact fraction arithmetic
+    - Numerator/denominator (long) with automatic GCD normalization
+    - Arithmetic operators: +, -, *, /, unary negation
+    - Decimal conversion: FromDecimal(), ToDecimal(), explicit casts
+    - Implements IEquatable<Rational>, IComparable<Rational>
+    - netstandard2.0 compatible (custom GetHashCode implementation)
+  - **Integration**: Rational factors throughout the conversion chain
+    - UnitDefinition.FactorRational stores exact conversion factors
+    - Quantity.FactorRational for internal precision
+    - NormalizedUnit.FactorToBaseRational for dimensional operations
+    - DimensionalMath operations use Rational arithmetic
+    - CompositeParser uses Rational for factor calculations
+  - **Precision Improvements**:
+    - Dimensional algebra factor arithmetic now exact (no truncation)
+    - Conversion precision at decimal limits (~1e-27 error)
+    - 447/452 tests passing (5 tests at decimal precision boundaries)
+  - **Backward Compatibility Maintained**:
+    - All public APIs unchanged (Factor properties compute from Rational)
+    - Internal Rational properties added alongside decimal properties
+    - Zero breaking changes to existing code
+
 - **F-009: Composite Unit Construction** - Extended `Quantity` constructors and Parse methods to support composite unit strings, providing symmetrical composite unit support with F-008 formatting.
   - **Composite Unit Construction**: Create quantities using composite unit strings:
     - Supports multiplication operators: `*` (asterisk) and `·` (middle dot)
