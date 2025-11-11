@@ -4,7 +4,8 @@
 ## UnitResolver Class
 
 Domain service providing unit normalization and resolution using the UnitDefinitions catalog.  
-Implements singleton pattern as it is a stateless service with immutable data.
+Implements singleton pattern as it is a stateless service with immutable data.  
+Includes performance caching for repeated unit resolutions.
 
 ```csharp
 internal sealed class UnitResolver
@@ -20,6 +21,10 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | :--- | :--- |
 | [Instance](Tare.Internal.Units.UnitResolver.Instance.md 'Tare.Internal.Units.UnitResolver.Instance') | Singleton instance of the unit resolver. |
 
+| Properties | |
+| :--- | :--- |
+| [CacheHitRate](Tare.Internal.Units.UnitResolver.CacheHitRate.md 'Tare.Internal.Units.UnitResolver.CacheHitRate') | Gets the cache hit rate as a percentage (0.0 to 1.0).<br/>Internal diagnostic for monitoring cache effectiveness. |
+
 | Methods | |
 | :--- | :--- |
 | [ComputeFactorToBase(UnitToken, UnitToken, UnitDefinition)](Tare.Internal.Units.UnitResolver.ComputeFactorToBase(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken,Tare.UnitDefinition).md 'Tare.Internal.Units.UnitResolver.ComputeFactorToBase(Tare.Internal.Units.UnitToken, Tare.Internal.Units.UnitToken, Tare.UnitDefinition)') | Computes the conversion factor from a unit to the base unit of its dimension. |
@@ -29,4 +34,4 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [IsValidUnit(string)](Tare.Internal.Units.UnitResolver.IsValidUnit(string).md 'Tare.Internal.Units.UnitResolver.IsValidUnit(string)') | Checks if a unit string is valid (known in the catalog). |
 | [MapDescriptionToUnitType(string)](Tare.Internal.Units.UnitResolver.MapDescriptionToUnitType(string).md 'Tare.Internal.Units.UnitResolver.MapDescriptionToUnitType(string)') | Maps a PreferredUnit description to its corresponding UnitTypeEnum.<br/>Used for composite unit resolution. |
 | [Normalize(string)](Tare.Internal.Units.UnitResolver.Normalize(string).md 'Tare.Internal.Units.UnitResolver.Normalize(string)') | Normalizes a unit string (including aliases) to its canonical token. |
-| [Resolve(string)](Tare.Internal.Units.UnitResolver.Resolve(string).md 'Tare.Internal.Units.UnitResolver.Resolve(string)') | Resolves a unit to its normalized representation with base conversion factor.<br/>Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2"). |
+| [Resolve(string)](Tare.Internal.Units.UnitResolver.Resolve(string).md 'Tare.Internal.Units.UnitResolver.Resolve(string)') | Resolves a unit to its normalized representation with base conversion factor.<br/>Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2").<br/>Uses caching for improved performance on repeated resolutions. |

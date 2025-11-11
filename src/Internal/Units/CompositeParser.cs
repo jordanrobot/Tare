@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,6 +12,7 @@ namespace Tare.Internal.Units;
 /// <remarks>
 /// This sealed class implements deterministic parsing for composite unit expressions.
 /// Supports multiplication (*,·), division (/), exponents (^n), and parentheses grouping.
+/// Includes performance caching for repeated parsing operations.
 /// </remarks>
 internal sealed class CompositeParser : ICompositeParser
 {
@@ -36,13 +38,67 @@ internal sealed class CompositeParser : ICompositeParser
     
     private readonly IUnitResolver _resolver;
     
+    // Performance cache for parsed composites (F-011)
+    // Tunable: Increase MaxParseCache if composite operations are frequent and hit rate < 70%
+    private const int MaxParseCache = 128;
+    private readonly ConcurrentDictionary<string, (bool success, DimensionSignature signature, decimal factor)> _parseCache;
+    private long _cacheHits;
+    private long _cacheMisses;
+
+    /// <summary>
+    /// Gets the cache hit rate as a percentage (0.0 to 1.0).
+    /// Internal diagnostic for monitoring cache effectiveness.
+    /// </summary>
+    internal double CacheHitRate
+    {
+        get
+        {
+            var total = _cacheHits + _cacheMisses;
+            return total == 0 ? 0.0 : (double)_cacheHits / total;
+        }
+    }
+    
     private CompositeParser()
     {
         _resolver = UnitResolver.Instance;
+        
+        // Initialize performance cache (F-011)
+        _parseCache = new ConcurrentDictionary<string, (bool, DimensionSignature, decimal)>();
+        _cacheHits = 0;
+        _cacheMisses = 0;
     }
     
     /// <inheritdoc/>
     public bool TryParse(string compositeUnit, out DimensionSignature signature, out decimal factor)
+    {
+        // Check cache first (F-011 performance optimization)
+        if (_parseCache.TryGetValue(compositeUnit, out var cachedResult))
+        {
+            System.Threading.Interlocked.Increment(ref _cacheHits);
+            signature = cachedResult.signature;
+            factor = cachedResult.factor;
+            return cachedResult.success;
+        }
+        
+        System.Threading.Interlocked.Increment(ref _cacheMisses);
+        
+        // Cache miss - perform parsing
+        var success = TryParseCore(compositeUnit, out signature, out factor);
+        
+        // Add to cache if not at capacity (simple size-based eviction)
+        // Note: MaxParseCache is tunable - increase if hit rate < 70% in production
+        if (_parseCache.Count < MaxParseCache)
+        {
+            _parseCache.TryAdd(compositeUnit, (success, signature, factor));
+        }
+        
+        return success;
+    }
+    
+    /// <summary>
+    /// Core parsing logic (extracted for caching).
+    /// </summary>
+    private bool TryParseCore(string compositeUnit, out DimensionSignature signature, out decimal factor)
     {
         signature = DimensionSignature.Dimensionless;
         factor = 1m;

@@ -10,7 +10,7 @@
 | [CompositeParser](Tare.Internal.Units.CompositeParser.md 'Tare.Internal.Units.CompositeParser') | Parses composite unit strings into dimension signatures and conversion factors. |
 | [DimensionalMath](Tare.Internal.Units.DimensionalMath.md 'Tare.Internal.Units.DimensionalMath') | Implements dimensional algebra operations for combining quantities through multiplication and division. |
 | [KnownSignatureMap](Tare.Internal.Units.KnownSignatureMap.md 'Tare.Internal.Units.KnownSignatureMap') | Provides a mapping from dimension signatures to preferred unit names.<br/>Implements the known-signature naming map for common physical quantities. |
-| [UnitResolver](Tare.Internal.Units.UnitResolver.md 'Tare.Internal.Units.UnitResolver') | Domain service providing unit normalization and resolution using the UnitDefinitions catalog.<br/>Implements singleton pattern as it is a stateless service with immutable data. |
+| [UnitResolver](Tare.Internal.Units.UnitResolver.md 'Tare.Internal.Units.UnitResolver') | Domain service providing unit normalization and resolution using the UnitDefinitions catalog.<br/>Implements singleton pattern as it is a stateless service with immutable data.<br/>Includes performance caching for repeated unit resolutions. |
 
 | Structs | |
 | :--- | :--- |

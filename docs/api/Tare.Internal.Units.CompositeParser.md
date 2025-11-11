@@ -13,11 +13,16 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ### Remarks
 This sealed class implements deterministic parsing for composite unit expressions.  
-Supports multiplication (*,·), division (/), exponents (^n), and parentheses grouping.
+Supports multiplication (*,·), division (/), exponents (^n), and parentheses grouping.  
+Includes performance caching for repeated parsing operations.
 
 | Fields | |
 | :--- | :--- |
 | [Instance](Tare.Internal.Units.CompositeParser.Instance.md 'Tare.Internal.Units.CompositeParser.Instance') | Singleton instance for efficient reuse. |
+
+| Properties | |
+| :--- | :--- |
+| [CacheHitRate](Tare.Internal.Units.CompositeParser.CacheHitRate.md 'Tare.Internal.Units.CompositeParser.CacheHitRate') | Gets the cache hit rate as a percentage (0.0 to 1.0).<br/>Internal diagnostic for monitoring cache effectiveness. |
 
 | Methods | |
 | :--- | :--- |
@@ -25,3 +30,4 @@ Supports multiplication (*,·), division (/), exponents (^n), and parentheses gr
 | [ParseProduct(string, DimensionSignature, Rational)](Tare.Internal.Units.CompositeParser.ParseProduct(string,Tare.Internal.Units.DimensionSignature,Tare.Internal.Rational).md 'Tare.Internal.Units.CompositeParser.ParseProduct(string, Tare.Internal.Units.DimensionSignature, Tare.Internal.Rational)') | Parses a product expression (units separated by * or ·). |
 | [ParseUnitToken(string, DimensionSignature, Rational)](Tare.Internal.Units.CompositeParser.ParseUnitToken(string,Tare.Internal.Units.DimensionSignature,Tare.Internal.Rational).md 'Tare.Internal.Units.CompositeParser.ParseUnitToken(string, Tare.Internal.Units.DimensionSignature, Tare.Internal.Rational)') | Parses a single unit token with optional exponent (e.g., "m", "kg^2", "s^-1"). |
 | [TryParse(string, DimensionSignature, decimal)](Tare.Internal.Units.CompositeParser.TryParse(string,Tare.Internal.Units.DimensionSignature,decimal).md 'Tare.Internal.Units.CompositeParser.TryParse(string, Tare.Internal.Units.DimensionSignature, decimal)') | Parses a composite unit string into its dimension signature and conversion factor. |
+| [TryParseCore(string, DimensionSignature, decimal)](Tare.Internal.Units.CompositeParser.TryParseCore(string,Tare.Internal.Units.DimensionSignature,decimal).md 'Tare.Internal.Units.CompositeParser.TryParseCore(string, Tare.Internal.Units.DimensionSignature, decimal)') | Core parsing logic (extracted for caching). |

@@ -4,7 +4,8 @@
 ## UnitResolver.Resolve(string) Method
 
 Resolves a unit to its normalized representation with base conversion factor.  
-Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2").
+Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2").  
+Uses caching for improved performance on repeated resolutions.
 
 ```csharp
 public Tare.Internal.Units.NormalizedUnit Resolve(string unit);
