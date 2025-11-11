@@ -20,6 +20,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | :--- | :--- |
 | [Quantity()](Tare.Quantity.Quantity().md 'Tare.Quantity.Quantity()') | Return a default Quantity value. |
 | [Quantity(decimal, string)](Tare.Quantity.Quantity(decimal,string).md 'Tare.Quantity.Quantity(decimal, string)') | Creates a Quantity with the specified value and unit.<br/>Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2"). |
+| [Quantity(double, string)](Tare.Quantity.Quantity(double,string).md 'Tare.Quantity.Quantity(double, string)') | Creates a Quantity with the specified double value and unit.<br/>Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2"). |
+| [Quantity(int, string)](Tare.Quantity.Quantity(int,string).md 'Tare.Quantity.Quantity(int, string)') | Creates a Quantity with the specified integer value and unit.<br/>Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2"). |
 | [Quantity(string)](Tare.Quantity.Quantity(string).md 'Tare.Quantity.Quantity(string)') | Creates a Quantity from a string containing a value and unit.<br/>Supports both catalog units (e.g., "10 m", "5 kg") and composite units (e.g., "200 Nm", "1500 lbf*in"). |
 
 | Properties | |
