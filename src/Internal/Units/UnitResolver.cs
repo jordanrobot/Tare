@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Tare.Internal.Units;
@@ -6,6 +7,7 @@ namespace Tare.Internal.Units;
 /// <summary>
 /// Domain service providing unit normalization and resolution using the UnitDefinitions catalog.
 /// Implements singleton pattern as it is a stateless service with immutable data.
+/// Includes performance caching for repeated unit resolutions.
 /// </summary>
 internal sealed class UnitResolver : IUnitResolver
 {
@@ -17,6 +19,26 @@ internal sealed class UnitResolver : IUnitResolver
     // Cached mappings (initialized at construction)
     private readonly Dictionary<UnitToken, UnitDefinition> _tokenToDefinition;
     private readonly Dictionary<UnitTypeEnum, UnitToken> _baseUnits;
+    
+    // Performance cache for resolved units (F-011)
+    // Tunable: Increase MaxCacheEntries if cache hit rate < 70% in production workloads
+    private const int MaxCacheEntries = 128;
+    private readonly ConcurrentDictionary<string, NormalizedUnit> _resolvedCache;
+    private long _cacheHits;
+    private long _cacheMisses;
+
+    /// <summary>
+    /// Gets the cache hit rate as a percentage (0.0 to 1.0).
+    /// Internal diagnostic for monitoring cache effectiveness.
+    /// </summary>
+    internal double CacheHitRate
+    {
+        get
+        {
+            var total = _cacheHits + _cacheMisses;
+            return total == 0 ? 0.0 : (double)_cacheHits / total;
+        }
+    }
 
     /// <summary>
     /// Private constructor to enforce singleton pattern.
@@ -47,6 +69,11 @@ internal sealed class UnitResolver : IUnitResolver
             var baseUnitName = string.IsNullOrEmpty(kvp.Value) ? "each" : kvp.Value;
             _baseUnits[kvp.Key] = new UnitToken(baseUnitName);
         }
+        
+        // Initialize performance cache (F-011)
+        _resolvedCache = new ConcurrentDictionary<string, NormalizedUnit>();
+        _cacheHits = 0;
+        _cacheMisses = 0;
     }
 
     /// <summary>
@@ -73,12 +100,25 @@ internal sealed class UnitResolver : IUnitResolver
     /// <summary>
     /// Resolves a unit to its normalized representation with base conversion factor.
     /// Supports both catalog units and composite units (e.g., "m*s", "kg*m/s^2").
+    /// Uses caching for improved performance on repeated resolutions.
     /// </summary>
     /// <param name="unit">The unit string to resolve.</param>
     /// <returns>The normalized unit with token, factor, and dimension.</returns>
     /// <exception cref="ArgumentException">Thrown when unit is unknown or invalid.</exception>
     public NormalizedUnit Resolve(string unit)
     {
+        // Check cache first (F-011 performance optimization)
+        if (_resolvedCache.TryGetValue(unit, out var cachedResult))
+        {
+            System.Threading.Interlocked.Increment(ref _cacheHits);
+            return cachedResult;
+        }
+        
+        System.Threading.Interlocked.Increment(ref _cacheMisses);
+        
+        // Cache miss - perform resolution
+        NormalizedUnit result;
+        
         // Try catalog first (fast path)
         if (IsValidUnit(unit))
         {
@@ -88,29 +128,42 @@ internal sealed class UnitResolver : IUnitResolver
             var factorToBase = ComputeFactorToBaseRational(token, baseToken, definition);
             var signature = GetSignatureForUnitType(definition.UnitType);
             
-            return new NormalizedUnit(token, factorToBase, definition.UnitType, signature);
+            result = new NormalizedUnit(token, factorToBase, definition.UnitType, signature);
         }
-        
-        // Try composite parsing (new path for F-010)
-        var parser = CompositeParser.Instance;
-        if (parser.TryParse(unit, out var compositeSignature, out var compositeFactor))
+        else
         {
-            // Create a synthetic token for the composite
-            var compositeToken = new UnitToken(unit);
-            
-            // Determine UnitType from signature
-            var knownMap = KnownSignatureMap.Instance;
-            var compositeUnitType = knownMap.TryGetPreferredUnit(compositeSignature, out var preferred)
-                ? MapDescriptionToUnitType(preferred.Description)
-                : UnitTypeEnum.Unknown;
-            
-            // Convert decimal factor to rational for exact arithmetic
-            var compositeFactorRational = Rational.FromDecimal(compositeFactor);
-            return new NormalizedUnit(compositeToken, compositeFactorRational, compositeUnitType, compositeSignature);
+            // Try composite parsing (new path for F-010)
+            var parser = CompositeParser.Instance;
+            if (parser.TryParse(unit, out var compositeSignature, out var compositeFactor))
+            {
+                // Create a synthetic token for the composite
+                var compositeToken = new UnitToken(unit);
+                
+                // Determine UnitType from signature
+                var knownMap = KnownSignatureMap.Instance;
+                var compositeUnitType = knownMap.TryGetPreferredUnit(compositeSignature, out var preferred)
+                    ? MapDescriptionToUnitType(preferred.Description)
+                    : UnitTypeEnum.Unknown;
+                
+                // Convert decimal factor to rational for exact arithmetic
+                var compositeFactorRational = Rational.FromDecimal(compositeFactor);
+                result = new NormalizedUnit(compositeToken, compositeFactorRational, compositeUnitType, compositeSignature);
+            }
+            else
+            {
+                // Neither catalog nor valid composite
+                throw new ArgumentException($"Unknown or malformed unit: '{unit}'");
+            }
         }
         
-        // Neither catalog nor valid composite
-        throw new ArgumentException($"Unknown or malformed unit: '{unit}'");
+        // Add to cache if not at capacity (simple size-based eviction)
+        // Note: MaxCacheEntries is tunable - increase if hit rate < 70% in production
+        if (_resolvedCache.Count < MaxCacheEntries)
+        {
+            _resolvedCache.TryAdd(unit, result);
+        }
+        
+        return result;
     }
 
     /// <summary>

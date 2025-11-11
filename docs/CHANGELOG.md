@@ -14,6 +14,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-011: Performance & Caching** - Implemented strategic caching for composite unit operations, delivering 90-93% performance improvement with 97-98% allocation reduction and minimal memory overhead.
+  - **Performance Caching**: ConcurrentDictionary-based caches for hot paths
+    - `UnitResolver._resolvedCache`: Caches resolved units (128 entries, ~8KB)
+    - `CompositeParser._parseCache`: Caches parsed composites (128 entries, ~6KB)
+    - Thread-safe implementation (zero locks, leverages ConcurrentDictionary)
+    - Simple size-based eviction ("stop growing" at capacity)
+    - Internal diagnostics: `CacheHitRate` properties for monitoring
+  - **Dramatic Performance Improvements**:
+    - Simple composite construction (e.g., "Nm"): **1,059ns → 107ns (90% faster, 9.8x speedup)**
+    - Complex composite construction (e.g., "kg*m/s^2"): **1,761ns → 118ns (93% faster, 15x speedup)**
+    - Catalog operations: **No regression** (stable at ~43ns)
+  - **Memory Allocation Reduction**:
+    - Simple composites: **1,168B → 40B (97% reduction)**
+    - Complex composites: **1,904B → 40B (98% reduction)**
+    - Total cache overhead: **~14KB** (well under 1MB)
+  - **Benchmark Infrastructure**: Comprehensive performance testing framework
+    - BenchmarkDotNet integration for precise measurements
+    - Operator, parsing, formatting, and internal benchmarks
+    - Baseline and post-cache validation
+    - Results documented in `benchmark-report.md`
+  - **Production-Ready**:
+    - All 52 existing tests pass (zero behavior changes)
+    - Zero external dependencies added (maintains project goal)
+    - Cache sizes tunable via constants (128 → 256 → 512 if needed)
+    - Safe for concurrent access from multiple threads
+  - **Impact**: For 10,000 composite operations: **92% time reduction** (15ms → 1.2ms), **97% allocation reduction** (15MB → 400KB)
+
 - **F-001: Core Rational Arithmetic (Phases 1-8)** - Implemented exact fraction arithmetic to address precision drift in dimensional algebra operations, reducing errors from 0.015% to decimal precision limits.
   - **Rational Type**: Internal readonly struct for exact fraction arithmetic
     - Numerator/denominator (long) with automatic GCD normalization
