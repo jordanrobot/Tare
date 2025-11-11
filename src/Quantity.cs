@@ -110,7 +110,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// - new Quantity(200, "Nm") → composite unit (slow path)
     /// - new Quantity(1500, "lbf*in") → composite unit (slow path)
     /// </remarks>
-    private Quantity(decimal value, string unit)
+    public Quantity(decimal value, string unit)
     {
         if (unit == null)
         {
@@ -162,6 +162,32 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             // Unknown signature - mark as Unknown
             UnitType = UnitTypeEnum.Unknown;
         }
+    }
+
+    /// <summary>
+    /// Creates a Quantity with the specified integer value and unit.
+    /// Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2").
+    /// </summary>
+    /// <param name="value">The integer value of the quantity.</param>
+    /// <param name="unit">The unit of measure (catalog or composite).</param>
+    /// <exception cref="ArgumentNullException">Thrown when unit is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when unit is empty, whitespace, or contains unknown base units.</exception>
+    /// <exception cref="FormatException">Thrown when composite unit syntax is malformed.</exception>
+    public Quantity(int value, string unit) : this((decimal)value, unit)
+    {
+    }
+
+    /// <summary>
+    /// Creates a Quantity with the specified double value and unit.
+    /// Supports both catalog units (e.g., "m", "kg") and composite units (e.g., "Nm", "lbf*in", "kg*m/s^2").
+    /// </summary>
+    /// <param name="value">The double value of the quantity.</param>
+    /// <param name="unit">The unit of measure (catalog or composite).</param>
+    /// <exception cref="ArgumentNullException">Thrown when unit is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when unit is empty, whitespace, or contains unknown base units.</exception>
+    /// <exception cref="FormatException">Thrown when composite unit syntax is malformed.</exception>
+    public Quantity(double value, string unit) : this((decimal)value, unit)
+    {
     }
 
     public static implicit operator Quantity(int d) => new(d);

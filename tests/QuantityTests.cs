@@ -162,4 +162,163 @@ public class QuantityTests
 
         Assert.That(test.Value, Is.EqualTo(304.8));
     }
+
+    #region Public Constructor Tests (F-012)
+
+    [Test]
+    public void Ctor_DecimalAndUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(12.5m, "in");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(12.5));
+        Assert.That(q.Unit, Is.EqualTo("in"));
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+    }
+
+    [Test]
+    public void Ctor_IntAndUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(12, "in");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(12));
+        Assert.That(q.Unit, Is.EqualTo("in"));
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Length));
+    }
+
+    [Test]
+    public void Ctor_DoubleAndUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(14.34, "lbf");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(14.34));
+        Assert.That(q.Unit, Is.EqualTo("lbf"));
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Force));
+    }
+
+    [Test]
+    public void Ctor_DecimalAndCompositeUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(200m, "Nm");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(200));
+        Assert.That(q.Unit, Is.EqualTo("Nm"));
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Energy));
+    }
+
+    [Test]
+    public void Ctor_IntAndCompositeUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(1500, "lbf*in");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(1500));
+        Assert.That(q.Unit, Is.EqualTo("in*lbf")); // Canonical name from catalog
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Energy));
+    }
+
+    [Test]
+    public void Ctor_DoubleAndCompositeUnit_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        var q = new Quantity(10.5, "m/s");
+
+        // Assert
+        Assert.That(q.Value, Is.EqualTo(10.5));
+        Assert.That(q.Unit, Is.EqualTo("m/s"));
+        Assert.That(q.UnitType, Is.EqualTo(UnitTypeEnum.Velocity));
+    }
+
+    [Test]
+    public void Ctor_NullUnit_ThrowsArgumentNullException()
+    {
+        // Arrange, Act & Assert
+        Assert.Throws<ArgumentNullException>(() => new Quantity(10, null));
+    }
+
+    [Test]
+    public void Ctor_EmptyUnit_ThrowsArgumentException()
+    {
+        // Arrange, Act & Assert
+        Assert.Throws<ArgumentException>(() => new Quantity(10, ""));
+    }
+
+    [Test]
+    public void Ctor_WhitespaceUnit_ThrowsArgumentException()
+    {
+        // Arrange, Act & Assert
+        Assert.Throws<ArgumentException>(() => new Quantity(10, "   "));
+    }
+
+    [Test]
+    public void Ctor_InvalidUnit_ThrowsArgumentException()
+    {
+        // Arrange, Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => new Quantity(10, "invalid_unit"));
+        Assert.That(ex.Message, Does.Contain("Unknown or malformed unit"));
+    }
+
+    [Test]
+    public void Ctor_MatchesParse_DecimalAndUnit()
+    {
+        // Arrange
+        var value = 12.5m;
+        var unit = "ft";
+
+        // Act
+        var qCtor = new Quantity(value, unit);
+        var qParse = Quantity.Parse(value, unit);
+
+        // Assert
+        Assert.That(qCtor.Value, Is.EqualTo(qParse.Value));
+        Assert.That(qCtor.Unit, Is.EqualTo(qParse.Unit));
+        Assert.That(qCtor.UnitType, Is.EqualTo(qParse.UnitType));
+        Assert.That(qCtor.Factor, Is.EqualTo(qParse.Factor));
+    }
+
+    [Test]
+    public void Ctor_MatchesParse_IntAndUnit()
+    {
+        // Arrange
+        var value = 100;
+        var unit = "kg";
+
+        // Act
+        var qCtor = new Quantity(value, unit);
+        var qParse = Quantity.Parse(value, unit);
+
+        // Assert
+        Assert.That(qCtor.Value, Is.EqualTo(qParse.Value));
+        Assert.That(qCtor.Unit, Is.EqualTo(qParse.Unit));
+        Assert.That(qCtor.UnitType, Is.EqualTo(qParse.UnitType));
+        Assert.That(qCtor.Factor, Is.EqualTo(qParse.Factor));
+    }
+
+    [Test]
+    public void Ctor_MatchesParse_DoubleAndUnit()
+    {
+        // Arrange
+        var value = 25.75;
+        var unit = "m";
+
+        // Act
+        var qCtor = new Quantity(value, unit);
+        var qParse = Quantity.Parse(value, unit);
+
+        // Assert
+        Assert.That(qCtor.Value, Is.EqualTo(qParse.Value));
+        Assert.That(qCtor.Unit, Is.EqualTo(qParse.Unit));
+        Assert.That(qCtor.UnitType, Is.EqualTo(qParse.UnitType));
+        Assert.That(qCtor.Factor, Is.EqualTo(qParse.Factor));
+    }
+
+    #endregion
 }
