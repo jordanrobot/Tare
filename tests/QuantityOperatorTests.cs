@@ -263,6 +263,17 @@ public class QuantityOperatorTests
         Assert.That(q1.Unit, Is.EqualTo(q2.Unit));
     }
 
+    [Test]
+    public void Divide_IntegerByQuantityWithUnits_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var length = Quantity.Parse("5 m");
+
+        // Act & Assert
+        var ex = Assert.Throws<InvalidOperationException>(() => _ = 10 / length);
+        Assert.That(ex!.Message, Does.Contain("Cannot divide integers by quantities with units"));
+    }
+
     #endregion
     #region Modulo
 
@@ -311,6 +322,18 @@ public class QuantityOperatorTests
         var q3 = 3.5 % q1;
         Assert.That(q3.Value, Is.EqualTo(3.5));
         Assert.That(q1.Unit, Is.EqualTo(q3.Unit));
+    }
+
+    [Test]
+    public void Modulo_IncompatibleUnits_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var length = Quantity.Parse("10 m");
+        var mass = Quantity.Parse("5 kg");
+
+        // Act & Assert
+        var ex = Assert.Throws<InvalidOperationException>(() => _ = length % mass);
+        Assert.That(ex!.Message, Does.Contain("incompatible units"));
     }
 
     #endregion
