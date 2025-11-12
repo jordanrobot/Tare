@@ -321,4 +321,431 @@ public class QuantityTests
     }
 
     #endregion
+
+    #region Value Type Consistency Tests (New Features)
+
+    [Test]
+    public void ImplicitConversion_FromString_CreatesValidQuantity()
+    {
+        // Arrange & Act
+        Quantity q1 = "10 m/s";
+
+        // Assert
+        Assert.That(q1.Value, Is.EqualTo(10));
+        Assert.That(q1.Unit, Is.EqualTo("m/s"));
+        Assert.That(q1.UnitType, Is.EqualTo(UnitTypeEnum.Velocity));
+    }
+
+    [Test]
+    public void ImplicitConversion_FromEmptyString_ReturnsDefaultQuantity()
+    {
+        // Arrange & Act
+        Quantity qdefault = "";
+
+        // Assert
+        Assert.That(qdefault.Value, Is.EqualTo(0));
+        Assert.That(qdefault.Unit, Is.EqualTo("ul"));
+        Assert.That(qdefault.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.IsTrue(qdefault.IsDefault());
+    }
+
+    [Test]
+    public void ImplicitConversion_FromNull_ReturnsDefaultQuantity()
+    {
+        // Arrange & Act
+        Quantity qnull = (string?)null;
+
+        // Assert
+        Assert.That(qnull.Value, Is.EqualTo(0));
+        Assert.That(qnull.Unit, Is.EqualTo("ul"));
+        Assert.That(qnull.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+        Assert.IsTrue(qnull.IsDefault());
+    }
+
+    [Test]
+    public void TryParse_IntAndUnit_Success()
+    {
+        // Arrange & Act
+        var q3successful = Quantity.TryParse(15, "m/s", out var q3);
+
+        // Assert
+        Assert.IsTrue(q3successful);
+        Assert.That(q3.Value, Is.EqualTo(15));
+        Assert.That(q3.Unit, Is.EqualTo("m/s"));
+        Assert.That(q3.UnitType, Is.EqualTo(UnitTypeEnum.Velocity));
+    }
+
+    [Test]
+    public void TryParse_IntAndInvalidUnit_ReturnsFalse()
+    {
+        // Arrange & Act
+        var successful = Quantity.TryParse(15, "invalid_unit", out var result);
+
+        // Assert
+        Assert.IsFalse(successful);
+        Assert.IsTrue(result.IsDefault());
+    }
+
+    [Test]
+    public void TryParse_ExistingStringMethod_StillWorks()
+    {
+        // Arrange & Act
+        var q2successful = Quantity.TryParse("12 m/s", out var q2);
+
+        // Assert
+        Assert.IsTrue(q2successful);
+        Assert.That(q2.Value, Is.EqualTo(12));
+        Assert.That(q2.Unit, Is.EqualTo("m/s"));
+    }
+
+    [Test]
+    public void Parse_ExistingMethods_StillWork()
+    {
+        // Arrange & Act
+        var q6 = Quantity.Parse("20 m/s");
+        var q7 = Quantity.Parse(25, "m/s");
+
+        // Assert
+        Assert.That(q6.Value, Is.EqualTo(20));
+        Assert.That(q6.Unit, Is.EqualTo("m/s"));
+        Assert.That(q7.Value, Is.EqualTo(25));
+        Assert.That(q7.Unit, Is.EqualTo("m/s"));
+    }
+
+    [Test]
+    public void MinValue_ReturnsMinimumDecimalValue()
+    {
+        // Arrange & Act
+        var min = Quantity.MinValue;
+
+        // Assert
+        Assert.That(min.Value, Is.EqualTo(decimal.MinValue));
+        Assert.That(min.Unit, Is.EqualTo("ul"));
+        Assert.That(min.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+    }
+
+    [Test]
+    public void MaxValue_ReturnsMaximumDecimalValue()
+    {
+        // Arrange & Act
+        var max = Quantity.MaxValue;
+
+        // Assert
+        Assert.That(max.Value, Is.EqualTo(decimal.MaxValue));
+        Assert.That(max.Unit, Is.EqualTo("ul"));
+        Assert.That(max.UnitType, Is.EqualTo(UnitTypeEnum.Scalar));
+    }
+
+    [Test]
+    public void IsPositive_PositiveValue_ReturnsTrue()
+    {
+        // Arrange
+        Quantity q1 = "10 m/s";
+
+        // Act & Assert
+        Assert.IsTrue(q1.IsPositive());
+        Assert.IsFalse(q1.IsNegative());
+    }
+
+    [Test]
+    public void IsPositive_NegativeValue_ReturnsFalse()
+    {
+        // Arrange
+        Quantity q = new Quantity(-5, "m");
+
+        // Act & Assert
+        Assert.IsFalse(q.IsPositive());
+        Assert.IsTrue(q.IsNegative());
+    }
+
+    [Test]
+    public void IsPositive_ZeroValue_ReturnsFalse()
+    {
+        // Arrange
+        Quantity q = new Quantity(0, "m");
+
+        // Act & Assert
+        Assert.IsFalse(q.IsPositive());
+        Assert.IsFalse(q.IsNegative());
+    }
+
+    [Test]
+    public void IsNegative_NegativeValue_ReturnsTrue()
+    {
+        // Arrange
+        Quantity q = Quantity.Parse(-15.5m, "kg");
+
+        // Act & Assert
+        Assert.IsTrue(q.IsNegative());
+        Assert.IsFalse(q.IsPositive());
+    }
+
+    [Test]
+    public void IsNegative_PositiveValue_ReturnsFalse()
+    {
+        // Arrange
+        Quantity q = Quantity.Parse(25.0, "ft");
+
+        // Act & Assert
+        Assert.IsFalse(q.IsNegative());
+        Assert.IsTrue(q.IsPositive());
+    }
+
+    [Test]
+    public void IsZero_ZeroValue_ReturnsTrue()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(0, "m");
+        Quantity q2 = Quantity.Default;
+
+        // Act & Assert
+        Assert.IsTrue(q1.IsZero());
+        Assert.IsTrue(q2.IsZero());
+    }
+
+    [Test]
+    public void IsZero_NonZeroValue_ReturnsFalse()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(1, "m");
+        Quantity q2 = new Quantity(-5.5m, "kg");
+
+        // Act & Assert
+        Assert.IsFalse(q1.IsZero());
+        Assert.IsFalse(q2.IsZero());
+    }
+
+    [Test]
+    public void UnaryNegation_PositiveValue_ReturnsNegative()
+    {
+        // Arrange
+        Quantity q = new Quantity(10, "m/s");
+
+        // Act
+        Quantity result = -q;
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(-10));
+        Assert.That(result.Unit, Is.EqualTo("m/s"));
+        Assert.IsTrue(result.IsNegative());
+    }
+
+    [Test]
+    public void UnaryNegation_NegativeValue_ReturnsPositive()
+    {
+        // Arrange
+        Quantity q = new Quantity(-25.5m, "kg");
+
+        // Act
+        Quantity result = -q;
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(25.5));
+        Assert.That(result.Unit, Is.EqualTo("kg"));
+        Assert.IsTrue(result.IsPositive());
+    }
+
+    [Test]
+    public void UnaryNegation_ZeroValue_ReturnsZero()
+    {
+        // Arrange
+        Quantity q = new Quantity(0, "m");
+
+        // Act
+        Quantity result = -q;
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(0));
+        Assert.IsTrue(result.IsZero());
+    }
+
+    [Test]
+    public void Abs_PositiveValue_ReturnsPositive()
+    {
+        // Arrange
+        Quantity q = new Quantity(15.5m, "m");
+
+        // Act
+        Quantity result = Quantity.Abs(q);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(15.5));
+        Assert.That(result.Unit, Is.EqualTo("m"));
+    }
+
+    [Test]
+    public void Abs_NegativeValue_ReturnsPositive()
+    {
+        // Arrange
+        Quantity q = new Quantity(-25.75m, "kg");
+
+        // Act
+        Quantity result = Quantity.Abs(q);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(25.75));
+        Assert.That(result.Unit, Is.EqualTo("kg"));
+        Assert.IsTrue(result.IsPositive());
+    }
+
+    [Test]
+    public void Abs_ZeroValue_ReturnsZero()
+    {
+        // Arrange
+        Quantity q = new Quantity(0, "m");
+
+        // Act
+        Quantity result = Quantity.Abs(q);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(0));
+        Assert.IsTrue(result.IsZero());
+    }
+
+    [Test]
+    public void Min_FirstSmaller_ReturnsFirst()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(5, "m");
+        Quantity q2 = new Quantity(10, "m");
+
+        // Act
+        Quantity result = Quantity.Min(q1, q2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(5));
+        Assert.That(result.Unit, Is.EqualTo("m"));
+    }
+
+    [Test]
+    public void Min_SecondSmaller_ReturnsSecond()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(100, "kg");
+        Quantity q2 = new Quantity(50, "kg");
+
+        // Act
+        Quantity result = Quantity.Min(q1, q2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(50));
+        Assert.That(result.Unit, Is.EqualTo("kg"));
+    }
+
+    [Test]
+    public void Min_DifferentUnits_ConvertsAndCompares()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(12, "in");  // 12 inches
+        Quantity q2 = new Quantity(1, "ft");   // 1 foot = 12 inches
+
+        // Act
+        Quantity result = Quantity.Min(q1, q2);
+
+        // Assert - both are equal, should return second (q2) since q1 < q2 is false
+        Assert.That(result.Value, Is.EqualTo(1));
+        Assert.That(result.Unit, Is.EqualTo("ft"));
+    }
+
+    [Test]
+    public void Min_IncompatibleUnits_ThrowsException()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(5, "m");
+        Quantity q2 = new Quantity(10, "kg");
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => Quantity.Min(q1, q2));
+    }
+
+    [Test]
+    public void Max_FirstLarger_ReturnsFirst()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(20, "m");
+        Quantity q2 = new Quantity(10, "m");
+
+        // Act
+        Quantity result = Quantity.Max(q1, q2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(20));
+        Assert.That(result.Unit, Is.EqualTo("m"));
+    }
+
+    [Test]
+    public void Max_SecondLarger_ReturnsSecond()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(50, "kg");
+        Quantity q2 = new Quantity(100, "kg");
+
+        // Act
+        Quantity result = Quantity.Max(q1, q2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(100));
+        Assert.That(result.Unit, Is.EqualTo("kg"));
+    }
+
+    [Test]
+    public void Max_IncompatibleUnits_ThrowsException()
+    {
+        // Arrange
+        Quantity q1 = new Quantity(5, "m");
+        Quantity q2 = new Quantity(10, "kg");
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => Quantity.Max(q1, q2));
+    }
+
+    [Test]
+    public void TryParse_DecimalAndUnit_Success()
+    {
+        // Arrange & Act
+        var successful = Quantity.TryParse(15.75m, "m/s", out var result);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.That(result.Value, Is.EqualTo(15.75));
+        Assert.That(result.Unit, Is.EqualTo("m/s"));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Velocity));
+    }
+
+    [Test]
+    public void TryParse_DecimalAndInvalidUnit_ReturnsFalse()
+    {
+        // Arrange & Act
+        var successful = Quantity.TryParse(15.75m, "invalid_unit", out var result);
+
+        // Assert
+        Assert.IsFalse(successful);
+        Assert.IsTrue(result.IsDefault());
+    }
+
+    [Test]
+    public void TryParse_DoubleAndUnit_Success()
+    {
+        // Arrange & Act
+        var successful = Quantity.TryParse(20.5, "kg", out var result);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.That(result.Value, Is.EqualTo(20.5));
+        Assert.That(result.Unit, Is.EqualTo("kg"));
+        Assert.That(result.UnitType, Is.EqualTo(UnitTypeEnum.Mass));
+    }
+
+    [Test]
+    public void TryParse_DoubleAndInvalidUnit_ReturnsFalse()
+    {
+        // Arrange & Act
+        var successful = Quantity.TryParse(20.5, "invalid_unit", out var result);
+
+        // Assert
+        Assert.IsFalse(successful);
+        Assert.IsTrue(result.IsDefault());
+    }
+
+    #endregion
 }
