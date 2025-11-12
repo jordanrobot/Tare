@@ -193,6 +193,21 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public static implicit operator Quantity(int d) => new(d);
     public static implicit operator Quantity(decimal d) => new(d);
     public static implicit operator Quantity(double d) => new((decimal)d);
+    
+    /// <summary>
+    /// Implicitly converts a string representation of a quantity to a Quantity value.
+    /// </summary>
+    /// <param name="s">A string containing a number and optionally a unit of measure. 
+    /// An empty string returns the default Quantity value. Null returns the default Quantity value.</param>
+    /// <returns>A Quantity object. Returns default Quantity for empty or null strings.</returns>
+    public static implicit operator Quantity(string? s)
+    {
+        if (string.IsNullOrEmpty(s))
+        {
+            return Quantity.Default;
+        }
+        return new Quantity(s);
+    }
     #endregion
 
     private decimal BaseValue { get => Value * Factor; }
@@ -212,6 +227,16 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// Returns the default Quantity of "0 ul".
     /// </summary>
     public static Quantity Default { get => new(); }
+
+    /// <summary>
+    /// Represents the smallest possible value of a Quantity.
+    /// </summary>
+    public static Quantity MinValue { get => new(decimal.MinValue); }
+
+    /// <summary>
+    /// Represents the largest possible value of a Quantity.
+    /// </summary>
+    public static Quantity MaxValue { get => new(decimal.MaxValue); }
 
     /// <summary>
     /// A string representation of the Quantity's units of measure.
@@ -356,6 +381,18 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public bool IsUnknown() => UnitType == UnitTypeEnum.Unknown;
 
     /// <summary>
+    /// Check if the Quantity value is positive (greater than zero).
+    /// </summary>
+    /// <returns>Returns true if the Quantity value is positive. Returns false otherwise.</returns>
+    public bool IsPositive() => Value > 0;
+
+    /// <summary>
+    /// Check if the Quantity value is negative (less than zero).
+    /// </summary>
+    /// <returns>Returns true if the Quantity value is negative. Returns false otherwise.</returns>
+    public bool IsNegative() => Value < 0;
+
+    /// <summary>
     /// Converts the string representation of a quantity to its Quantity equivalent.
     /// </summary>
     /// <param name="input">A string containing a number and optionally a unit of measure.</param>
@@ -409,6 +446,27 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         try
         {
             result = new Quantity(input);
+            return true;
+        }
+        catch
+        {
+            result = Quantity.Default;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded.
+    /// </summary>
+    /// <param name="value">An integer value for the quantity.</param>
+    /// <param name="unit">A string containing the unit of measure.</param>
+    /// <param name="result">A Quantity object containing the Quantity equivalent.</param>
+    /// <returns>true if the conversion succeeded; otherwise, false.</returns>
+    public static bool TryParse(int value, string unit, out Quantity result)
+    {
+        try
+        {
+            result = new Quantity(value, unit);
             return true;
         }
         catch
