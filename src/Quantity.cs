@@ -393,6 +393,48 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public bool IsNegative() => Value < 0;
 
     /// <summary>
+    /// Check if the Quantity value is zero.
+    /// </summary>
+    /// <returns>Returns true if the Quantity value is zero. Returns false otherwise.</returns>
+    public bool IsZero() => Value == 0;
+
+    /// <summary>
+    /// Returns the absolute value of a Quantity.
+    /// </summary>
+    /// <param name="value">A Quantity value.</param>
+    /// <returns>A Quantity with the absolute value.</returns>
+    public static Quantity Abs(Quantity value)
+        => new Quantity(Math.Abs(value.Value), value.Unit);
+
+    /// <summary>
+    /// Returns the smaller of two Quantity values. Both quantities must have compatible units.
+    /// </summary>
+    /// <param name="q1">The first Quantity to compare.</param>
+    /// <param name="q2">The second Quantity to compare.</param>
+    /// <returns>The smaller of the two Quantities.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible units.</exception>
+    public static Quantity Min(Quantity q1, Quantity q2)
+    {
+        if (!AreCompatible(q1, q2))
+            throw new InvalidOperationException("Cannot compare quantities with incompatible units.");
+        return q1 < q2 ? q1 : q2;
+    }
+
+    /// <summary>
+    /// Returns the larger of two Quantity values. Both quantities must have compatible units.
+    /// </summary>
+    /// <param name="q1">The first Quantity to compare.</param>
+    /// <param name="q2">The second Quantity to compare.</param>
+    /// <returns>The larger of the two Quantities.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible units.</exception>
+    public static Quantity Max(Quantity q1, Quantity q2)
+    {
+        if (!AreCompatible(q1, q2))
+            throw new InvalidOperationException("Cannot compare quantities with incompatible units.");
+        return q1 > q2 ? q1 : q2;
+    }
+
+    /// <summary>
     /// Converts the string representation of a quantity to its Quantity equivalent.
     /// </summary>
     /// <param name="input">A string containing a number and optionally a unit of measure.</param>
@@ -463,6 +505,48 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <param name="result">A Quantity object containing the Quantity equivalent.</param>
     /// <returns>true if the conversion succeeded; otherwise, false.</returns>
     public static bool TryParse(int value, string unit, out Quantity result)
+    {
+        try
+        {
+            result = new Quantity(value, unit);
+            return true;
+        }
+        catch
+        {
+            result = Quantity.Default;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded.
+    /// </summary>
+    /// <param name="value">A decimal value for the quantity.</param>
+    /// <param name="unit">A string containing the unit of measure.</param>
+    /// <param name="result">A Quantity object containing the Quantity equivalent.</param>
+    /// <returns>true if the conversion succeeded; otherwise, false.</returns>
+    public static bool TryParse(decimal value, string unit, out Quantity result)
+    {
+        try
+        {
+            result = new Quantity(value, unit);
+            return true;
+        }
+        catch
+        {
+            result = Quantity.Default;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded.
+    /// </summary>
+    /// <param name="value">A double value for the quantity.</param>
+    /// <param name="unit">A string containing the unit of measure.</param>
+    /// <param name="result">A Quantity object containing the Quantity equivalent.</param>
+    /// <returns>true if the conversion succeeded; otherwise, false.</returns>
+    public static bool TryParse(double value, string unit, out Quantity result)
     {
         try
         {
@@ -568,6 +652,14 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             throw new InvalidOperationException("Cannot add quantities of incompatible units.");
         }
     }
+
+    /// <summary>
+    /// Negates the specified Quantity value (unary negation).
+    /// </summary>
+    /// <param name="q">The quantity to negate.</param>
+    /// <returns>The result of negating the Quantity.</returns>
+    public static Quantity operator -(Quantity q)
+        => new Quantity(-q.Value, q.Unit);
 
     #endregion
     #region Multiplication Operators

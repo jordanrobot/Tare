@@ -37,6 +37,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Methods | |
 | :--- | :--- |
+| [Abs(Quantity)](Tare.Quantity.Abs(Tare.Quantity).md 'Tare.Quantity.Abs(Tare.Quantity)') | Returns the absolute value of a Quantity. |
 | [AreCompatible(Quantity, Quantity)](Tare.Quantity.AreCompatible(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.AreCompatible(Tare.Quantity, Tare.Quantity)') | Compare the Unit Types of two Quantity objects. Compatible units can be operated upon by some mathematical operators. |
 | [CompareTo(object)](Tare.Quantity.CompareTo(object).md 'Tare.Quantity.CompareTo(object)') | Compares the provided object to the current Quantity object. |
 | [Convert(string)](Tare.Quantity.Convert(string).md 'Tare.Quantity.Convert(string)') | Represents the Quantity value as a decimal in the specified units. |
@@ -45,13 +46,18 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [IsNegative()](Tare.Quantity.IsNegative().md 'Tare.Quantity.IsNegative()') | Check if the Quantity value is negative (less than zero). |
 | [IsPositive()](Tare.Quantity.IsPositive().md 'Tare.Quantity.IsPositive()') | Check if the Quantity value is positive (greater than zero). |
 | [IsUnknown()](Tare.Quantity.IsUnknown().md 'Tare.Quantity.IsUnknown()') | Check if the Quantity unit is unknown. |
+| [IsZero()](Tare.Quantity.IsZero().md 'Tare.Quantity.IsZero()') | Check if the Quantity value is zero. |
 | [MapDescriptionToUnitType(string)](Tare.Quantity.MapDescriptionToUnitType(string).md 'Tare.Quantity.MapDescriptionToUnitType(string)') | Maps a PreferredUnit description to its corresponding UnitTypeEnum. |
+| [Max(Quantity, Quantity)](Tare.Quantity.Max(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.Max(Tare.Quantity, Tare.Quantity)') | Returns the larger of two Quantity values. Both quantities must have compatible units. |
+| [Min(Quantity, Quantity)](Tare.Quantity.Min(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.Min(Tare.Quantity, Tare.Quantity)') | Returns the smaller of two Quantity values. Both quantities must have compatible units. |
 | [Parse(decimal, string)](Tare.Quantity.Parse(decimal,string).md 'Tare.Quantity.Parse(decimal, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(double, string)](Tare.Quantity.Parse(double,string).md 'Tare.Quantity.Parse(double, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(int, string)](Tare.Quantity.Parse(int,string).md 'Tare.Quantity.Parse(int, string)') | Converts the decimal and string representations of a quantity to its Quantity equivalent. |
 | [Parse(string)](Tare.Quantity.Parse(string).md 'Tare.Quantity.Parse(string)') | Converts the string representation of a quantity to its Quantity equivalent. |
 | [ResolveUnitName(DimensionSignature)](Tare.Quantity.ResolveUnitName(Tare.Internal.Units.DimensionSignature).md 'Tare.Quantity.ResolveUnitName(Tare.Internal.Units.DimensionSignature)') | Resolves a dimension signature to a preferred unit name. |
 | [ToString()](Tare.Quantity.ToString().md 'Tare.Quantity.ToString()') | Converts the numberic value and defining unit of measure to its string equivalent. |
+| [TryParse(decimal, string, Quantity)](Tare.Quantity.TryParse(decimal,string,Tare.Quantity).md 'Tare.Quantity.TryParse(decimal, string, Tare.Quantity)') | Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded. |
+| [TryParse(double, string, Quantity)](Tare.Quantity.TryParse(double,string,Tare.Quantity).md 'Tare.Quantity.TryParse(double, string, Tare.Quantity)') | Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded. |
 | [TryParse(int, string, Quantity)](Tare.Quantity.TryParse(int,string,Tare.Quantity).md 'Tare.Quantity.TryParse(int, string, Tare.Quantity)') | Converts the numeric value and unit string to its Quantity equivalent. A return value indicates whether the conversion succeeded. |
 | [TryParse(string, Quantity)](Tare.Quantity.TryParse(string,Tare.Quantity).md 'Tare.Quantity.TryParse(string, Tare.Quantity)') | Converts the string representation of a quantity to its Quantity equivalent. A return value indicates whether the conversion succeeded. |
 
@@ -84,3 +90,4 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [operator *(Quantity, int)](Tare.Quantity.op_Multiply(Tare.Quantity,int).md 'Tare.Quantity.op_Multiply(Tare.Quantity, int)') | Multiplies a Quantity values with an integer value.<br/><returns>The result of multiplying q and i.</returns> |
 | [operator *(Quantity, Quantity)](Tare.Quantity.op_Multiply(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.op_Multiply(Tare.Quantity, Tare.Quantity)') | Multiplies two specified Quantity values using dimensional algebra. |
 | [operator -(Quantity, Quantity)](Tare.Quantity.op_Subtraction(Tare.Quantity,Tare.Quantity).md 'Tare.Quantity.op_Subtraction(Tare.Quantity, Tare.Quantity)') | Subtracts two specified Quantity values; will only subtract two Quantities with compatible units.<br/><returns>The result of subtracting q2 from q1.</returns> |
+| [operator -(Quantity)](Tare.Quantity.op_UnaryNegation(Tare.Quantity).md 'Tare.Quantity.op_UnaryNegation(Tare.Quantity)') | Negates the specified Quantity value (unary negation). |
