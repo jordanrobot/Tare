@@ -14,6 +14,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-012: Error Handling & Diagnostics** - Standardized exception handling and enhanced error messages across the library for improved developer experience.
+  - **Critical Bug Fixes**:
+    - Fixed null handling in `CompositeParser.TryParse()` - now returns false instead of throwing for null/whitespace input
+  - **Error Message Standardization**:
+    - Consistent format: "Cannot [action]. [Reason]. [Optional guidance]."
+    - Uses ubiquitous language: Quantity, Unit, Catalog, Composite, Dimension, Signature
+    - Enhanced messages with actionable guidance (e.g., "Use UnitDefinitions.IsValidUnit() to check validity")
+  - **Improved Messages**:
+    - Fixed subtraction operator message (was incorrectly saying "add")
+    - Corrected typo in modulo operation error ("dissimmilar" → "incompatible")
+    - Added proper capitalization and consistency across all error messages
+  - **Enhanced Test Coverage**:
+    - Added test for modulo with incompatible units
+    - Added test for integer division by quantity with units
+    - All 500 tests passing with comprehensive exception path coverage
+  - **Quality Improvements**:
+    - All exception messages now use consistent terminology
+    - No breaking changes to public API
+    - Exception types remain standard .NET exceptions
+
 - **F-011: Performance & Caching** - Implemented strategic caching for composite unit operations, delivering 90-93% performance improvement with 97-98% allocation reduction and minimal memory overhead.
   - **Performance Caching**: ConcurrentDictionary-based caches for hot paths
     - `UnitResolver._resolvedCache`: Caches resolved units (128 entries, ~8KB)

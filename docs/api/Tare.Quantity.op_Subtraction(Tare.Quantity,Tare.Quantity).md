@@ -21,3 +21,8 @@ public static Tare.Quantity operator -(Tare.Quantity q1, Tare.Quantity q2);
 
 #### Returns
 [Quantity](Tare.Quantity.md 'Tare.Quantity')
+
+#### Exceptions
+
+[System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
+Thrown when the quantities have incompatible units (e.g., subtracting Mass from Length).

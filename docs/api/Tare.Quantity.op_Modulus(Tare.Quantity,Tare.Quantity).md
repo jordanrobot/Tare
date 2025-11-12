@@ -3,7 +3,7 @@
 
 ## Quantity.operator %(Quantity, Quantity) Operator
 
-Returns an exception from attempting to perform a modulo operation on two Quantity values.  
+Returns the remainder from performing a modulo operation on two Quantity values with compatible units.  
 <returns>The remainder result from dividing q1 by q2.</returns>
 
 ```csharp
@@ -21,3 +21,8 @@ public static Tare.Quantity operator %(Tare.Quantity q1, Tare.Quantity q2);
 
 #### Returns
 [Quantity](Tare.Quantity.md 'Tare.Quantity')
+
+#### Exceptions
+
+[System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
+Thrown when the quantities have incompatible unit types.

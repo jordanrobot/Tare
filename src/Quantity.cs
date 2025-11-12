@@ -623,6 +623,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// Adds two specified Quantity values; will only add two Quantities with compatible units.
     /// <returns>The result of adding q1 and q2.</returns>
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible units (e.g., adding Length to Mass).</exception>
     public static Quantity operator +(Quantity q1, Quantity q2)
     {
         if (AreCompatible(q1, q2))
@@ -640,6 +641,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// Subtracts two specified Quantity values; will only subtract two Quantities with compatible units.
     /// <returns>The result of subtracting q2 from q1.</returns>
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible units (e.g., subtracting Mass from Length).</exception>
     public static Quantity operator -(Quantity q1, Quantity q2)
     {
         if (AreCompatible(q1, q2))
@@ -841,6 +843,11 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public static Quantity operator /(Quantity q, int i)
             => new(q.Value / i, q.Unit);
 
+    /// <summary>
+    /// Divides an integer by a scalar Quantity.
+    /// <returns>The result of dividing i by q.</returns>
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when attempting to divide an integer by a quantity with units (non-scalar).</exception>
     public static Quantity operator /(int i, Quantity q)
     {
         if (q.UnitType == UnitTypeEnum.Scalar)
@@ -873,9 +880,10 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     #region Modulo Operators
 
     /// <summary>
-    /// Returns an exception from attempting to perform a modulo operation on two Quantity values.
+    /// Returns the remainder from performing a modulo operation on two Quantity values with compatible units.
     /// <returns>The remainder result from dividing q1 by q2.</returns>
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible unit types.</exception>
     public static Quantity operator %(Quantity q1, Quantity q2)
     {
         if(q1.UnitType == q2.UnitType)
