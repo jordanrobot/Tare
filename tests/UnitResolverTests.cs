@@ -72,7 +72,7 @@ public class UnitResolverTests
     {
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => _resolver.Normalize("unknownunit"));
-        Assert.That(ex!.Message, Does.Contain("No matching unit"));
+        Assert.That(ex!.Message, Does.Contain("Unknown unit"));
     }
 
     [Test]

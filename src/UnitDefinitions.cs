@@ -65,7 +65,7 @@ public static class UnitDefinitions
         if (_aliasIndex.TryGetValue(unit, out var definition))
             return definition;
 
-        throw new ArgumentException("No matching unit " + unit + " was found.");
+        throw new ArgumentException($"Unknown unit: '{unit}'. Unit must be a valid catalog unit. Use UnitDefinitions.IsValidUnit() to check validity.", nameof(unit));
     }
 
     /// <summary>

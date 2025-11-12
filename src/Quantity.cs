@@ -649,7 +649,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         }
         else
         {
-            throw new InvalidOperationException("Cannot add quantities of incompatible units.");
+            throw new InvalidOperationException("Cannot subtract quantities with incompatible units.");
         }
     }
 
@@ -846,7 +846,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         if (q.UnitType == UnitTypeEnum.Scalar)
             return new(i / q.Value, q.Unit);
         else
-            throw new InvalidOperationException("Cannot divide integers by quantities with units");
+            throw new InvalidOperationException("Cannot divide integers by quantities with units.");
     }
 
     /// <summary>
@@ -885,7 +885,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             return new Quantity(temp, q1.Unit);
         } else
             throw new InvalidOperationException(
-                "Cannot perform a modulo operation on two dissimmilar units of measures.");
+                "Cannot perform modulo operation on quantities with incompatible units.");
     }
 
     /// <summary>
