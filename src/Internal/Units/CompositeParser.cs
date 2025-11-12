@@ -71,6 +71,14 @@ internal sealed class CompositeParser : ICompositeParser
     /// <inheritdoc/>
     public bool TryParse(string compositeUnit, out DimensionSignature signature, out decimal factor)
     {
+        // Guard against null/empty input before cache access
+        if (string.IsNullOrWhiteSpace(compositeUnit))
+        {
+            signature = DimensionSignature.Dimensionless;
+            factor = 1m;
+            return false;
+        }
+        
         // Check cache first (F-011 performance optimization)
         if (_parseCache.TryGetValue(compositeUnit, out var cachedResult))
         {
