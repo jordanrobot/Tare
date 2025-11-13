@@ -115,6 +115,73 @@ Tare supports a wide variety of units across many dimensions:
 - **Volume**: m³, L, mL, gal, qt, pt, cup
 - **And many more...**
 
+### Helper Methods (F-013)
+
+Tare provides helper methods for introspection, normalization, validation, and unit discovery:
+
+#### Introspection
+
+Check dimension information at runtime:
+
+```csharp
+var force = Quantity.Parse("10 N");
+
+// Get dimension signature (L¹M¹T⁻² for force)
+var signature = force.GetSignature();
+Console.WriteLine($"Force: L^{signature.Length} M^{signature.Mass} T^{signature.Time}");
+// Output: "Force: L^1 M^1 T^-2"
+
+// Check if dimension is recognized
+if (force.IsKnownDimension())
+{
+    var description = force.GetDimensionDescription();
+    Console.WriteLine($"Dimension: {description}");
+    // Output: "Dimension: Force"
+}
+```
+
+#### Normalization
+
+Convert to standard representations:
+
+```csharp
+var pressure = Quantity.Parse("14.7 psi");
+
+// Convert to SI base units
+var baseUnits = pressure.ToBaseUnits();
+Console.WriteLine(baseUnits);  // "101352.9 kg/(m·s^2)"
+
+// Convert to canonical (preferred) unit
+var canonical = pressure.ToCanonical();
+Console.WriteLine(canonical);  // "101352.9 Pa"
+```
+
+#### Validation and Discovery
+
+Validate unit strings and discover available units for UI scenarios:
+
+```csharp
+// Validate user input (works with both "m" and "12 m")
+string userInput = GetUserInput();
+
+if (Quantity.ContainsValidUnit(userInput))
+{
+    var q = Quantity.Parse(userInput);
+    // ... use quantity
+}
+else
+{
+    Console.WriteLine($"Invalid unit: {userInput}");
+}
+
+// Get units for UI dropdowns
+var lengthUnits = Quantity.GetUnitsForType(UnitTypeEnum.Length);
+foreach (var unit in lengthUnits)
+{
+    comboBox.Items.Add(unit);  // Adds: "cm", "ft", "in", "km", "m", ...
+}
+```
+
 ## Advanced Features
 
 ### Type-Safe Operations
