@@ -29,6 +29,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DefaultDocumentationFolder>..\docs\api\</DefaultDocumentationFolder>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
   <!-- Nuget package info -->
   <PropertyGroup>
@@ -40,7 +42,8 @@
     <AssemblyName>Tare</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>A simple, dynamic library for units of measure.</Description>
-    <IncludeSymbols>False</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jordanrobot/Tare</RepositoryUrl>
     <PackageTags>unit, units, , unit conversion, units of measure, measurement, quantity, quantities, physical quantities, metrology</PackageTags>
@@ -49,9 +52,9 @@
   </PropertyGroup>
   <!-- Build stuff -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 </Project>
