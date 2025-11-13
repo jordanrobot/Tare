@@ -3,7 +3,7 @@
 
 ## Quantity.ToString() Method
 
-Converts the numberic value and defining unit of measure to its string equivalent.
+Converts the numeric value and defining unit of measure to its string equivalent.
 
 ```csharp
 public override string ToString();
