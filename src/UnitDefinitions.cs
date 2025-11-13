@@ -78,6 +78,26 @@ public static class UnitDefinitions
         return _aliasIndex.TryGetValue(unit, out var def) ? def.UnitType : UnitTypeEnum.Unknown;
     }
 
+    /// <summary>
+    /// Gets a list of all catalog unit definitions for a specified dimension type.
+    /// Useful for unit discovery and populating UI dropdowns.
+    /// </summary>
+    /// <param name="unitType">The dimension type to query (e.g., Length, Mass, Time).</param>
+    /// <returns>
+    /// Read-only list of unit definitions for the specified type.
+    /// Returns empty list for Unknown type or if no units are defined for the type.
+    /// </returns>
+    public static IReadOnlyList<UnitDefinition> GetUnitsForType(UnitTypeEnum unitType)
+    {
+        if (unitType == UnitTypeEnum.Unknown)
+            return Array.Empty<UnitDefinition>();
+        
+        if (_typeIndex.TryGetValue(unitType, out var units))
+            return units;
+        
+        return Array.Empty<UnitDefinition>();
+    }
+
     private static IEnumerable<UnitDefinition> Definitions = new List<UnitDefinition>()
         {
             // Scalar/Dimensionless units

@@ -1068,4 +1068,236 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             _ => UnitTypeEnum.Unknown
         };
     }
+
+    #region Helper Methods (F-013)
+
+    /// <summary>
+    /// Gets the dimension signature of this quantity, representing its dimensional composition
+    /// using exponents over the seven SI base dimensions (L, M, T, I, Θ, N, J).
+    /// </summary>
+    /// <returns>
+    /// The dimension signature. For catalog units, resolves via UnitResolver.
+    /// For composite units, uses the cached signature from CompositeParser.
+    /// </returns>
+    /// <remarks>
+    /// Examples:
+    /// - "m" → Length(1), others(0)
+    /// - "N" → Length(1), Mass(1), Time(-2), others(0)
+    /// - "Nm" → Length(2), Mass(1), Time(-2), others(0)
+    /// </remarks>
+    public DimensionSignature GetSignature()
+    {
+        // Fast path: catalog unit
+        if (UnitDefinitions.IsValidUnit(Unit))
+        {
+            var resolved = UnitResolver.Instance.Resolve(Unit);
+            return resolved.Signature;
+        }
+        
+        // Slow path: composite unit
+        var parser = CompositeParser.Instance;
+        if (parser.TryParse(Unit, out var signature, out _))
+        {
+            return signature;
+        }
+        
+        // Fallback: dimensionless (shouldn't reach here for valid quantities)
+        return DimensionSignature.Dimensionless;
+    }
+
+    /// <summary>
+    /// Determines whether this quantity's dimension is recognized in the known signature map.
+    /// Known dimensions include standard physical quantities like Force, Energy, Pressure, etc.
+    /// </summary>
+    /// <returns>
+    /// True if the dimension is known and has a preferred canonical unit; otherwise, false.
+    /// </returns>
+    /// <remarks>
+    /// Known dimensions include:
+    /// - Base: Length, Mass, Time, Electric Current, Temperature, Amount of Substance, Luminous Intensity
+    /// - Geometric: Area, Volume
+    /// - Kinematic: Velocity, Acceleration, Jerk
+    /// - Dynamic: Force, Momentum, Energy, Power, Pressure, Torque
+    /// </remarks>
+    public bool IsKnownDimension()
+    {
+        var signature = GetSignature();
+        return KnownSignatureMap.Instance.IsKnown(signature);
+    }
+
+    /// <summary>
+    /// Gets a human-readable description of this quantity's dimension.
+    /// Returns null if the dimension is not recognized.
+    /// </summary>
+    /// <returns>
+    /// Description string (e.g., "Force", "Energy", "Pressure") or null if unknown.
+    /// </returns>
+    /// <remarks>
+    /// Use <see cref="IsKnownDimension"/> to check before calling if you need to handle unknown dimensions explicitly.
+    /// </remarks>
+    public string? GetDimensionDescription()
+    {
+        var signature = GetSignature();
+        if (KnownSignatureMap.Instance.TryGetPreferredUnit(signature, out var preferred))
+        {
+            return preferred.Description;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Converts this quantity to its representation in SI base units.
+    /// For quantities with composite dimensions, returns the composite base form.
+    /// </summary>
+    /// <returns>
+    /// A new quantity with the same magnitude expressed in SI base units.
+    /// Base units: m (length), kg (mass), s (time), A (current), K (temperature), 
+    /// mol (substance), cd (luminous intensity).
+    /// </returns>
+    /// <remarks>
+    /// Examples:
+    /// - 10 km → 10000 m
+    /// - 5 N → 5 kg·m/s^2
+    /// - 100 psi → 689475.7 kg/(m·s^2)
+    /// </remarks>
+    public Quantity ToBaseUnits()
+    {
+        var signature = GetSignature();
+        
+        // Get base value by converting through factor
+        var baseValue = BaseValue;
+        
+        // Format signature as composite base unit string
+        var formatter = CompositeFormatter.Instance;
+        var baseUnitString = formatter.Format(signature);
+        
+        // Handle dimensionless case (empty unit string)
+        if (string.IsNullOrEmpty(baseUnitString))
+        {
+            return new Quantity(baseValue);
+        }
+        
+        return new Quantity(baseValue, baseUnitString);
+    }
+
+    /// <summary>
+    /// Converts this quantity to its canonical (preferred) unit representation.
+    /// Uses the known signature map to determine the preferred unit for recognized dimensions.
+    /// For unknown dimensions, returns the quantity unchanged.
+    /// </summary>
+    /// <returns>
+    /// A new quantity with the same magnitude expressed in the canonical unit.
+    /// For unknown dimensions, returns a copy of this quantity.
+    /// </returns>
+    /// <remarks>
+    /// Canonical units follow SI-first policy:
+    /// - Force → N (newton)
+    /// - Energy → J (joule) or Nm (newton-meter)
+    /// - Pressure → Pa (pascal)
+    /// - Torque → Nm (newton-meter)
+    /// - Power → W (watt)
+    /// </remarks>
+    public Quantity ToCanonical()
+    {
+        var signature = GetSignature();
+        
+        if (!KnownSignatureMap.Instance.TryGetPreferredUnit(signature, out var preferred))
+        {
+            // Unknown dimension - return copy unchanged
+            return this;
+        }
+        
+        // Convert to preferred unit using existing As logic
+        return this.As(preferred.CanonicalName);
+    }
+
+    /// <summary>
+    /// Determines whether the specified string contains a valid unit.
+    /// Handles both formats: unit-only ("m", "lbf") and value-with-unit ("12 in", "5.5 kg").
+    /// This method does not throw exceptions.
+    /// </summary>
+    /// <param name="input">The string to validate (e.g., "m", "12 in", "lbf*in").</param>
+    /// <returns>
+    /// True if the string contains a valid catalog unit or a well-formed composite unit; otherwise, false.
+    /// Returns false for null, empty, or whitespace strings.
+    /// </returns>
+    /// <remarks>
+    /// Use this method to validate user input before constructing quantities.
+    /// 
+    /// Validation process:
+    /// 1. Extract unit portion from input (handles "12 in" → "in")
+    /// 2. Check if unit is in catalog (fast path, O(1))
+    /// 3. If not in catalog, try parsing as composite unit (slow path)
+    /// 
+    /// Implementation Note:
+    /// Reuses the same static UnitsPattern regex from Quantity.Parse for consistency
+    /// and performance (avoids creating new Regex instances on each call).
+    /// 
+    /// Examples:
+    /// - ContainsValidUnit("m") → true (catalog unit)
+    /// - ContainsValidUnit("12 in") → true (extracts "in")
+    /// - ContainsValidUnit("lbf*in") → true (composite unit)
+    /// - ContainsValidUnit("xyz") → false (unknown)
+    /// </remarks>
+    public static bool ContainsValidUnit(string? input)
+    {
+        // Null or empty check
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+        
+        // Extract unit portion if input contains numeric value
+        // Reuse the same static UnitsPattern from the Quantity class for consistency
+        string unitPortion = input;
+        
+        if (UnitsPattern.IsMatch(input))
+        {
+            unitPortion = UnitsPattern.Match(input).Value.Trim();
+        }
+        
+        // Fast path: catalog unit
+        if (UnitDefinitions.IsValidUnit(unitPortion))
+            return true;
+        
+        // Slow path: try parsing as composite
+        var parser = CompositeParser.Instance;
+        return parser.TryParse(unitPortion, out _, out _);
+    }
+
+    /// <summary>
+    /// Gets a list of all catalog unit names for a specified dimension type.
+    /// Useful for populating UI dropdowns and selection lists.
+    /// </summary>
+    /// <param name="unitType">The dimension type to query (e.g., Length, Mass, Time).</param>
+    /// <returns>
+    /// Read-only list of unit names (canonical names, not aliases).
+    /// Returns empty list for Unknown type.
+    /// </returns>
+    /// <remarks>
+    /// Only returns catalog units, not composite units.
+    /// Results are sorted alphabetically for UI display.
+    /// 
+    /// Example usage:
+    /// <code>
+    /// var lengthUnits = Quantity.GetUnitsForType(UnitTypeEnum.Length);
+    /// // Returns: ["cm", "ft", "in", "km", "m", "mi", "mm", "yd", ...]
+    /// 
+    /// foreach (var unit in lengthUnits)
+    /// {
+    ///     comboBox.Items.Add(unit);
+    /// }
+    /// </code>
+    /// </remarks>
+    public static IReadOnlyList<string> GetUnitsForType(UnitTypeEnum unitType)
+    {
+        if (unitType == UnitTypeEnum.Unknown)
+            return Array.Empty<string>();
+        
+        // Query UnitDefinitions type index
+        var units = UnitDefinitions.GetUnitsForType(unitType);
+        
+        // Return sorted canonical names
+        return units.Select(u => u.Name).OrderBy(n => n).ToList();
+    }
+
+    #endregion
 }

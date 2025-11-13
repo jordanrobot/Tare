@@ -8,7 +8,7 @@ over the seven SI base dimensions: Length (L), Mass (M), Time (T), Electric Curr
 Thermodynamic Temperature (Θ), Amount of Substance (N), and Luminous Intensity (J).
 
 ```csharp
-internal readonly struct DimensionSignature :
+public readonly struct DimensionSignature :
 System.IEquatable<Tare.Internal.Units.DimensionSignature>,
 System.IComparable<Tare.Internal.Units.DimensionSignature>
 ```
@@ -16,7 +16,7 @@ System.IComparable<Tare.Internal.Units.DimensionSignature>
 Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1'), [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')[DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')
 
 ### Remarks
-This is an immutable value type used internally for dimensional analysis.  
+This is an immutable value type used for dimensional analysis.  
 Multiplication and division of quantities combine signatures by adding or subtracting exponents.
 
 | Constructors | |

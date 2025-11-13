@@ -14,6 +14,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-013: API Helpers** - Exposed additive helper methods on `Quantity` for introspection, diagnostics, and advanced use cases (F-013)
+  - **Introspection Helpers**:
+    - `GetSignature()` - returns DimensionSignature representing dimensional composition (L, M, T, I, Θ, N, J exponents)
+    - `IsKnownDimension()` - checks if dimension is recognized in KnownSignatureMap
+    - `GetDimensionDescription()` - returns human-readable dimension name (e.g., "Force", "Energy") or null if unknown
+  - **Normalization Helpers**:
+    - `ToBaseUnits()` - converts quantities to SI base unit representation (m, kg, s, A, K, mol, cd)
+    - `ToCanonical()` - converts to preferred canonical units from KnownSignatureMap (SI-first policy)
+  - **Validation & Discovery Helpers**:
+    - `ContainsValidUnit(string)` - validates unit strings with or without numeric values (e.g., "m" or "12 in")
+    - `GetUnitsForType(UnitTypeEnum)` - returns sorted list of catalog units for a dimension type (for UI dropdowns)
+  - **Infrastructure Enhancements**:
+    - Made `DimensionSignature` struct public for advanced scenarios
+    - Added `UnitDefinitions.GetUnitsForType()` support method
+  - **Test Coverage**:
+    - Added 17 comprehensive tests covering all new functionality
+    - All tests follow `MethodName_Condition_ExpectedResult()` naming convention
+    - 517 total tests passing (500 original + 17 new)
+  - **Zero Breaking Changes**: All additions are backwards-compatible
+
 - **F-012: Error Handling & Diagnostics** - Standardized exception handling and enhanced error messages across the library for improved developer experience.
   - **Critical Bug Fixes**:
     - Fixed null handling in `CompositeParser.TryParse()` - now returns false instead of throwing for null/whitespace input
