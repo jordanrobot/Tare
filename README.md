@@ -325,9 +325,22 @@ dotnet add package Tare
 
 ## Documentation
 
-For more detailed documentation, see:
-- [API Documentation](docs/api/Tare.md) - Complete API reference
-- [Changelog](docs/CHANGELOG.md) - Version history and changes
+### User Guides
+
+Comprehensive guides to help you get started and master Tare:
+
+- **[Getting Started](docs/GettingStarted.md)** - Installation, basic concepts, and your first program
+- **[Basic Usage](docs/BasicUsage.md)** - Parsing, arithmetic, comparisons, and error handling
+- **[Unit Conversion](docs/UnitConversion.md)** - Converting between units and working with different unit systems
+- **[Dimensional Arithmetic](docs/DimensionalArithmetic.md)** - Multiplication, division, and dimensional analysis
+- **[Formatting](docs/Formatting.md)** - Controlling output precision, culture-aware formatting, and string interpolation
+- **[Advanced Features](docs/AdvancedFeatures.md)** - Introspection, normalization, validation, and unit discovery
+
+### Reference Documentation
+
+- **[API Documentation](docs/api/Tare.md)** - Complete API reference
+- **[Changelog](docs/CHANGELOG.md)** - Version history and changes
+- **[Contributing](docs/Contributions.md)** - How to contribute to Tare
 
 ## Unit Conversion Validation & Correctness
 
