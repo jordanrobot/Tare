@@ -14,6 +14,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-014: Documentation & Migration Notes** - Comprehensive user-focused documentation for the Tare library
+  - **User Guide Documentation**:
+    - Added `GettingStarted.md` - Installation, basic concepts, and first program examples
+    - Added `BasicUsage.md` - Parsing, arithmetic, comparisons, error handling, and best practices
+    - Added `UnitConversion.md` - Converting between units, supported conversions, validation, and discovery
+    - Added `DimensionalArithmetic.md` - Multiplication, division, dimensional analysis, and practical examples
+    - Added `Formatting.md` - Standard format strings, culture-aware formatting, string interpolation, and performance
+    - Added `AdvancedFeatures.md` - Introspection, normalization, validation, unit discovery, and advanced scenarios
+  - **Cross-Linking**:
+    - Updated README with organized documentation section linking to all user guides
+    - Each guide includes navigation links to related guides
+    - All guides link back to README and forward to next logical topic
+  - **Content Organization**:
+    - Progressive learning path from beginner to advanced topics
+    - Real-world examples for every major feature
+    - Best practices sections in each guide
+    - Comprehensive reference tables and code examples
+  - **Documentation Coverage**:
+    - Over 75 code examples across all guides
+    - Detailed explanations of dimensional algebra and unit composition
+    - Practical use cases for cooking, automotive, aviation, science, and engineering
+    - Format string reference and culture-aware formatting examples
+    - Introspection, normalization, and validation patterns
+
 - **F-016: Precision & Formatting Integration (Built-in .NET)** - Integrated `Quantity` with .NET's standard formatting infrastructure by implementing `IFormattable` and `ISpanFormattable` interfaces, enabling culture-aware formatting without custom logic.
   - **IFormattable Implementation**:
     - Added `ToString(string? format)` overload for format string support
