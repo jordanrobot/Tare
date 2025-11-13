@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1" />
+<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAn1BMVEUAAADCAAAAAAA3yDfUAAA3yDfUAAA8PDzr6+sAAAD4+Pg3yDeQkJDTAADt7e3V1dU3yDdCQkIAAADbMTHUAABBykHUAAA2yDY3yDfr6+vTAAB3diDR0dGYcHDUAAAjhiPSAAA3yDeuAADUAAA3yDf////OCALg9+BLzktBuzRelimzKgv87+/dNTVflSn1/PWz6rO126g5yDlYniy0KgwjJ0TyAAAAI3RSTlMABAj0WD6rJcsN7X1HzMqUJyYW+/X08+bltqSeaVRBOy0cE+citBEAAADBSURBVDjLlczXEoIwFIThJPYGiL0XiL3r+z+bBOJs9JDMuLffP8v+Gxfc6aIyDQVjQcnqnvRDEQwLJYtXpZT+YhDHKIjLbS+OUeT4TjkKi6OwOArq+yeKXD9uDqQQbcOjyCy0e6bTojZSftX+U6zUQ7OuittDu1k0WHqRFfdXQijgjKfF6ZwAikvmKD6OQjmKWUcDigkztm5FZN05nMON9ZcoinlBmTNnAUdBnRbUUbgdBZwWbkcBpwXcVsBtxfjb31j1QB5qeebOAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+<title>ICSharpCode.Decompiler.IL.ILInstruction - Coverage Report</title>
+<link rel="stylesheet" type="text/css" href="report.css" />
+</head><body><div class="container"><div class="containerleft">
+<h1><a href="index.html" class="back">&lt;</a> Summary</h1>
+<div class="card-group">
+<div class="card">
+<div class="card-header">Information</div>
+<div class="card-body">
+<div class="table">
+<table>
+<tr>
+<th>Class:</th>
+<td class="limit-width " title="ICSharpCode.Decompiler.IL.ILInstruction">ICSharpCode.Decompiler.IL.ILInstruction</td>
+</tr>
+<tr>
+<th>Assembly:</th>
+<td class="limit-width " title="ICSharpCode.Decompiler">ICSharpCode.Decompiler</td>
+</tr>
+<tr>
+<th>File(s):</th>
+<td class="overflow-wrap"><a href="#_ICSharpCodeDecompilerILInstructionscs" class="navigatetohash">File 1: /_/ICSharpCode.Decompiler/IL/Instructions.cs</a><br /><a href="#_ICSharpCodeDecompilerILInstructionsILInstructioncs" class="navigatetohash">File 2: /_/ICSharpCode.Decompiler/IL/Instructions/ILInstruction.cs</a><br /><a href="#_ICSharpCodeDecompilerILInstructionsPatternMatchingcs" class="navigatetohash">File 3: /_/ICSharpCode.Decompiler/IL/Instructions/PatternMatching.cs</a></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="card-group">
+<div class="card">
+<div class="card-header">Line coverage</div>
+<div class="card-body">
+<div class="large cardpercentagebar cardpercentagebar100">0%</div>
+<div class="table">
+<table>
+<tr>
+<th>Covered lines:</th>
+<td class="limit-width right" title="0">0</td>
+</tr>
+<tr>
+<th>Uncovered lines:</th>
+<td class="limit-width right" title="843">843</td>
+</tr>
+<tr>
+<th>Coverable lines:</th>
+<td class="limit-width right" title="843">843</td>
+</tr>
+<tr>
+<th>Total lines:</th>
+<td class="limit-width right" title="10267">10267</td>
+</tr>
+<tr>
+<th>Line coverage:</th>
+<td class="limit-width right" title="0 of 843">0%</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">Branch coverage</div>
+<div class="card-body">
+<div class="large cardpercentagebar cardpercentagebar100">0%</div>
+<div class="table">
+<table>
+<tr>
+<th>Covered branches:</th>
+<td class="limit-width right" title="0">0</td>
+</tr>
+<tr>
+<th>Total branches:</th>
+<td class="limit-width right" title="392">392</td>
+</tr>
+<tr>
+<th>Branch coverage:</th>
+<td class="limit-width right" title="0 of 392">0%</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">Method coverage</div>
+<div class="card-body">
+<div class="center">
+<p>Feature is only available for sponsors</p>
+<a class="pro-button" href="https://reportgenerator.io/pro" target="_blank">Upgrade to PRO version</a>
+</div>
+</div>
+</div>
+</div>
+<h1>Metrics</h1>
+<div class="table-responsive">
+<table class="overview table-fixed">
+<colgroup>
+<col class="column-min-200" />
+<col class="column105" />
+<col class="column105" />
+<col class="column105" />
+<col class="column105" />
+</colgroup>
+<thead><tr><th>Method</th><th>Branch coverage <a href="https://en.wikipedia.org/wiki/Code_coverage" target="_blank"><i class="icon-info-circled"></i></a></th><th>Crap Score <a href="https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" target="_blank"><i class="icon-info-circled"></i></a></th><th>Cyclomatic complexity <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity" target="_blank"><i class="icon-info-circled"></i></a></th><th>Line coverage <a href="https://en.wikipedia.org/wiki/Code_coverage" target="_blank"><i class="icon-info-circled"></i></a></th></tr></thead>
+<tbody>
+<tr><td title="MatchInvalidBranch()"><a href="#file0_line8080" class="navigatetohash">File 1: MatchInvalidBranch()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchInvalidExpression()"><a href="#file0_line8089" class="navigatetohash">File 1: MatchInvalidExpression()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchNop()"><a href="#file0_line8098" class="navigatetohash">File 1: MatchNop()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchPinnedRegion(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8107" class="navigatetohash">File 1: MatchPinnedRegion(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchArglist()"><a href="#file0_line8122" class="navigatetohash">File 1: MatchArglist()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file0_line8131" class="navigatetohash">File 1: MatchTryCatchHandler(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLockInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8146" class="navigatetohash">File 1: MatchLockInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchUsingInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8159" class="navigatetohash">File 1: MatchUsingInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchDebugBreak()"><a href="#file0_line8174" class="navigatetohash">File 1: MatchDebugBreak()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchCkfinite(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8183" class="navigatetohash">File 1: MatchCkfinite(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLoc(out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file0_line8194" class="navigatetohash">File 1: MatchLdLoc(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLoca(out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file0_line8205" class="navigatetohash">File 1: MatchLdLoca(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8216" class="navigatetohash">File 1: MatchStLoc(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchAddressOf(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8229" class="navigatetohash">File 1: MatchAddressOf(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchThreeValuedBoolAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8242" class="navigatetohash">File 1: MatchThreeValuedBoolAnd(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchThreeValuedBoolOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8255" class="navigatetohash">File 1: MatchThreeValuedBoolOr(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchNullableRewrap(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8268" class="navigatetohash">File 1: MatchNullableRewrap(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdStr(out string)"><a href="#file0_line8279" class="navigatetohash">File 1: MatchLdStr(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcI4(out int)"><a href="#file0_line8290" class="navigatetohash">File 1: MatchLdcI4(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcI8(out long)"><a href="#file0_line8301" class="navigatetohash">File 1: MatchLdcI8(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcF4(out float)"><a href="#file0_line8312" class="navigatetohash">File 1: MatchLdcF4(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcF8(out double)"><a href="#file0_line8323" class="navigatetohash">File 1: MatchLdcF8(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcDecimal(out System.Decimal)"><a href="#file0_line8334" class="navigatetohash">File 1: MatchLdcDecimal(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdNull()"><a href="#file0_line8345" class="navigatetohash">File 1: MatchLdNull()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdFtn(out ICSharpCode.Decompiler.TypeSystem.IMethod)"><a href="#file0_line8354" class="navigatetohash">File 1: MatchLdFtn(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdVirtFtn(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><a href="#file0_line8365" class="navigatetohash">File 1: MatchLdVirtFtn(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdVirtDelegate(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><a href="#file0_line8378" class="navigatetohash">File 1: MatchLdVirtDelegate(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdTypeToken(out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8393" class="navigatetohash">File 1: MatchLdTypeToken(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdMemberToken(out ICSharpCode.Decompiler.TypeSystem.IMember)"><a href="#file0_line8404" class="navigatetohash">File 1: MatchLdMemberToken(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLocAlloc(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8415" class="navigatetohash">File 1: MatchLocAlloc(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLocAllocSpan(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8426" class="navigatetohash">File 1: MatchLocAllocSpan(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchCpblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8439" class="navigatetohash">File 1: MatchCpblk(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchInitblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8454" class="navigatetohash">File 1: MatchInitblk(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdFlda(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)"><a href="#file0_line8469" class="navigatetohash">File 1: MatchLdFlda(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdsFlda(out ICSharpCode.Decompiler.TypeSystem.IField)"><a href="#file0_line8482" class="navigatetohash">File 1: MatchLdsFlda(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchCastClass(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8493" class="navigatetohash">File 1: MatchCastClass(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchIsInst(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8506" class="navigatetohash">File 1: MatchIsInst(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8519" class="navigatetohash">File 1: MatchLdObj(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchStObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8532" class="navigatetohash">File 1: MatchStObj(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchBox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8547" class="navigatetohash">File 1: MatchBox(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchUnbox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8560" class="navigatetohash">File 1: MatchUnbox(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchUnboxAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8573" class="navigatetohash">File 1: MatchUnboxAny(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchNewArr(out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8586" class="navigatetohash">File 1: MatchNewArr(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchDefaultValue(out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8597" class="navigatetohash">File 1: MatchDefaultValue(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchThrow(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8608" class="navigatetohash">File 1: MatchThrow(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchRethrow()"><a href="#file0_line8619" class="navigatetohash">File 1: MatchRethrow()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchSizeOf(out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8628" class="navigatetohash">File 1: MatchSizeOf(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdElema(out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8639" class="navigatetohash">File 1: MatchLdElema(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchGetPinnableReference(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><a href="#file0_line8652" class="navigatetohash">File 1: MatchGetPinnableReference(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchUserDefinedLogicOperator(out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8665" class="navigatetohash">File 1: MatchUserDefinedLogicOperator(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchMatchInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8680" class="navigatetohash">File 1: MatchMatchInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchMakeRefAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8695" class="navigatetohash">File 1: MatchMakeRefAny(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchRefAnyType(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8708" class="navigatetohash">File 1: MatchRefAnyType(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchRefAnyValue(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><a href="#file0_line8719" class="navigatetohash">File 1: MatchRefAnyValue(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchYieldReturn(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8732" class="navigatetohash">File 1: MatchYieldReturn(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchAwait(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file0_line8743" class="navigatetohash">File 1: MatchAwait(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title=".ctor(ICSharpCode.Decompiler.IL.OpCode)"><a href="#file1_line60" class="navigatetohash">File 2: .ctor(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="ValidateChild(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line67" class="navigatetohash">File 2: ValidateChild(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="DebugAssert(bool)"><a href="#file1_line77" class="navigatetohash">File 2: DebugAssert(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="DebugAssert(bool, string)"><a href="#file1_line82" class="navigatetohash">File 2: DebugAssert(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="CheckInvariant(ICSharpCode.Decompiler.IL.ILPhase)"><a href="#file1_line87" class="navigatetohash">File 2: CheckInvariant(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="IsDescendantOf(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line111" class="navigatetohash">File 2: IsDescendantOf(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="GetCommonParent(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line121" class="navigatetohash">File 2: GetCommonParent(...)</a></td><td>0%</td><td>72</td><td>8</td><td>0%</td></tr>
+<tr><td title="IsBefore(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line156" class="navigatetohash">File 2: IsBefore(...)</a></td><td>0%</td><td>110</td><td>10</td><td>0%</td></tr>
+<tr><td title="CountAncestors()"><a href="#file1_line199" class="navigatetohash">File 2: CountAncestors()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="CommonResultType(ICSharpCode.Decompiler.IL.StackType, ICSharpCode.Decompiler.IL.StackType)"><a href="#file1_line228" class="navigatetohash">File 2: CommonResultType(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MakeDirty()"><a href="#file1_line262" class="navigatetohash">File 2: MakeDirty()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_Flags()"><a href="#file1_line280" class="navigatetohash">File 2: get_Flags()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="HasFlag(ICSharpCode.Decompiler.IL.InstructionFlags)"><a href="#file1_line293" class="navigatetohash">File 2: HasFlag(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="HasDirectFlag(ICSharpCode.Decompiler.IL.InstructionFlags)"><a href="#file1_line301" class="navigatetohash">File 2: HasDirectFlag(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="InvalidateFlags()"><a href="#file1_line306" class="navigatetohash">File 2: InvalidateFlags()</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="AddILRange(ICSharpCode.Decompiler.Util.Interval)"><a href="#file1_line324" class="navigatetohash">File 2: AddILRange(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="CombineILRange(ICSharpCode.Decompiler.Util.Interval, ICSharpCode.Decompiler.Util.Interval)"><a href="#file1_line329" class="navigatetohash">File 2: CombineILRange(...)</a></td><td>0%</td><td>110</td><td>10</td><td>0%</td></tr>
+<tr><td title="AddILRange(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line359" class="navigatetohash">File 2: AddILRange(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="SetILRange(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line364" class="navigatetohash">File 2: SetILRange(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="SetILRange(ICSharpCode.Decompiler.Util.Interval)"><a href="#file1_line369" class="navigatetohash">File 2: SetILRange(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_StartILOffset()"><a href="#file1_line372" class="navigatetohash">File 2: get_StartILOffset()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_EndILOffset()"><a href="#file1_line374" class="navigatetohash">File 2: get_EndILOffset()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_ILRangeIsEmpty()"><a href="#file1_line376" class="navigatetohash">File 2: get_ILRangeIsEmpty()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_ILRanges()"><a href="#file1_line378" class="navigatetohash">File 2: get_ILRanges()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="WriteILRange(ICSharpCode.Decompiler.ITextOutput, ICSharpCode.Decompiler.IL.ILAstWritingOptions)"><a href="#file1_line382" class="navigatetohash">File 2: WriteILRange(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="ToString()"><a href="#file1_line392" class="navigatetohash">File 2: ToString()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="get_Children()"><a href="#file1_line425" class="navigatetohash">File 2: get_Children()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title=".ctor(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line442" class="navigatetohash">File 2: .ctor(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_Count()"><a href="#file1_line446" class="navigatetohash">File 2: get_Count()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_Item(int)"><a href="#file1_line450" class="navigatetohash">File 2: get_Item(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="set_Item(int, ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line451" class="navigatetohash">File 2: set_Item(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="GetEnumerator()"><a href="#file1_line456" class="navigatetohash">File 2: GetEnumerator()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="System.Collections.Generic.IEnumerable&lt;ICSharpCode.Decompiler.IL.ILInstruction&gt;.GetEnumerator()"><a href="#file1_line461" class="navigatetohash">File 2: System.Collections.Generic.IEnumerable&lt;ICSharpCode.Decompiler.IL.ILInstruction&gt;.GetEnumerator()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="System.Collections.IEnumerable.GetEnumerator()"><a href="#file1_line466" class="navigatetohash">File 2: System.Collections.IEnumerable.GetEnumerator()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="AssertNoEnumerators()"><a href="#file1_line493" class="navigatetohash">File 2: AssertNoEnumerators()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title=".ctor(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line508" class="navigatetohash">File 2: .ctor(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_Current()"><a href="#file1_line519" class="navigatetohash">File 2: get_Current()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="MoveNext()"><a href="#file1_line525" class="navigatetohash">File 2: MoveNext()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="Dispose()"><a href="#file1_line537" class="navigatetohash">File 2: Dispose()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="System.Collections.IEnumerator.get_Current()"><a href="#file1_line540" class="navigatetohash">File 2: System.Collections.IEnumerator.get_Current()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="System.Collections.IEnumerator.Reset()"><a href="#file1_line545" class="navigatetohash">File 2: System.Collections.IEnumerator.Reset()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="ReplaceWith(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line574" class="navigatetohash">File 2: ReplaceWith(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="get_Descendants()"><a href="#file1_line597" class="navigatetohash">File 2: get_Descendants()</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="&lt;&gt;m__Finally1()"><a href="#file1_line623" class="navigatetohash">File 2: &lt;&gt;m__Finally1()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="get_Ancestors()"><a href="#file1_line638" class="navigatetohash">File 2: get_Ancestors()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="AddRef()"><a href="#file1_line655" class="navigatetohash">File 2: AddRef()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="ReleaseRef()"><a href="#file1_line664" class="navigatetohash">File 2: ReleaseRef()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="get_IsConnected()"><a href="#file1_line679" class="navigatetohash">File 2: get_IsConnected()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="Connected()"><a href="#file1_line687" class="navigatetohash">File 2: Connected()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="Disconnected()"><a href="#file1_line696" class="navigatetohash">File 2: Disconnected()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="get_Parent()"><a href="#file1_line727" class="navigatetohash">File 2: get_Parent()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_ChildIndex()"><a href="#file1_line737" class="navigatetohash">File 2: get_ChildIndex()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="set_ChildIndex(int)"><a href="#file1_line737" class="navigatetohash">File 2: set_ChildIndex(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="get_SlotInfo()"><a href="#file1_line751" class="navigatetohash">File 2: get_SlotInfo()</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="SetChildInstruction&lt;T&gt;(ref T, T, int)"><a href="#file1_line767" class="navigatetohash">File 2: SetChildInstruction&lt;T&gt;(...)</a></td><td>0%</td><td>272</td><td>16</td><td>0%</td></tr>
+<tr><td title="InstructionCollectionAdded(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line800" class="navigatetohash">File 2: InstructionCollectionAdded(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="InstructionCollectionRemoved(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line810" class="navigatetohash">File 2: InstructionCollectionRemoved(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="InstructionCollectionUpdateComplete()"><a href="#file1_line819" class="navigatetohash">File 2: InstructionCollectionUpdateComplete()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="ShallowClone()"><a href="#file1_line841" class="navigatetohash">File 2: ShallowClone()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="Match(ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line864" class="navigatetohash">File 2: Match(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="PerformMatch(ref ICSharpCode.Decompiler.IL.Patterns.ListMatch, ref ICSharpCode.Decompiler.IL.Patterns.Match)"><a href="#file1_line894" class="navigatetohash">File 2: PerformMatch(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="Extract(ICSharpCode.Decompiler.IL.Transforms.ILTransformContext)"><a href="#file1_line916" class="navigatetohash">File 2: Extract(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="PrepareExtract(int, ICSharpCode.Decompiler.IL.Transforms.ExtractionContext)"><a href="#file1_line926" class="navigatetohash">File 2: PrepareExtract(...)</a></td><td>0%</td><td>42</td><td>6</td><td>0%</td></tr>
+<tr><td title="CanInlineIntoSlot(int, ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file1_line949" class="navigatetohash">File 2: CanInlineIntoSlot(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="MatchLdcI4(int)"><a href="#file2_line29" class="navigatetohash">File 3: MatchLdcI4(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcF4(float)"><a href="#file2_line34" class="navigatetohash">File 3: MatchLdcF4(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcF8(double)"><a href="#file2_line39" class="navigatetohash">File 3: MatchLdcF8(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdcI(out long)"><a href="#file2_line47" class="navigatetohash">File 3: MatchLdcI(...)</a></td><td>0%</td><td>210</td><td>14</td><td>0%</td></tr>
+<tr><td title="MatchLdcI(long)"><a href="#file2_line75" class="navigatetohash">File 3: MatchLdcI(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLoc(ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line80" class="navigatetohash">File 3: MatchLdLoc(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLoca(ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line86" class="navigatetohash">File 3: MatchLdLoca(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLocRef(ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line95" class="navigatetohash">File 3: MatchLdLocRef(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLdLocRef(out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line103" class="navigatetohash">File 3: MatchLdLocRef(...)</a></td><td>0%</td><td>42</td><td>6</td><td>0%</td></tr>
+<tr><td title="MatchLdThis()"><a href="#file2_line119" class="navigatetohash">File 3: MatchLdThis()</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line125" class="navigatetohash">File 3: MatchStLoc(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchStLoc(ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line137" class="navigatetohash">File 3: MatchStLoc(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLdLen(ICSharpCode.Decompiler.IL.StackType, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line149" class="navigatetohash">File 3: MatchLdLen(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchReturn(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line161" class="navigatetohash">File 3: MatchReturn(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchBranch(out ICSharpCode.Decompiler.IL.Block)"><a href="#file2_line173" class="navigatetohash">File 3: MatchBranch(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchBranch(ICSharpCode.Decompiler.IL.Block)"><a href="#file2_line185" class="navigatetohash">File 3: MatchBranch(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line191" class="navigatetohash">File 3: MatchLeave(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line205" class="navigatetohash">File 3: MatchLeave(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer)"><a href="#file2_line217" class="navigatetohash">File 3: MatchLeave(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer)"><a href="#file2_line229" class="navigatetohash">File 3: MatchLeave(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line235" class="navigatetohash">File 3: MatchIfInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchIfInstructionPositiveCondition(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line250" class="navigatetohash">File 3: MatchIfInstructionPositiveCondition(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line270" class="navigatetohash">File 3: MatchIfInstruction(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLogicAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line289" class="navigatetohash">File 3: MatchLogicAnd(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLogicOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line308" class="navigatetohash">File 3: MatchLogicOr(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchLogicNot(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line325" class="navigatetohash">File 3: MatchLogicNot(...)</a></td><td>0%</td><td>72</td><td>8</td><td>0%</td></tr>
+<tr><td title="MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILVariable)"><a href="#file2_line338" class="navigatetohash">File 3: MatchTryCatchHandler(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchCompEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line353" class="navigatetohash">File 3: MatchCompEquals(...)</a></td><td>0%</td><td>156</td><td>12</td><td>0%</td></tr>
+<tr><td title="MatchCompEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line382" class="navigatetohash">File 3: MatchCompEqualsNull(...)</a></td><td>0%</td><td>42</td><td>6</td><td>0%</td></tr>
+<tr><td title="MatchCompNotEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line409" class="navigatetohash">File 3: MatchCompNotEqualsNull(...)</a></td><td>0%</td><td>42</td><td>6</td><td>0%</td></tr>
+<tr><td title="MatchCompNotEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line436" class="navigatetohash">File 3: MatchCompNotEquals(...)</a></td><td>0%</td><td>156</td><td>12</td><td>0%</td></tr>
+<tr><td title="MatchLdFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)"><a href="#file2_line462" class="navigatetohash">File 3: MatchLdFld(...)</a></td><td>0%</td><td>156</td><td>12</td><td>0%</td></tr>
+<tr><td title="MatchLdsFld(out ICSharpCode.Decompiler.TypeSystem.IField)"><a href="#file2_line478" class="navigatetohash">File 3: MatchLdsFld(...)</a></td><td>0%</td><td>72</td><td>8</td><td>0%</td></tr>
+<tr><td title="MatchLdsFld(ICSharpCode.Decompiler.TypeSystem.IField)"><a href="#file2_line489" class="navigatetohash">File 3: MatchLdsFld(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchStsFld(out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line494" class="navigatetohash">File 3: MatchStsFld(...)</a></td><td>0%</td><td>72</td><td>8</td><td>0%</td></tr>
+<tr><td title="MatchStFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line507" class="navigatetohash">File 3: MatchStFld(...)</a></td><td>0%</td><td>72</td><td>8</td><td>0%</td></tr>
+<tr><td title="MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator)"><a href="#file2_line522" class="navigatetohash">File 3: MatchBinaryNumericInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line528" class="navigatetohash">File 3: MatchBinaryNumericInstruction(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="MatchBinaryNumericInstruction(out ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><a href="#file2_line542" class="navigatetohash">File 3: MatchBinaryNumericInstruction(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="UnwrapConv(ICSharpCode.Decompiler.IL.ConversionKind)"><a href="#file2_line565" class="navigatetohash">File 3: UnwrapConv(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+</tbody>
+</table>
+</div>
+<h1>File(s)</h1>
+<h2 id="_ICSharpCodeDecompilerILInstructionscs">/_/ICSharpCode.Decompiler/IL/Instructions.cs</h2>
+<p>File &#39;/_/ICSharpCode.Decompiler/IL/Instructions.cs&#39; does not exist (any more).</p>
+<h2 id="_ICSharpCodeDecompilerILInstructionsILInstructioncs">/_/ICSharpCode.Decompiler/IL/Instructions/ILInstruction.cs</h2>
+<p>File &#39;/_/ICSharpCode.Decompiler/IL/Instructions/ILInstruction.cs&#39; does not exist (any more).</p>
+<h2 id="_ICSharpCodeDecompilerILInstructionsPatternMatchingcs">/_/ICSharpCode.Decompiler/IL/Instructions/PatternMatching.cs</h2>
+<p>File &#39;/_/ICSharpCode.Decompiler/IL/Instructions/PatternMatching.cs&#39; does not exist (any more).</p>
+<div class="footer">Generated by: ReportGenerator 5.5.0.0<br />11/13/2025 - 13:52:05<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
+<div class="containerright">
+<div class="containerrightfixed">
+<h1>Methods/Properties</h1>
+<a href="#file0_line8080" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchInvalidBranch()"><i class="icon-cube"></i>MatchInvalidBranch()</a><br />
+<a href="#file0_line8089" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchInvalidExpression()"><i class="icon-cube"></i>MatchInvalidExpression()</a><br />
+<a href="#file0_line8098" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchNop()"><i class="icon-cube"></i>MatchNop()</a><br />
+<a href="#file0_line8107" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchPinnedRegion(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchPinnedRegion(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8122" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchArglist()"><i class="icon-cube"></i>MatchArglist()</a><br />
+<a href="#file0_line8131" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file0_line8146" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLockInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLockInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8159" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchUsingInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchUsingInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8174" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchDebugBreak()"><i class="icon-cube"></i>MatchDebugBreak()</a><br />
+<a href="#file0_line8183" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchCkfinite(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCkfinite(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8194" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdLoc(out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLoc(out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file0_line8205" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdLoca(out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLoca(out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file0_line8216" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8229" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchAddressOf(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchAddressOf(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8242" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchThreeValuedBoolAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchThreeValuedBoolAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8255" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchThreeValuedBoolOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchThreeValuedBoolOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8268" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchNullableRewrap(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchNullableRewrap(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8279" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdStr(out string)"><i class="icon-cube"></i>MatchLdStr(out string)</a><br />
+<a href="#file0_line8290" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdcI4(out int)"><i class="icon-cube"></i>MatchLdcI4(out int)</a><br />
+<a href="#file0_line8301" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdcI8(out long)"><i class="icon-cube"></i>MatchLdcI8(out long)</a><br />
+<a href="#file0_line8312" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdcF4(out float)"><i class="icon-cube"></i>MatchLdcF4(out float)</a><br />
+<a href="#file0_line8323" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdcF8(out double)"><i class="icon-cube"></i>MatchLdcF8(out double)</a><br />
+<a href="#file0_line8334" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdcDecimal(out System.Decimal)"><i class="icon-cube"></i>MatchLdcDecimal(out System.Decimal)</a><br />
+<a href="#file0_line8345" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdNull()"><i class="icon-cube"></i>MatchLdNull()</a><br />
+<a href="#file0_line8354" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdFtn(out ICSharpCode.Decompiler.TypeSystem.IMethod)"><i class="icon-cube"></i>MatchLdFtn(out ICSharpCode.Decompiler.TypeSystem.IMethod)</a><br />
+<a href="#file0_line8365" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdVirtFtn(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><i class="icon-cube"></i>MatchLdVirtFtn(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)</a><br />
+<a href="#file0_line8378" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdVirtDelegate(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><i class="icon-cube"></i>MatchLdVirtDelegate(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.TypeSystem.IMethod)</a><br />
+<a href="#file0_line8393" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdTypeToken(out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchLdTypeToken(out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8404" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdMemberToken(out ICSharpCode.Decompiler.TypeSystem.IMember)"><i class="icon-cube"></i>MatchLdMemberToken(out ICSharpCode.Decompiler.TypeSystem.IMember)</a><br />
+<a href="#file0_line8415" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLocAlloc(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLocAlloc(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8426" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLocAllocSpan(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchLocAllocSpan(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8439" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchCpblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCpblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8454" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchInitblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchInitblk(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8469" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdFlda(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)"><i class="icon-cube"></i>MatchLdFlda(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)</a><br />
+<a href="#file0_line8482" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdsFlda(out ICSharpCode.Decompiler.TypeSystem.IField)"><i class="icon-cube"></i>MatchLdsFlda(out ICSharpCode.Decompiler.TypeSystem.IField)</a><br />
+<a href="#file0_line8493" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchCastClass(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchCastClass(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8506" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchIsInst(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchIsInst(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8519" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchLdObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8532" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchStObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchStObj(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8547" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchBox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchBox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8560" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchUnbox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchUnbox(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8573" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchUnboxAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchUnboxAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8586" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchNewArr(out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchNewArr(out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8597" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchDefaultValue(out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchDefaultValue(out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8608" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchThrow(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchThrow(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8619" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchRethrow()"><i class="icon-cube"></i>MatchRethrow()</a><br />
+<a href="#file0_line8628" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchSizeOf(out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchSizeOf(out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8639" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchLdElema(out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLdElema(out ICSharpCode.Decompiler.TypeSystem.IType, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8652" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchGetPinnableReference(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)"><i class="icon-cube"></i>MatchGetPinnableReference(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IMethod)</a><br />
+<a href="#file0_line8665" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchUserDefinedLogicOperator(out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchUserDefinedLogicOperator(out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8680" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchMatchInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchMatchInstruction(out ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.TypeSystem.IMethod, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8695" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchMakeRefAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchMakeRefAny(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8708" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchRefAnyType(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchRefAnyType(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8719" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchRefAnyValue(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)"><i class="icon-cube"></i>MatchRefAnyValue(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IType)</a><br />
+<a href="#file0_line8732" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchYieldReturn(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchYieldReturn(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file0_line8743" class="navigatetohash percentagebar percentagebar0" title="File 1: Line coverage: 0% - MatchAwait(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchAwait(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line60" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - .ctor(ICSharpCode.Decompiler.IL.OpCode)"><i class="icon-cube"></i>.ctor(ICSharpCode.Decompiler.IL.OpCode)</a><br />
+<a href="#file1_line67" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - ValidateChild(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>ValidateChild(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line77" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - DebugAssert(bool)"><i class="icon-cube"></i>DebugAssert(bool)</a><br />
+<a href="#file1_line82" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - DebugAssert(bool, string)"><i class="icon-cube"></i>DebugAssert(bool, string)</a><br />
+<a href="#file1_line87" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - CheckInvariant(ICSharpCode.Decompiler.IL.ILPhase)"><i class="icon-cube"></i>CheckInvariant(ICSharpCode.Decompiler.IL.ILPhase)</a><br />
+<a href="#file1_line111" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - IsDescendantOf(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>IsDescendantOf(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line121" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - GetCommonParent(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>GetCommonParent(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line156" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - IsBefore(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>IsBefore(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line199" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - CountAncestors()"><i class="icon-cube"></i>CountAncestors()</a><br />
+<a href="#file1_line228" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - CommonResultType(ICSharpCode.Decompiler.IL.StackType, ICSharpCode.Decompiler.IL.StackType)"><i class="icon-cube"></i>CommonResultType(ICSharpCode.Decompiler.IL.StackType, ICSharpCode.Decompiler.IL.StackType)</a><br />
+<a href="#file1_line262" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - MakeDirty()"><i class="icon-cube"></i>MakeDirty()</a><br />
+<a href="#file1_line280" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Flags()"><i class="icon-wrench"></i>get_Flags()</a><br />
+<a href="#file1_line293" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - HasFlag(ICSharpCode.Decompiler.IL.InstructionFlags)"><i class="icon-cube"></i>HasFlag(ICSharpCode.Decompiler.IL.InstructionFlags)</a><br />
+<a href="#file1_line301" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - HasDirectFlag(ICSharpCode.Decompiler.IL.InstructionFlags)"><i class="icon-cube"></i>HasDirectFlag(ICSharpCode.Decompiler.IL.InstructionFlags)</a><br />
+<a href="#file1_line306" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - InvalidateFlags()"><i class="icon-cube"></i>InvalidateFlags()</a><br />
+<a href="#file1_line324" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - AddILRange(ICSharpCode.Decompiler.Util.Interval)"><i class="icon-cube"></i>AddILRange(ICSharpCode.Decompiler.Util.Interval)</a><br />
+<a href="#file1_line329" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - CombineILRange(ICSharpCode.Decompiler.Util.Interval, ICSharpCode.Decompiler.Util.Interval)"><i class="icon-cube"></i>CombineILRange(ICSharpCode.Decompiler.Util.Interval, ICSharpCode.Decompiler.Util.Interval)</a><br />
+<a href="#file1_line359" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - AddILRange(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>AddILRange(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line364" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - SetILRange(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>SetILRange(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line369" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - SetILRange(ICSharpCode.Decompiler.Util.Interval)"><i class="icon-cube"></i>SetILRange(ICSharpCode.Decompiler.Util.Interval)</a><br />
+<a href="#file1_line372" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_StartILOffset()"><i class="icon-wrench"></i>get_StartILOffset()</a><br />
+<a href="#file1_line374" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_EndILOffset()"><i class="icon-wrench"></i>get_EndILOffset()</a><br />
+<a href="#file1_line376" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_ILRangeIsEmpty()"><i class="icon-wrench"></i>get_ILRangeIsEmpty()</a><br />
+<a href="#file1_line378" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_ILRanges()"><i class="icon-wrench"></i>get_ILRanges()</a><br />
+<a href="#file1_line382" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - WriteILRange(ICSharpCode.Decompiler.ITextOutput, ICSharpCode.Decompiler.IL.ILAstWritingOptions)"><i class="icon-cube"></i>WriteILRange(ICSharpCode.Decompiler.ITextOutput, ICSharpCode.Decompiler.IL.ILAstWritingOptions)</a><br />
+<a href="#file1_line392" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - ToString()"><i class="icon-cube"></i>ToString()</a><br />
+<a href="#file1_line425" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Children()"><i class="icon-wrench"></i>get_Children()</a><br />
+<a href="#file1_line442" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - .ctor(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>.ctor(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line446" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Count()"><i class="icon-wrench"></i>get_Count()</a><br />
+<a href="#file1_line450" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Item(int)"><i class="icon-wrench"></i>get_Item(int)</a><br />
+<a href="#file1_line451" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - set_Item(int, ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-wrench"></i>set_Item(int, ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line456" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - GetEnumerator()"><i class="icon-cube"></i>GetEnumerator()</a><br />
+<a href="#file1_line461" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - System.Collections.Generic.IEnumerable&lt;ICSharpCode.Decompiler.IL.ILInstruction&gt;.GetEnumerator()"><i class="icon-cube"></i>System.Collections.Generic.IEnumerable&lt;ICSharpCode.Decompiler.IL.ILInstruction&gt;.GetEnumerator()</a><br />
+<a href="#file1_line466" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - System.Collections.IEnumerable.GetEnumerator()"><i class="icon-cube"></i>System.Collections.IEnumerable.GetEnumerator()</a><br />
+<a href="#file1_line493" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - AssertNoEnumerators()"><i class="icon-cube"></i>AssertNoEnumerators()</a><br />
+<a href="#file1_line508" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - .ctor(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>.ctor(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line519" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Current()"><i class="icon-wrench"></i>get_Current()</a><br />
+<a href="#file1_line525" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - MoveNext()"><i class="icon-cube"></i>MoveNext()</a><br />
+<a href="#file1_line537" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - Dispose()"><i class="icon-cube"></i>Dispose()</a><br />
+<a href="#file1_line540" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - System.Collections.IEnumerator.get_Current()"><i class="icon-cube"></i>System.Collections.IEnumerator.get_Current()</a><br />
+<a href="#file1_line545" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - System.Collections.IEnumerator.Reset()"><i class="icon-cube"></i>System.Collections.IEnumerator.Reset()</a><br />
+<a href="#file1_line574" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - ReplaceWith(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>ReplaceWith(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line597" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Descendants()"><i class="icon-wrench"></i>get_Descendants()</a><br />
+<a href="#file1_line623" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - &lt;&gt;m__Finally1()"><i class="icon-cube"></i>&lt;&gt;m__Finally1()</a><br />
+<a href="#file1_line638" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Ancestors()"><i class="icon-wrench"></i>get_Ancestors()</a><br />
+<a href="#file1_line655" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - AddRef()"><i class="icon-cube"></i>AddRef()</a><br />
+<a href="#file1_line664" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - ReleaseRef()"><i class="icon-cube"></i>ReleaseRef()</a><br />
+<a href="#file1_line679" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_IsConnected()"><i class="icon-wrench"></i>get_IsConnected()</a><br />
+<a href="#file1_line687" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - Connected()"><i class="icon-cube"></i>Connected()</a><br />
+<a href="#file1_line696" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - Disconnected()"><i class="icon-cube"></i>Disconnected()</a><br />
+<a href="#file1_line727" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_Parent()"><i class="icon-wrench"></i>get_Parent()</a><br />
+<a href="#file1_line737" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_ChildIndex()"><i class="icon-wrench"></i>get_ChildIndex()</a><br />
+<a href="#file1_line737" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - set_ChildIndex(int)"><i class="icon-wrench"></i>set_ChildIndex(int)</a><br />
+<a href="#file1_line751" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - get_SlotInfo()"><i class="icon-wrench"></i>get_SlotInfo()</a><br />
+<a href="#file1_line767" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - SetChildInstruction&lt;T&gt;(ref T, T, int)"><i class="icon-cube"></i>SetChildInstruction&lt;T&gt;(ref T, T, int)</a><br />
+<a href="#file1_line800" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - InstructionCollectionAdded(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>InstructionCollectionAdded(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line810" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - InstructionCollectionRemoved(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>InstructionCollectionRemoved(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line819" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - InstructionCollectionUpdateComplete()"><i class="icon-cube"></i>InstructionCollectionUpdateComplete()</a><br />
+<a href="#file1_line841" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - ShallowClone()"><i class="icon-cube"></i>ShallowClone()</a><br />
+<a href="#file1_line864" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - Match(ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>Match(ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file1_line894" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - PerformMatch(ref ICSharpCode.Decompiler.IL.Patterns.ListMatch, ref ICSharpCode.Decompiler.IL.Patterns.Match)"><i class="icon-cube"></i>PerformMatch(ref ICSharpCode.Decompiler.IL.Patterns.ListMatch, ref ICSharpCode.Decompiler.IL.Patterns.Match)</a><br />
+<a href="#file1_line916" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - Extract(ICSharpCode.Decompiler.IL.Transforms.ILTransformContext)"><i class="icon-cube"></i>Extract(ICSharpCode.Decompiler.IL.Transforms.ILTransformContext)</a><br />
+<a href="#file1_line926" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - PrepareExtract(int, ICSharpCode.Decompiler.IL.Transforms.ExtractionContext)"><i class="icon-cube"></i>PrepareExtract(int, ICSharpCode.Decompiler.IL.Transforms.ExtractionContext)</a><br />
+<a href="#file1_line949" class="navigatetohash percentagebar percentagebar0" title="File 2: Line coverage: 0% - CanInlineIntoSlot(int, ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>CanInlineIntoSlot(int, ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line29" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdcI4(int)"><i class="icon-cube"></i>MatchLdcI4(int)</a><br />
+<a href="#file2_line34" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdcF4(float)"><i class="icon-cube"></i>MatchLdcF4(float)</a><br />
+<a href="#file2_line39" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdcF8(double)"><i class="icon-cube"></i>MatchLdcF8(double)</a><br />
+<a href="#file2_line47" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdcI(out long)"><i class="icon-cube"></i>MatchLdcI(out long)</a><br />
+<a href="#file2_line75" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdcI(long)"><i class="icon-cube"></i>MatchLdcI(long)</a><br />
+<a href="#file2_line80" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdLoc(ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLoc(ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line86" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdLoca(ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLoca(ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line95" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdLocRef(ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLocRef(ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line103" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdLocRef(out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchLdLocRef(out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line119" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdThis()"><i class="icon-cube"></i>MatchLdThis()</a><br />
+<a href="#file2_line125" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchStLoc(out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line137" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchStLoc(ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchStLoc(ICSharpCode.Decompiler.IL.ILVariable, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line149" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdLen(ICSharpCode.Decompiler.IL.StackType, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLdLen(ICSharpCode.Decompiler.IL.StackType, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line161" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchReturn(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchReturn(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line173" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchBranch(out ICSharpCode.Decompiler.IL.Block)"><i class="icon-cube"></i>MatchBranch(out ICSharpCode.Decompiler.IL.Block)</a><br />
+<a href="#file2_line185" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchBranch(ICSharpCode.Decompiler.IL.Block)"><i class="icon-cube"></i>MatchBranch(ICSharpCode.Decompiler.IL.Block)</a><br />
+<a href="#file2_line191" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line205" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line217" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer)"><i class="icon-cube"></i>MatchLeave(out ICSharpCode.Decompiler.IL.BlockContainer)</a><br />
+<a href="#file2_line229" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer)"><i class="icon-cube"></i>MatchLeave(ICSharpCode.Decompiler.IL.BlockContainer)</a><br />
+<a href="#file2_line235" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line250" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchIfInstructionPositiveCondition(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchIfInstructionPositiveCondition(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line270" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchIfInstruction(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line289" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLogicAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLogicAnd(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line308" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLogicOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLogicOr(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line325" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLogicNot(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchLogicNot(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line338" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILVariable)"><i class="icon-cube"></i>MatchTryCatchHandler(out ICSharpCode.Decompiler.IL.ILVariable)</a><br />
+<a href="#file2_line353" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchCompEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCompEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line382" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchCompEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCompEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line409" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchCompNotEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCompNotEqualsNull(out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line436" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchCompNotEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchCompNotEquals(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line462" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)"><i class="icon-cube"></i>MatchLdFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField)</a><br />
+<a href="#file2_line478" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdsFld(out ICSharpCode.Decompiler.TypeSystem.IField)"><i class="icon-cube"></i>MatchLdsFld(out ICSharpCode.Decompiler.TypeSystem.IField)</a><br />
+<a href="#file2_line489" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchLdsFld(ICSharpCode.Decompiler.TypeSystem.IField)"><i class="icon-cube"></i>MatchLdsFld(ICSharpCode.Decompiler.TypeSystem.IField)</a><br />
+<a href="#file2_line494" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchStsFld(out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchStsFld(out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line507" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchStFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchStFld(out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.TypeSystem.IField, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line522" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator)"><i class="icon-cube"></i>MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator)</a><br />
+<a href="#file2_line528" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchBinaryNumericInstruction(ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line542" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - MatchBinaryNumericInstruction(out ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)"><i class="icon-cube"></i>MatchBinaryNumericInstruction(out ICSharpCode.Decompiler.IL.BinaryNumericOperator, out ICSharpCode.Decompiler.IL.ILInstruction, out ICSharpCode.Decompiler.IL.ILInstruction)</a><br />
+<a href="#file2_line565" class="navigatetohash percentagebar percentagebar0" title="File 3: Line coverage: 0% - UnwrapConv(ICSharpCode.Decompiler.IL.ConversionKind)"><i class="icon-cube"></i>UnwrapConv(ICSharpCode.Decompiler.IL.ConversionKind)</a><br />
+<br/></div>
+</div></div>
+<script type="text/javascript">
+/* <![CDATA[ */
+(function() {
+    var url = window.location.href;
+    var startOfQueryString = url.indexOf('?');
+    var queryString = startOfQueryString > -1 ? url.substr(startOfQueryString) : '';
+
+    if (startOfQueryString > -1) {
+        var i = 0, href= null;
+        var css = document.getElementsByTagName('link');
+
+        for (i = 0; i < css.length; i++) {
+            if (css[i].getAttribute('rel') !== 'stylesheet') {
+            continue;
+            }
+
+            href = css[i].getAttribute('href');
+
+            if (href) {
+            css[i].setAttribute('href', href + queryString);
+            }
+        }
+
+        var links = document.getElementsByTagName('a');
+
+        for (i = 0; i < links.length; i++) {
+            href = links[i].getAttribute('href');
+
+            if (href
+                && !href.startsWith('http://')
+                && !href.startsWith('https://')
+                && !href.startsWith('#')
+                && href.indexOf('?') === -1) {
+            links[i].setAttribute('href', href + queryString);
+            }
+        }
+    }
+
+    var newScript = document.createElement('script');
+    newScript.src = 'class.js' + queryString;
+    document.getElementsByTagName('body')[0].appendChild(newScript);
+})();
+/* ]]> */ 
+</script></body></html>

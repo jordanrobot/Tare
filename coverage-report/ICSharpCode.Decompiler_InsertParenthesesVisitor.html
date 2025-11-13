@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1" />
+<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAn1BMVEUAAADCAAAAAAA3yDfUAAA3yDfUAAA8PDzr6+sAAAD4+Pg3yDeQkJDTAADt7e3V1dU3yDdCQkIAAADbMTHUAABBykHUAAA2yDY3yDfr6+vTAAB3diDR0dGYcHDUAAAjhiPSAAA3yDeuAADUAAA3yDf////OCALg9+BLzktBuzRelimzKgv87+/dNTVflSn1/PWz6rO126g5yDlYniy0KgwjJ0TyAAAAI3RSTlMABAj0WD6rJcsN7X1HzMqUJyYW+/X08+bltqSeaVRBOy0cE+citBEAAADBSURBVDjLlczXEoIwFIThJPYGiL0XiL3r+z+bBOJs9JDMuLffP8v+Gxfc6aIyDQVjQcnqnvRDEQwLJYtXpZT+YhDHKIjLbS+OUeT4TjkKi6OwOArq+yeKXD9uDqQQbcOjyCy0e6bTojZSftX+U6zUQ7OuittDu1k0WHqRFfdXQijgjKfF6ZwAikvmKD6OQjmKWUcDigkztm5FZN05nMON9ZcoinlBmTNnAUdBnRbUUbgdBZwWbkcBpwXcVsBtxfjb31j1QB5qeebOAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+<title>ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor - Coverage Report</title>
+<link rel="stylesheet" type="text/css" href="report.css" />
+</head><body><div class="container"><div class="containerleft">
+<h1><a href="index.html" class="back">&lt;</a> Summary</h1>
+<div class="card-group">
+<div class="card">
+<div class="card-header">Information</div>
+<div class="card-body">
+<div class="table">
+<table>
+<tr>
+<th>Class:</th>
+<td class="limit-width " title="ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor">ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor</td>
+</tr>
+<tr>
+<th>Assembly:</th>
+<td class="limit-width " title="ICSharpCode.Decompiler">ICSharpCode.Decompiler</td>
+</tr>
+<tr>
+<th>File(s):</th>
+<td class="overflow-wrap"><a href="#_ICSharpCodeDecompilerCSharpOutputVisitorInsertParenthesesVisitorcs" class="navigatetohash">/_/ICSharpCode.Decompiler/CSharp/OutputVisitor/InsertParenthesesVisitor.cs</a></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="card-group">
+<div class="card">
+<div class="card-header">Line coverage</div>
+<div class="card-body">
+<div class="large cardpercentagebar cardpercentagebar100">0%</div>
+<div class="table">
+<table>
+<tr>
+<th>Covered lines:</th>
+<td class="limit-width right" title="0">0</td>
+</tr>
+<tr>
+<th>Uncovered lines:</th>
+<td class="limit-width right" title="195">195</td>
+</tr>
+<tr>
+<th>Coverable lines:</th>
+<td class="limit-width right" title="195">195</td>
+</tr>
+<tr>
+<th>Total lines:</th>
+<td class="limit-width right" title="500">500</td>
+</tr>
+<tr>
+<th>Line coverage:</th>
+<td class="limit-width right" title="0 of 195">0%</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">Branch coverage</div>
+<div class="card-body">
+<div class="large cardpercentagebar cardpercentagebar100">0%</div>
+<div class="table">
+<table>
+<tr>
+<th>Covered branches:</th>
+<td class="limit-width right" title="0">0</td>
+</tr>
+<tr>
+<th>Total branches:</th>
+<td class="limit-width right" title="194">194</td>
+</tr>
+<tr>
+<th>Branch coverage:</th>
+<td class="limit-width right" title="0 of 194">0%</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">Method coverage</div>
+<div class="card-body">
+<div class="center">
+<p>Feature is only available for sponsors</p>
+<a class="pro-button" href="https://reportgenerator.io/pro" target="_blank">Upgrade to PRO version</a>
+</div>
+</div>
+</div>
+</div>
+<h1>Metrics</h1>
+<div class="table-responsive">
+<table class="overview table-fixed">
+<colgroup>
+<col class="column-min-200" />
+<col class="column105" />
+<col class="column105" />
+<col class="column105" />
+<col class="column105" />
+</colgroup>
+<thead><tr><th>Method</th><th>Branch coverage <a href="https://en.wikipedia.org/wiki/Code_coverage" target="_blank"><i class="icon-info-circled"></i></a></th><th>Crap Score <a href="https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" target="_blank"><i class="icon-info-circled"></i></a></th><th>Cyclomatic complexity <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity" target="_blank"><i class="icon-info-circled"></i></a></th><th>Line coverage <a href="https://en.wikipedia.org/wiki/Code_coverage" target="_blank"><i class="icon-info-circled"></i></a></th></tr></thead>
+<tbody>
+<tr><td title="get_InsertParenthesesForReadability()"><a href="#file0_line38" class="navigatetohash">get_InsertParenthesesForReadability()</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="set_InsertParenthesesForReadability(bool)"><a href="#file0_line38" class="navigatetohash">set_InsertParenthesesForReadability(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="GetPrecedence(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><a href="#file0_line70" class="navigatetohash">GetPrecedence(...)</a></td><td>0%</td><td>5852</td><td>76</td><td>0%</td></tr>
+<tr><td title="ParenthesizeIfRequired(ICSharpCode.Decompiler.CSharp.Syntax.Expression, ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor.PrecedenceLevel)"><a href="#file0_line169" class="navigatetohash">ParenthesizeIfRequired(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="Parenthesize(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><a href="#file0_line177" class="navigatetohash">Parenthesize(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitMemberReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.MemberReferenceExpression)"><a href="#file0_line183" class="navigatetohash">VisitMemberReferenceExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="VisitPointerReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.PointerReferenceExpression)"><a href="#file0_line189" class="navigatetohash">VisitPointerReferenceExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="VisitInvocationExpression(ICSharpCode.Decompiler.CSharp.Syntax.InvocationExpression)"><a href="#file0_line195" class="navigatetohash">VisitInvocationExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="VisitIndexerExpression(ICSharpCode.Decompiler.CSharp.Syntax.IndexerExpression)"><a href="#file0_line201" class="navigatetohash">VisitIndexerExpression(...)</a></td><td>0%</td><td>156</td><td>12</td><td>0%</td></tr>
+<tr><td title="VisitUnaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.UnaryOperatorExpression)"><a href="#file0_line219" class="navigatetohash">VisitUnaryOperatorExpression(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="VisitCastExpression(ICSharpCode.Decompiler.CSharp.Syntax.CastExpression)"><a href="#file0_line229" class="navigatetohash">VisitCastExpression(...)</a></td><td>0%</td><td>1980</td><td>44</td><td>0%</td></tr>
+<tr><td title="TypeCanBeMisinterpretedAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AstType)"><a href="#file0_line288" class="navigatetohash">TypeCanBeMisinterpretedAsExpression(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitBinaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorExpression)"><a href="#file0_line298" class="navigatetohash">VisitBinaryOperatorExpression(...)</a></td><td>0%</td><td>210</td><td>14</td><td>0%</td></tr>
+<tr><td title="IsBitwise(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorType)"><a href="#file0_line349" class="navigatetohash">IsBitwise(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="GetBinaryOperatorType(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><a href="#file0_line356" class="navigatetohash">GetBinaryOperatorType(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitIsExpression(ICSharpCode.Decompiler.CSharp.Syntax.IsExpression)"><a href="#file0_line365" class="navigatetohash">VisitIsExpression(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AsExpression)"><a href="#file0_line379" class="navigatetohash">VisitAsExpression(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitConditionalExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)"><a href="#file0_line395" class="navigatetohash">VisitConditionalExpression(...)</a></td><td>0%</td><td>42</td><td>6</td><td>0%</td></tr>
+<tr><td title="IsConditionalRefExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)"><a href="#file0_line422" class="navigatetohash">IsConditionalRefExpression(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitAssignmentExpression(ICSharpCode.Decompiler.CSharp.Syntax.AssignmentExpression)"><a href="#file0_line429" class="navigatetohash">VisitAssignmentExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="HandleAssignmentRHS(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><a href="#file0_line436" class="navigatetohash">HandleAssignmentRHS(...)</a></td><td>0%</td><td>20</td><td>4</td><td>0%</td></tr>
+<tr><td title="VisitVariableInitializer(ICSharpCode.Decompiler.CSharp.Syntax.VariableInitializer)"><a href="#file0_line448" class="navigatetohash">VisitVariableInitializer(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitQueryExpression(ICSharpCode.Decompiler.CSharp.Syntax.QueryExpression)"><a href="#file0_line461" class="navigatetohash">VisitQueryExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="VisitLambdaExpression(ICSharpCode.Decompiler.CSharp.Syntax.LambdaExpression)"><a href="#file0_line468" class="navigatetohash">VisitLambdaExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+<tr><td title="HandleLambdaOrQuery(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><a href="#file0_line474" class="navigatetohash">HandleLambdaOrQuery(...)</a></td><td>0%</td><td>156</td><td>12</td><td>0%</td></tr>
+<tr><td title="VisitNamedExpression(ICSharpCode.Decompiler.CSharp.Syntax.NamedExpression)"><a href="#file0_line488" class="navigatetohash">VisitNamedExpression(...)</a></td><td>0%</td><td>6</td><td>2</td><td>0%</td></tr>
+<tr><td title="VisitSwitchExpression(ICSharpCode.Decompiler.CSharp.Syntax.SwitchExpression)"><a href="#file0_line497" class="navigatetohash">VisitSwitchExpression(...)</a></td><td>100%</td><td>2</td><td>1</td><td>0%</td></tr>
+</tbody>
+</table>
+</div>
+<h1>File(s)</h1>
+<h2 id="_ICSharpCodeDecompilerCSharpOutputVisitorInsertParenthesesVisitorcs">/_/ICSharpCode.Decompiler/CSharp/OutputVisitor/InsertParenthesesVisitor.cs</h2>
+<p>File &#39;/_/ICSharpCode.Decompiler/CSharp/OutputVisitor/InsertParenthesesVisitor.cs&#39; does not exist (any more).</p>
+<div class="footer">Generated by: ReportGenerator 5.5.0.0<br />11/13/2025 - 13:52:05<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div>
+<div class="containerright">
+<div class="containerrightfixed">
+<h1>Methods/Properties</h1>
+<a href="#file0_line38" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - get_InsertParenthesesForReadability()"><i class="icon-wrench"></i>get_InsertParenthesesForReadability()</a><br />
+<a href="#file0_line38" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - set_InsertParenthesesForReadability(bool)"><i class="icon-wrench"></i>set_InsertParenthesesForReadability(bool)</a><br />
+<a href="#file0_line70" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - GetPrecedence(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><i class="icon-cube"></i>GetPrecedence(ICSharpCode.Decompiler.CSharp.Syntax.Expression)</a><br />
+<a href="#file0_line169" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - ParenthesizeIfRequired(ICSharpCode.Decompiler.CSharp.Syntax.Expression, ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor.PrecedenceLevel)"><i class="icon-cube"></i>ParenthesizeIfRequired(ICSharpCode.Decompiler.CSharp.Syntax.Expression, ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor.PrecedenceLevel)</a><br />
+<a href="#file0_line177" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - Parenthesize(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><i class="icon-cube"></i>Parenthesize(ICSharpCode.Decompiler.CSharp.Syntax.Expression)</a><br />
+<a href="#file0_line183" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitMemberReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.MemberReferenceExpression)"><i class="icon-cube"></i>VisitMemberReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.MemberReferenceExpression)</a><br />
+<a href="#file0_line189" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitPointerReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.PointerReferenceExpression)"><i class="icon-cube"></i>VisitPointerReferenceExpression(ICSharpCode.Decompiler.CSharp.Syntax.PointerReferenceExpression)</a><br />
+<a href="#file0_line195" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitInvocationExpression(ICSharpCode.Decompiler.CSharp.Syntax.InvocationExpression)"><i class="icon-cube"></i>VisitInvocationExpression(ICSharpCode.Decompiler.CSharp.Syntax.InvocationExpression)</a><br />
+<a href="#file0_line201" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitIndexerExpression(ICSharpCode.Decompiler.CSharp.Syntax.IndexerExpression)"><i class="icon-cube"></i>VisitIndexerExpression(ICSharpCode.Decompiler.CSharp.Syntax.IndexerExpression)</a><br />
+<a href="#file0_line219" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitUnaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.UnaryOperatorExpression)"><i class="icon-cube"></i>VisitUnaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.UnaryOperatorExpression)</a><br />
+<a href="#file0_line229" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitCastExpression(ICSharpCode.Decompiler.CSharp.Syntax.CastExpression)"><i class="icon-cube"></i>VisitCastExpression(ICSharpCode.Decompiler.CSharp.Syntax.CastExpression)</a><br />
+<a href="#file0_line288" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - TypeCanBeMisinterpretedAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AstType)"><i class="icon-cube"></i>TypeCanBeMisinterpretedAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AstType)</a><br />
+<a href="#file0_line298" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitBinaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorExpression)"><i class="icon-cube"></i>VisitBinaryOperatorExpression(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorExpression)</a><br />
+<a href="#file0_line349" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - IsBitwise(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorType)"><i class="icon-cube"></i>IsBitwise(ICSharpCode.Decompiler.CSharp.Syntax.BinaryOperatorType)</a><br />
+<a href="#file0_line356" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - GetBinaryOperatorType(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><i class="icon-cube"></i>GetBinaryOperatorType(ICSharpCode.Decompiler.CSharp.Syntax.Expression)</a><br />
+<a href="#file0_line365" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitIsExpression(ICSharpCode.Decompiler.CSharp.Syntax.IsExpression)"><i class="icon-cube"></i>VisitIsExpression(ICSharpCode.Decompiler.CSharp.Syntax.IsExpression)</a><br />
+<a href="#file0_line379" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AsExpression)"><i class="icon-cube"></i>VisitAsExpression(ICSharpCode.Decompiler.CSharp.Syntax.AsExpression)</a><br />
+<a href="#file0_line395" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitConditionalExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)"><i class="icon-cube"></i>VisitConditionalExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)</a><br />
+<a href="#file0_line422" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - IsConditionalRefExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)"><i class="icon-cube"></i>IsConditionalRefExpression(ICSharpCode.Decompiler.CSharp.Syntax.ConditionalExpression)</a><br />
+<a href="#file0_line429" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitAssignmentExpression(ICSharpCode.Decompiler.CSharp.Syntax.AssignmentExpression)"><i class="icon-cube"></i>VisitAssignmentExpression(ICSharpCode.Decompiler.CSharp.Syntax.AssignmentExpression)</a><br />
+<a href="#file0_line436" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - HandleAssignmentRHS(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><i class="icon-cube"></i>HandleAssignmentRHS(ICSharpCode.Decompiler.CSharp.Syntax.Expression)</a><br />
+<a href="#file0_line448" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitVariableInitializer(ICSharpCode.Decompiler.CSharp.Syntax.VariableInitializer)"><i class="icon-cube"></i>VisitVariableInitializer(ICSharpCode.Decompiler.CSharp.Syntax.VariableInitializer)</a><br />
+<a href="#file0_line461" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitQueryExpression(ICSharpCode.Decompiler.CSharp.Syntax.QueryExpression)"><i class="icon-cube"></i>VisitQueryExpression(ICSharpCode.Decompiler.CSharp.Syntax.QueryExpression)</a><br />
+<a href="#file0_line468" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitLambdaExpression(ICSharpCode.Decompiler.CSharp.Syntax.LambdaExpression)"><i class="icon-cube"></i>VisitLambdaExpression(ICSharpCode.Decompiler.CSharp.Syntax.LambdaExpression)</a><br />
+<a href="#file0_line474" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - HandleLambdaOrQuery(ICSharpCode.Decompiler.CSharp.Syntax.Expression)"><i class="icon-cube"></i>HandleLambdaOrQuery(ICSharpCode.Decompiler.CSharp.Syntax.Expression)</a><br />
+<a href="#file0_line488" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitNamedExpression(ICSharpCode.Decompiler.CSharp.Syntax.NamedExpression)"><i class="icon-cube"></i>VisitNamedExpression(ICSharpCode.Decompiler.CSharp.Syntax.NamedExpression)</a><br />
+<a href="#file0_line497" class="navigatetohash percentagebar percentagebar0" title="Line coverage: 0% - VisitSwitchExpression(ICSharpCode.Decompiler.CSharp.Syntax.SwitchExpression)"><i class="icon-cube"></i>VisitSwitchExpression(ICSharpCode.Decompiler.CSharp.Syntax.SwitchExpression)</a><br />
+<br/></div>
+</div></div>
+<script type="text/javascript">
+/* <![CDATA[ */
+(function() {
+    var url = window.location.href;
+    var startOfQueryString = url.indexOf('?');
+    var queryString = startOfQueryString > -1 ? url.substr(startOfQueryString) : '';
+
+    if (startOfQueryString > -1) {
+        var i = 0, href= null;
+        var css = document.getElementsByTagName('link');
+
+        for (i = 0; i < css.length; i++) {
+            if (css[i].getAttribute('rel') !== 'stylesheet') {
+            continue;
+            }
+
+            href = css[i].getAttribute('href');
+
+            if (href) {
+            css[i].setAttribute('href', href + queryString);
+            }
+        }
+
+        var links = document.getElementsByTagName('a');
+
+        for (i = 0; i < links.length; i++) {
+            href = links[i].getAttribute('href');
+
+            if (href
+                && !href.startsWith('http://')
+                && !href.startsWith('https://')
+                && !href.startsWith('#')
+                && href.indexOf('?') === -1) {
+            links[i].setAttribute('href', href + queryString);
+            }
+        }
+    }
+
+    var newScript = document.createElement('script');
+    newScript.src = 'class.js' + queryString;
+    document.getElementsByTagName('body')[0].appendChild(newScript);
+})();
+/* ]]> */ 
+</script></body></html>
