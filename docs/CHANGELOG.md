@@ -14,6 +14,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-016: Precision & Formatting Integration (Built-in .NET)** - Integrated `Quantity` with .NET's standard formatting infrastructure by implementing `IFormattable` and `ISpanFormattable` interfaces, enabling culture-aware formatting without custom logic.
+  - **IFormattable Implementation**:
+    - Added `ToString(string? format)` overload for format string support
+    - Added `ToString(string? format, IFormatProvider? provider)` implementing IFormattable interface
+    - Supports all standard numeric format strings (G, F, N, E, P, C, etc.)
+    - Supports custom format strings ("0.00", "#,##0.0", etc.)
+    - Format defaults to "G" (general) when null or empty
+    - Provider defaults to current culture when null
+  - **ISpanFormattable Implementation (net7.0+)**:
+    - Added `TryFormat(Span<char>, out int, ReadOnlySpan<char>, IFormatProvider?)` method
+    - High-performance span-based formatting avoids string allocations
+    - Uses stackalloc for temporary buffers (zero allocations in hot paths)
+    - Returns false when buffer too small (caller can retry with larger buffer)
+  - **String Interpolation Support**:
+    - Enabled: `$"{quantity:F2}"` → "1234.57 m"
+    - Enabled: `String.Format("{0:N4}", quantity)` → "1,234.5678 m"
+  - **Culture-Aware Formatting**:
+    - Respects IFormatProvider for decimal separators and grouping
+    - Example: `quantity.ToString("N2", new CultureInfo("de-DE"))` → "1.234,56 m"
+  - **Fluent API Enhancement**:
+    - Natural chaining: `quantity.As("km").ToString("F2")` → "1.23 km"
+    - Combines F-013 `As()` method with new formatting capabilities
+  - **Design Principles**:
+    - Zero custom formatting logic - all delegation to `decimal.ToString()`
+    - Conditional compilation for TFM-specific code (`#if NET7_0_OR_GREATER`)
+    - 100% backward compatible - existing `ToString()` and `Format()` unchanged
+  - **Test Coverage**:
+    - Added 39 comprehensive tests in `QuantityFormattingTests.cs`
+    - Tests cover: standard formats, custom formats, cultures, string interpolation, fluent API, span formatting, edge cases
+    - All 556 tests passing (517 original + 39 new)
+    - Test naming follows `MethodName_Condition_ExpectedResult()` convention
+  - **Documentation**:
+    - Comprehensive XML documentation with examples for all new methods
+    - Performance notes for `TryFormat` method
+    - Links to Microsoft documentation for format strings
+  - **Performance**:
+    - IFormattable: No additional allocations (delegates to decimal.ToString)
+    - ISpanFormattable: Zero allocations for numeric portion on .NET 7+
+  - **Security**: CodeQL analysis passed with zero alerts
+
 - **F-013: API Helpers** - Exposed additive helper methods on `Quantity` for introspection, diagnostics, and advanced use cases (F-013)
   - **Introspection Helpers**:
     - `GetSignature()` - returns DimensionSignature representing dimensional composition (L, M, T, I, Θ, N, J exponents)

@@ -182,6 +182,103 @@ foreach (var unit in lengthUnits)
 }
 ```
 
+## Formatting
+
+Tare integrates with .NET's standard formatting infrastructure, enabling culture-aware formatting and string interpolation:
+
+### Standard .NET Formatting
+
+Use standard numeric format strings to control precision and display:
+
+```csharp
+var distance = Quantity.Parse("1234.5678 m");
+
+// Standard format strings
+Console.WriteLine(distance.ToString("F2"));    // "1234.57 m" (2 decimal places)
+Console.WriteLine(distance.ToString("N0"));    // "1,235 m" (no decimals, thousands separator)
+Console.WriteLine(distance.ToString("E3"));    // "1.235E+003 m" (exponential notation)
+Console.WriteLine(distance.ToString("G"));     // "1234.5678 m" (general format)
+```
+
+### String Interpolation
+
+Format quantities directly in string interpolation:
+
+```csharp
+var temperature = Quantity.Parse("72.5 °F");
+Console.WriteLine($"Temperature: {temperature:F1}");  // "Temperature: 72.5 °F"
+
+var pressure = Quantity.Parse("101325 Pa");
+Console.WriteLine($"Pressure: {pressure:N0}");  // "Pressure: 101,325 Pa"
+```
+
+### Culture-Aware Formatting
+
+Respect user locale for decimal separators and grouping:
+
+```csharp
+var quantity = Quantity.Parse("1234.56 m");
+
+// Invariant culture (English formatting)
+Console.WriteLine(quantity.ToString("N2", CultureInfo.InvariantCulture));  // "1,234.56 m"
+
+// German culture (different separators)
+Console.WriteLine(quantity.ToString("N2", new CultureInfo("de-DE")));  // "1.234,56 m"
+
+// French culture (space separator)
+Console.WriteLine(quantity.ToString("N2", new CultureInfo("fr-FR")));  // "1 234,56 m"
+```
+
+### Fluent Formatting with Unit Conversion
+
+Combine unit conversion with formatting for elegant output:
+
+```csharp
+var meters = Quantity.Parse("1000 m");
+
+// Convert to kilometers and format
+Console.WriteLine(meters.As("km").ToString("F2"));  // "1.00 km"
+
+// Convert to miles with culture
+Console.WriteLine(meters.As("mile").ToString("N1", CultureInfo.InvariantCulture));  // "0.6 mile"
+
+// Convert to feet, no decimals
+Console.WriteLine(meters.As("ft").ToString("N0"));  // "3,281 ft"
+```
+
+### Format String Reference
+
+Supported standard format strings:
+- `G` or `g` - General (default)
+- `F` or `f` - Fixed-point (e.g., "F2" for 2 decimals)
+- `N` or `n` - Number with thousands separator (e.g., "N4")
+- `E` or `e` - Exponential notation (e.g., "E3")
+- `P` or `p` - Percent (multiplies by 100)
+- `C` or `c` - Currency (uses culture's currency symbol)
+
+Custom format strings:
+- `"0.00"` - Fixed 2 decimals
+- `"#,##0.0"` - Thousands separator with 1 decimal
+- `"0.###"` - Up to 3 decimals (trailing zeros omitted)
+
+See [.NET Numeric Format Strings](https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) for complete reference.
+
+### High-Performance Formatting (.NET 7+)
+
+For high-throughput scenarios on .NET 7+, use span-based formatting to avoid allocations:
+
+```csharp
+var quantity = Quantity.Parse("1234.57 m");
+Span<char> buffer = stackalloc char[50];
+
+if (quantity.TryFormat(buffer, out int written, "F2", CultureInfo.InvariantCulture))
+{
+    var result = buffer.Slice(0, written);
+    // Use result without heap allocation
+    Console.WriteLine(result);  // "1234.57 m"
+}
+```
+
 ## Advanced Features
 
 ### Type-Safe Operations

@@ -12,7 +12,10 @@ namespace Tare;
 /// Units of measure can be compatible or incompatible. E.g. Length, Area, Volume, Mass, etc. Compatible units
 /// may have mathematical operations applied, and may be converted to different units.
 /// </summary>
-public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IComparable
+public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IComparable, IFormattable
+#if NET7_0_OR_GREATER
+    , ISpanFormattable
+#endif
 {
     readonly static Regex UnitsPattern = new("([A-Za-z|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
     readonly static Regex ValuePattern = new(@"(\d+(?:\.\d*)?|\.\d+)", RegexOptions.Compiled);
@@ -561,10 +564,76 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     }
 
     /// <summary>
-    /// Converts the numberic value and defining unit of measure to its string equivalent.
+    /// Converts the numeric value and defining unit of measure to its string equivalent.
     /// </summary>
     /// <returns>A string that represents the Quantity value.</returns>
     public override string ToString() => Format(Unit);
+
+    /// <summary>
+    /// Formats the quantity using the specified numeric format string.
+    /// Uses the quantity's current unit and current culture.
+    /// </summary>
+    /// <param name="format">
+    /// A standard or custom numeric format string (e.g., "G", "F2", "N4", "#,##0.00").
+    /// If null or empty, defaults to "G" (general format).
+    /// </param>
+    /// <returns>Formatted string representation (e.g., "10.50 m" for format "F2").</returns>
+    /// <remarks>
+    /// Supported format strings:
+    /// - Standard: G (general), F (fixed-point), N (number with separators), 
+    ///             E (exponential), P (percent), C (currency), etc.
+    /// - Custom: "0.00", "#,##0.0", etc.
+    /// 
+    /// Examples:
+    /// - ToString("F2") → "1234.57 m" (2 decimal places)
+    /// - ToString("N0") → "1,235 m" (no decimals, thousands separator)
+    /// - ToString("E3") → "1.235E+003 m" (exponential notation)
+    /// - ToString("#,##0.0") → "1,234.6 m" (custom format)
+    /// </remarks>
+    public string ToString(string? format)
+    {
+        return ToString(format, null);
+    }
+
+    /// <summary>
+    /// Formats the quantity using the specified format string and format provider.
+    /// Implements <see cref="IFormattable"/> for standard .NET formatting integration.
+    /// </summary>
+    /// <param name="format">
+    /// A standard or custom numeric format string. If null or empty, defaults to "G".
+    /// See https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings
+    /// </param>
+    /// <param name="provider">
+    /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+    /// If null, uses the current culture (<see cref="System.Globalization.CultureInfo.CurrentCulture"/>).
+    /// </param>
+    /// <returns>Formatted string representation with culture-specific number formatting.</returns>
+    /// <remarks>
+    /// This method enables:
+    /// - String interpolation: $"{quantity:F2}"
+    /// - String.Format: String.Format("{0:N4}", quantity)
+    /// - Culture-specific formatting: quantity.ToString("N2", new CultureInfo("de-DE"))
+    /// 
+    /// The format string applies to the numeric value; the unit is always appended.
+    /// 
+    /// Examples:
+    /// - ToString("F2", null) → "1234.57 m" (current culture)
+    /// - ToString("N2", CultureInfo.InvariantCulture) → "1,234.57 m"
+    /// - ToString("N2", new CultureInfo("de-DE")) → "1.234,57 m" (German)
+    /// - ToString("N2", new CultureInfo("fr-FR")) → "1 234,57 m" (French)
+    /// </remarks>
+    public string ToString(string? format, IFormatProvider? provider)
+    {
+        // Use general format if format is null/empty
+        format ??= "G";
+        
+        // Format the numeric value using .NET's decimal formatting
+        // This delegates all format string parsing and culture handling to the framework
+        var formattedValue = Value.ToString(format, provider);
+        
+        // Append unit (existing behavior)
+        return $"{formattedValue} {Unit}";
+    }
 
     public bool Equals(Quantity other)
     {
@@ -1300,4 +1369,91 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     }
 
     #endregion
+
+#if NET7_0_OR_GREATER
+    /// <summary>
+    /// Tries to format the quantity into the provided span of characters.
+    /// Implements <see cref="ISpanFormattable"/> for high-performance formatting on .NET 7+.
+    /// </summary>
+    /// <param name="destination">The span to write the formatted quantity into.</param>
+    /// <param name="charsWritten">
+    /// When this method returns, contains the number of characters written to the span.
+    /// </param>
+    /// <param name="format">
+    /// A standard or custom numeric format string. If null or empty, defaults to "G".
+    /// </param>
+    /// <param name="provider">
+    /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+    /// If null, uses the current culture.
+    /// </param>
+    /// <returns>
+    /// True if the formatting was successful and the result fits in the destination span;
+    /// otherwise, false.
+    /// </returns>
+    /// <remarks>
+    /// This high-performance overload avoids string allocations by writing directly to a span.
+    /// Useful in hot paths, logging, or high-throughput scenarios.
+    /// 
+    /// If the destination span is too small, the method returns false and charsWritten is 0.
+    /// The caller should allocate a larger buffer and retry.
+    /// 
+    /// Performance: Avoids heap allocations for the numeric portion; only the final
+    /// concatenation may allocate if interpolated string handling doesn't use spans.
+    /// 
+    /// Example:
+    /// <code>
+    /// Span&lt;char&gt; buffer = stackalloc char[50];
+    /// if (quantity.TryFormat(buffer, out int written, "F2", null))
+    /// {
+    ///     var result = buffer.Slice(0, written);
+    ///     Console.WriteLine(result);  // "1234.57 m"
+    /// }
+    /// </code>
+    /// </remarks>
+    public bool TryFormat(
+        Span<char> destination, 
+        out int charsWritten, 
+        ReadOnlySpan<char> format, 
+        IFormatProvider? provider)
+    {
+        // Use general format if format is empty
+        format = format.IsEmpty ? "G".AsSpan() : format;
+        
+        // Try to format the numeric value into a temporary span
+        // Use stackalloc for small buffers to avoid allocations
+        Span<char> valueBuffer = stackalloc char[50];
+        
+        if (!Value.TryFormat(valueBuffer, out int valueCharsWritten, format, provider))
+        {
+            // Value doesn't fit in temporary buffer - fall back to ToString
+            // This is rare (very large numbers or complex custom formats)
+            charsWritten = 0;
+            return false;
+        }
+        
+        // Calculate total length: value + " " + unit
+        int totalLength = valueCharsWritten + 1 + Unit.Length;
+        
+        // Check if destination has enough space
+        if (totalLength > destination.Length)
+        {
+            charsWritten = 0;
+            return false;
+        }
+        
+        // Copy formatted value to destination
+        valueBuffer.Slice(0, valueCharsWritten).CopyTo(destination);
+        int position = valueCharsWritten;
+        
+        // Add space separator
+        destination[position++] = ' ';
+        
+        // Copy unit string to destination
+        Unit.AsSpan().CopyTo(destination.Slice(position));
+        position += Unit.Length;
+        
+        charsWritten = position;
+        return true;
+    }
+#endif
 }
