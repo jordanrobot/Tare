@@ -7,7 +7,7 @@
     <BaseOutputPath>bin\</BaseOutputPath>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <InformationalVersion>1.0.0-vNext.1+189.Branch.vNext.Sha.f684e7a207fdaa82942e513bb33713890b968268</InformationalVersion>
+    <InformationalVersion>1.0.0-vNext.1+190.Branch.vNext.Sha.081c58f8772e2e344755a71858a7bdb8375f1772</InformationalVersion>
     <Version>1.0.0-vNext.1</Version>
   </PropertyGroup>
   <ItemGroup>
