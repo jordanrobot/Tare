@@ -14,6 +14,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **F-015: Test Suite Expansion** - Comprehensive test coverage expansion and validation
+  - **S-004 Test Matrix Validation**:
+    - Added `S004TestMatrixTests.cs` with 17 dedicated tests explicitly validating all 8 dimensional algebra scenarios
+    - Scenario 1: Length × Force = Torque (6 in × 10 lbf = 60 lbf·in ≈ 6.779 Nm)
+    - Scenario 2: Area ÷ Length = Length (48 in² / 4 in = 12 in)
+    - Scenario 3: Length ÷ Length = Scalar (48 in / 1 in = 48)
+    - Scenario 4: Cross-system conversion (100 Nm ↔ 885 lbf·in with round-trip validation)
+    - Scenario 5: Volume ÷ Length = Area (144 in³ / 12 in = 12 in²)
+    - Scenario 6: Mixed aliases (2 inch × 3 pound force = 6 lbf·in)
+    - Scenario 7: Complex composite signature stability
+    - Scenario 8: Temperature differences (subtraction policy validation)
+  - **Test Coverage**:
+    - Total test count increased to 625 tests (573 functional + 52 validation)
+    - 100% pass rate maintained across all tests
+    - Line coverage: 93.25% (exceeds 85% target)
+    - Branch coverage: 67.25%
+    - All tests follow `MethodName_Condition_ExpectedResult()` naming convention
+  - **Documentation**:
+    - Updated README.md with current test results and coverage metrics
+    - Added testing instructions with coverage collection commands
+    - Documented test organization and categories
+    - Added coverage reports to .gitignore
+  - **Quality Standards**:
+    - All new tests use Arrange-Act-Assert (AAA) pattern
+    - Tests are independent and deterministic
+    - Fast execution time (~2 seconds for full suite)
+    - Comprehensive edge case and error path validation
+
 - **F-014: Documentation & Migration Notes** - Comprehensive user-focused documentation for the Tare library
   - **User Guide Documentation**:
     - Added `GettingStarted.md` - Installation, basic concepts, and first program examples

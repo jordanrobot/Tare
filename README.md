@@ -372,7 +372,32 @@ All unit conversions are validated against exact definitions from international 
 - **ISO 80000-1** - Quantities and units - Part 1: General
 - **1959 International Yard and Pound Agreement** - Exact definitions for imperial/US customary units
 
-**Test Results:** 504 total tests (452 functional + 52 validation) with 100% pass rate ✅
+**Test Results:** 625 total tests (573 functional + 52 validation) with 100% pass rate ✅  
+**Test Coverage:** 93.25% line coverage, 67.25% branch coverage (exceeds 85% target) ✅
+
+### Running Tests
+
+```bash
+# Run all tests
+dotnet test
+
+# Run with coverage (requires dotnet-coverage tool)
+dotnet tool install -g dotnet-coverage
+dotnet-coverage collect -f cobertura -o coverage.cobertura.xml dotnet test
+
+# Generate HTML coverage report (requires reportgenerator tool)
+dotnet tool install -g dotnet-reportgenerator-globaltool
+reportgenerator -reports:coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
+
+# Run specific test category
+dotnet test --filter "FullyQualifiedName~S004TestMatrixTests"
+```
+
+The test suite includes:
+- **S-004 Test Matrix**: 17 tests explicitly validating all 8 dimensional algebra scenarios
+- **Unit Tests**: Focused component tests for value objects, operators, and parsers
+- **Integration Tests**: End-to-end workflow validation
+- **Validation Tests**: Accuracy verification against NIST/BIPM/ISO standards
 
 ## References and Further Reading
 
