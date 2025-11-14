@@ -17,7 +17,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     , ISpanFormattable
 #endif
 {
-    readonly static Regex UnitsPattern = new("([A-Za-z|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
+    readonly static Regex UnitsPattern = new("([A-Za-z°|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
     readonly static Regex ValuePattern = new(@"(\d+(?:\.\d*)?|\.\d+)", RegexOptions.Compiled);
 
     #region Ctors
