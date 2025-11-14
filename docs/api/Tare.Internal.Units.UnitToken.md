@@ -12,23 +12,156 @@ System.IEquatable<Tare.Internal.Units.UnitToken>
 ```
 
 Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
+### Constructors
 
-| Constructors | |
-| :--- | :--- |
-| [UnitToken(string)](Tare.Internal.Units.UnitToken.UnitToken(string).md 'Tare.Internal.Units.UnitToken.UnitToken(string)') | Constructs a unit token from a canonical string. |
+<a name='Tare.Internal.Units.UnitToken.UnitToken(string)'></a>
 
-| Properties | |
-| :--- | :--- |
-| [Canonical](Tare.Internal.Units.UnitToken.Canonical.md 'Tare.Internal.Units.UnitToken.Canonical') | Gets the canonical string representation of the unit. |
+## UnitToken(string) Constructor
 
-| Methods | |
-| :--- | :--- |
-| [Equals(object)](Tare.Internal.Units.UnitToken.Equals(object).md 'Tare.Internal.Units.UnitToken.Equals(object)') | Determines whether the specified object is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken'). |
-| [Equals(UnitToken)](Tare.Internal.Units.UnitToken.Equals(Tare.Internal.Units.UnitToken).md 'Tare.Internal.Units.UnitToken.Equals(Tare.Internal.Units.UnitToken)') | Determines whether the specified [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken'). |
-| [GetHashCode()](Tare.Internal.Units.UnitToken.GetHashCode().md 'Tare.Internal.Units.UnitToken.GetHashCode()') | Returns the hash code for this [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken'). |
-| [ToString()](Tare.Internal.Units.UnitToken.ToString().md 'Tare.Internal.Units.UnitToken.ToString()') | Returns the canonical string representation of this unit token. |
+Constructs a unit token from a canonical string.
 
-| Operators | |
-| :--- | :--- |
-| [operator ==(UnitToken, UnitToken)](Tare.Internal.Units.UnitToken.op_Equality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).md 'Tare.Internal.Units.UnitToken.op_Equality(Tare.Internal.Units.UnitToken, Tare.Internal.Units.UnitToken)') | Determines whether two [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') instances are equal. |
-| [operator !=(UnitToken, UnitToken)](Tare.Internal.Units.UnitToken.op_Inequality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).md 'Tare.Internal.Units.UnitToken.op_Inequality(Tare.Internal.Units.UnitToken, Tare.Internal.Units.UnitToken)') | Determines whether two [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') instances are not equal. |
+```csharp
+public UnitToken(string canonical);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.UnitToken.UnitToken(string).canonical'></a>
+
+`canonical` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The canonical unit identifier (e.g., "in", "lbf", "m").
+
+#### Exceptions
+
+[System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
+Thrown when canonical is null, empty, or whitespace.
+### Properties
+
+<a name='Tare.Internal.Units.UnitToken.Canonical'></a>
+
+## UnitToken.Canonical Property
+
+Gets the canonical string representation of the unit.
+
+```csharp
+public string Canonical { get; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='Tare.Internal.Units.UnitToken.Equals(object)'></a>
+
+## UnitToken.Equals(object) Method
+
+Determines whether the specified object is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.UnitToken.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+true if the specified object is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken'); otherwise, false.
+
+<a name='Tare.Internal.Units.UnitToken.Equals(Tare.Internal.Units.UnitToken)'></a>
+
+## UnitToken.Equals(UnitToken) Method
+
+Determines whether the specified [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+```csharp
+public bool Equals(Tare.Internal.Units.UnitToken other);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.UnitToken.Equals(Tare.Internal.Units.UnitToken).other'></a>
+
+`other` [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')
+
+The [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') to compare with the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+true if the specified [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') is equal to the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken'); otherwise, false.
+
+<a name='Tare.Internal.Units.UnitToken.GetHashCode()'></a>
+
+## UnitToken.GetHashCode() Method
+
+Returns the hash code for this [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken').
+
+<a name='Tare.Internal.Units.UnitToken.ToString()'></a>
+
+## UnitToken.ToString() Method
+
+Returns the canonical string representation of this unit token.
+
+```csharp
+public override string ToString();
+```
+
+#### Returns
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The canonical unit identifier string.
+### Operators
+
+<a name='Tare.Internal.Units.UnitToken.op_Equality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken)'></a>
+
+## UnitToken.operator ==(UnitToken, UnitToken) Operator
+
+Determines whether two [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') instances are equal.
+
+```csharp
+public static bool operator ==(Tare.Internal.Units.UnitToken left, Tare.Internal.Units.UnitToken right);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.UnitToken.op_Equality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).left'></a>
+
+`left` [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')
+
+<a name='Tare.Internal.Units.UnitToken.op_Equality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).right'></a>
+
+`right` [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='Tare.Internal.Units.UnitToken.op_Inequality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken)'></a>
+
+## UnitToken.operator !=(UnitToken, UnitToken) Operator
+
+Determines whether two [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken') instances are not equal.
+
+```csharp
+public static bool operator !=(Tare.Internal.Units.UnitToken left, Tare.Internal.Units.UnitToken right);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.UnitToken.op_Inequality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).left'></a>
+
+`left` [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')
+
+<a name='Tare.Internal.Units.UnitToken.op_Inequality(Tare.Internal.Units.UnitToken,Tare.Internal.Units.UnitToken).right'></a>
+
+`right` [UnitToken](Tare.Internal.Units.UnitToken.md 'Tare.Internal.Units.UnitToken')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

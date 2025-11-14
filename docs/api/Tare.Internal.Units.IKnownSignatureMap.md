@@ -16,9 +16,70 @@ Derived
 This interface provides signature-to-name resolution for known dimensional compositions,  
 enabling display of recognized unit names (e.g., "N" for force) instead of generic  
 composite strings (e.g., "kg·m/s²").
+### Methods
 
-| Methods | |
-| :--- | :--- |
-| [GetKnownSignatures()](Tare.Internal.Units.IKnownSignatureMap.GetKnownSignatures().md 'Tare.Internal.Units.IKnownSignatureMap.GetKnownSignatures()') | Gets all known signatures in the map. |
-| [IsKnown(DimensionSignature)](Tare.Internal.Units.IKnownSignatureMap.IsKnown(Tare.Internal.Units.DimensionSignature).md 'Tare.Internal.Units.IKnownSignatureMap.IsKnown(Tare.Internal.Units.DimensionSignature)') | Checks if a signature is known in the map. |
-| [TryGetPreferredUnit(DimensionSignature, PreferredUnit)](Tare.Internal.Units.IKnownSignatureMap.TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature,Tare.Internal.Units.PreferredUnit).md 'Tare.Internal.Units.IKnownSignatureMap.TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature, Tare.Internal.Units.PreferredUnit)') | Attempts to get the preferred unit for a given dimension signature. |
+<a name='Tare.Internal.Units.IKnownSignatureMap.GetKnownSignatures()'></a>
+
+## IKnownSignatureMap.GetKnownSignatures() Method
+
+Gets all known signatures in the map.
+
+```csharp
+System.Collections.Generic.IEnumerable<Tare.Internal.Units.DimensionSignature> GetKnownSignatures();
+```
+
+#### Returns
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')  
+An enumerable collection of all known dimension signatures.
+
+<a name='Tare.Internal.Units.IKnownSignatureMap.IsKnown(Tare.Internal.Units.DimensionSignature)'></a>
+
+## IKnownSignatureMap.IsKnown(DimensionSignature) Method
+
+Checks if a signature is known in the map.
+
+```csharp
+bool IsKnown(Tare.Internal.Units.DimensionSignature signature);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.IKnownSignatureMap.IsKnown(Tare.Internal.Units.DimensionSignature).signature'></a>
+
+`signature` [DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature')
+
+The dimension signature to check.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+True if the signature has a known preferred unit.
+
+<a name='Tare.Internal.Units.IKnownSignatureMap.TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature,Tare.Internal.Units.PreferredUnit)'></a>
+
+## IKnownSignatureMap.TryGetPreferredUnit(DimensionSignature, PreferredUnit) Method
+
+Attempts to get the preferred unit for a given dimension signature.
+
+```csharp
+bool TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature signature, out Tare.Internal.Units.PreferredUnit preferredUnit);
+```
+#### Parameters
+
+<a name='Tare.Internal.Units.IKnownSignatureMap.TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature,Tare.Internal.Units.PreferredUnit).signature'></a>
+
+`signature` [DimensionSignature](Tare.Internal.Units.DimensionSignature.md 'Tare.Internal.Units.DimensionSignature')
+
+The dimension signature to resolve.
+
+<a name='Tare.Internal.Units.IKnownSignatureMap.TryGetPreferredUnit(Tare.Internal.Units.DimensionSignature,Tare.Internal.Units.PreferredUnit).preferredUnit'></a>
+
+`preferredUnit` [PreferredUnit](Tare.Internal.Units.PreferredUnit.md 'Tare.Internal.Units.PreferredUnit')
+
+The preferred unit if found; otherwise default.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+True if the signature is known; false otherwise.
+
+### Remarks
+This method uses the TryGet pattern to avoid exceptions for unknown signatures.  
+Callers can fallback to composite formatting when this returns false.
