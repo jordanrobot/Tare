@@ -217,16 +217,19 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     {
         get
         {
-            // Try to use custom converter when available
+            // Use converter for catalog units with custom conversion
             if (UnitDefinitions.IsValidUnit(Unit))
             {
                 var def = UnitDefinitions.Parse(Unit);
-                if (def.HasCustomConverter)
+                
+                // Use converter for delegate converters
+                if (def.Converter is DelegateConverter)
                 {
-                    return def.ToBaseFunc(Value);
+                    return def.Converter.ToBase(Value);
                 }
             }
-            // Fallback to linear factor
+            
+            // For linear converters and composite units, use simple multiplication
             return Value * Factor;
         }
     }
@@ -288,24 +291,32 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     /// <returns>Returns a decimal representing the value as a decimal converted to the specified unit.</returns>
     public decimal Convert(string unit)
     {
-        var TargetUnit = UnitDefinitions.Parse(unit);
-        var thisFactor = FactorRational;
-        var targetFactor = TargetUnit.FactorRational;
-
-        // If any custom converter exists (affine/non-linear), use function path
-        if (TargetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+        var targetUnit = UnitDefinitions.Parse(unit);
+        
+        // Use converter interface path when custom converters are involved
+        if (UnitDefinitions.IsValidUnit(Unit))
         {
-            // Convert this value to base via source func, then from base via target func
-            var sourceDef = UnitDefinitions.Parse(Unit);
-            var baseValue = sourceDef.ToBaseFunc(Value);
-            var result = TargetUnit.FromBaseFunc(baseValue);
-            return result;
+            var sourceUnit = UnitDefinitions.Parse(Unit);
+            
+            // If either has a custom (delegate) converter, use the converter path
+            if (sourceUnit.Converter is DelegateConverter || targetUnit.Converter is DelegateConverter)
+            {
+                var baseValue = sourceUnit.Converter.ToBase(Value);
+                return targetUnit.Converter.FromBase(baseValue);
+            }
+            
+            // Both are linear converters - use direct ratio for best precision
+            var thisFactor = sourceUnit.FactorRational;
+            var targetFactor = targetUnit.FactorRational;
+            var factorRatio = thisFactor / targetFactor;
+            return (Value * factorRatio.Numerator) / factorRatio.Denominator;
         }
-
-        // Use exact Rational arithmetic for factor ratio
-        // Compute as (Value * numerator) / denominator to maintain precision
-        var factorRatio = thisFactor / targetFactor;
-        return (Value * factorRatio.Numerator) / factorRatio.Denominator;
+        
+        // Fallback for composite units - use exact Rational arithmetic
+        var thisFactorComposite = FactorRational;
+        var targetFactorComposite = targetUnit.FactorRational;
+        var factorRatioComposite = thisFactorComposite / targetFactorComposite;
+        return (Value * factorRatioComposite.Numerator) / factorRatioComposite.Denominator;
     }
 
     /// <summary>
@@ -357,38 +368,54 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             {
                 var targetUnit = UnitDefinitions.Parse(unit);
 
-                // If any custom converter exists (affine/non-linear), use function path
-                if (targetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+                // Use converter interface path when custom converters are involved
+                if (UnitDefinitions.IsValidUnit(Unit))
                 {
-                    var sourceDef = UnitDefinitions.Parse(Unit);
-                    var baseValue = sourceDef.ToBaseFunc(Value);
-                    var convertedValueFunc = targetUnit.FromBaseFunc(baseValue);
-                    return convertedValueFunc.ToString(format) + " " + unit;
+                    var sourceUnit = UnitDefinitions.Parse(Unit);
+                    
+                    // If either has a custom (delegate) converter, use the converter path
+                    if (sourceUnit.Converter is DelegateConverter || targetUnit.Converter is DelegateConverter)
+                    {
+                        var baseValue = sourceUnit.Converter.ToBase(Value);
+                        var convertedValue = targetUnit.Converter.FromBase(baseValue);
+                        return convertedValue.ToString(format) + " " + unit;
+                    }
+                    
+                    // Both are linear converters - use direct ratio for best precision
+                    var thisFactor = sourceUnit.FactorRational;
+                    var targetFactor = targetUnit.FactorRational;
+                    var factorRatio = thisFactor / targetFactor;
+                    var convertedValueLinear = (Value * factorRatio.Numerator) / factorRatio.Denominator;
+                    return convertedValueLinear.ToString(format) + " " + unit;
                 }
 
-                // Use exact Rational arithmetic for factor ratio
-                var thisFactor = FactorRational;
-                var targetFactor = targetUnit.FactorRational;
-                var factorRatio = thisFactor / targetFactor;
-                var convertedValue = (Value * factorRatio.Numerator) / factorRatio.Denominator;
-                return convertedValue.ToString(format) + " " + unit;
+                // Fallback for composite units - use exact Rational arithmetic
+                var thisFactorComposite = FactorRational;
+                var targetFactorComposite = targetUnit.FactorRational;
+                var factorRatioComposite = thisFactorComposite / targetFactorComposite;
+                var convertedValueComposite = (Value * factorRatioComposite.Numerator) / factorRatioComposite.Denominator;
+                return convertedValueComposite.ToString(format) + " " + unit;
             }
             catch (OverflowException)
             {
                 // Fall back to decimal if Rational arithmetic overflows
                 var targetUnit = UnitDefinitions.Parse(unit);
 
-                // If any custom converter exists, use function path
-                if (targetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+                // Use converter interface even in overflow case when needed
+                if (UnitDefinitions.IsValidUnit(Unit))
                 {
-                    var sourceDef = UnitDefinitions.Parse(Unit);
-                    var baseValue = sourceDef.ToBaseFunc(Value);
-                    var convertedValueFunc = targetUnit.FromBaseFunc(baseValue);
-                    return convertedValueFunc.ToString(format) + " " + unit;
+                    var sourceUnit = UnitDefinitions.Parse(Unit);
+                    
+                    if (sourceUnit.Converter is DelegateConverter || targetUnit.Converter is DelegateConverter)
+                    {
+                        var baseValue = sourceUnit.Converter.ToBase(Value);
+                        var convertedValue = targetUnit.Converter.FromBase(baseValue);
+                        return convertedValue.ToString(format) + " " + unit;
+                    }
                 }
 
-                var convertedValue = Value * (Factor / targetUnit.Factor);
-                return convertedValue.ToString(format) + " " + unit;
+                var convertedValueDec = Value * (Factor / targetUnit.Factor);
+                return convertedValueDec.ToString(format) + " " + unit;
             }
         }
 
@@ -755,18 +782,18 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             
             var baseResult = q1.BaseValue + q2.BaseValue;
             
-            // If q1 has custom converter, use FromBaseFunc to convert back
+            // If q1 has custom converter, use converter to convert back
             if (UnitDefinitions.IsValidUnit(q1.Unit))
             {
                 var def = UnitDefinitions.Parse(q1.Unit);
-                if (def.HasCustomConverter)
+                if (def.Converter is DelegateConverter)
                 {
-                    var result = def.FromBaseFunc(baseResult);
+                    var result = def.Converter.FromBase(baseResult);
                     return new Quantity(result, q1.Unit);
                 }
             }
             
-            // Fallback to factor-based conversion
+            // For linear converters, use simple decimal division for consistency
             var temp = baseResult / q1.Factor;
             return new Quantity(temp, q1.Unit);
         }
@@ -797,18 +824,18 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             
             var baseResult = q1.BaseValue - q2.BaseValue;
             
-            // If q1 has custom converter, use FromBaseFunc to convert back
+            // If q1 has custom converter, use converter to convert back
             if (UnitDefinitions.IsValidUnit(q1.Unit))
             {
                 var def = UnitDefinitions.Parse(q1.Unit);
-                if (def.HasCustomConverter)
+                if (def.Converter is DelegateConverter)
                 {
-                    var result = def.FromBaseFunc(baseResult);
+                    var result = def.Converter.FromBase(baseResult);
                     return new Quantity(result, q1.Unit);
                 }
             }
             
-            // Fallback to factor-based conversion
+            // For linear converters, use simple decimal division for consistency
             var temp = baseResult / q1.Factor;
             return new Quantity(temp, q1.Unit);
         }
