@@ -17,8 +17,8 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     , ISpanFormattable
 #endif
 {
-    readonly static Regex UnitsPattern = new("([A-Za-z°|\\^|\\-|\\/|'|''|\"|*].*)", RegexOptions.Compiled);
-    readonly static Regex ValuePattern = new(@"(\d+(?:\.\d*)?|\.\d+)", RegexOptions.Compiled);
+    readonly static Regex UnitsPattern = new("([A-Za-z°\\^\\/'\"*].*)", RegexOptions.Compiled);
+    readonly static Regex ValuePattern = new(@"(-?\d+(?:\.\d*)?|-?\.\d+)", RegexOptions.Compiled);
 
     #region Ctors
     /// <summary>
@@ -743,7 +743,31 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     {
         if (AreCompatible(q1, q2))
         {
-            var temp = (q1.BaseValue + q2.BaseValue) / q1.Factor;
+            // Special handling for temperature units - treat as differences
+            if (q1.UnitType == UnitTypeEnum.Temperature && q2.UnitType == UnitTypeEnum.Temperature)
+            {
+                // For temperature arithmetic, work with the raw values (differences)
+                // Convert q2 to q1's unit first, then add the values
+                var q2Converted = q2.Convert(q1.Unit);
+                var result = q1.Value + q2Converted;
+                return new Quantity(result, q1.Unit);
+            }
+            
+            var baseResult = q1.BaseValue + q2.BaseValue;
+            
+            // If q1 has custom converter, use FromBaseFunc to convert back
+            if (UnitDefinitions.IsValidUnit(q1.Unit))
+            {
+                var def = UnitDefinitions.Parse(q1.Unit);
+                if (def.HasCustomConverter)
+                {
+                    var result = def.FromBaseFunc(baseResult);
+                    return new Quantity(result, q1.Unit);
+                }
+            }
+            
+            // Fallback to factor-based conversion
+            var temp = baseResult / q1.Factor;
             return new Quantity(temp, q1.Unit);
         }
         else
@@ -761,7 +785,31 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     {
         if (AreCompatible(q1, q2))
         {
-            var temp = (q1.BaseValue - q2.BaseValue) / q1.Factor;
+            // Special handling for temperature units - treat as differences
+            if (q1.UnitType == UnitTypeEnum.Temperature && q2.UnitType == UnitTypeEnum.Temperature)
+            {
+                // For temperature arithmetic, work with the raw values (differences)
+                // Convert q2 to q1's unit first, then subtract the values
+                var q2Converted = q2.Convert(q1.Unit);
+                var result = q1.Value - q2Converted;
+                return new Quantity(result, q1.Unit);
+            }
+            
+            var baseResult = q1.BaseValue - q2.BaseValue;
+            
+            // If q1 has custom converter, use FromBaseFunc to convert back
+            if (UnitDefinitions.IsValidUnit(q1.Unit))
+            {
+                var def = UnitDefinitions.Parse(q1.Unit);
+                if (def.HasCustomConverter)
+                {
+                    var result = def.FromBaseFunc(baseResult);
+                    return new Quantity(result, q1.Unit);
+                }
+            }
+            
+            // Fallback to factor-based conversion
+            var temp = baseResult / q1.Factor;
             return new Quantity(temp, q1.Unit);
         }
         else

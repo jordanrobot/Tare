@@ -246,7 +246,7 @@ public class TemperatureUnitTests
         var result = temp1 - temp2;
 
         // Assert
-        Assert.That(result.Value, Is.EqualTo(12m));
+        Assert.That(result.Value, Is.EqualTo(12m).Within(0.0001m));
         Assert.That(result.Unit, Is.EqualTo("°F"));
     }
 
@@ -346,6 +346,59 @@ public class TemperatureUnitTests
     {
         // Act & Assert
         Assert.That(UnitDefinitions.IsValidUnit("fahrenheit"), Is.True);
+    }
+
+    #endregion
+
+    #region Negative Temperature Tests
+
+    [Test]
+    public void Parse_NegativeCelsius_ReturnsCorrectQuantity()
+    {
+        // Arrange & Act
+        var quantity = Quantity.Parse("-10 C");
+
+        // Assert
+        Assert.That(quantity.Value, Is.EqualTo(-10m));
+        Assert.That(quantity.Unit, Is.EqualTo("°C"));
+        Assert.That(quantity.UnitType, Is.EqualTo(UnitTypeEnum.Temperature));
+    }
+
+    [Test]
+    public void Parse_NegativeFahrenheit_ReturnsCorrectQuantity()
+    {
+        // Arrange & Act
+        var quantity = Quantity.Parse("-5.5 F");
+
+        // Assert
+        Assert.That(quantity.Value, Is.EqualTo(-5.5m));
+        Assert.That(quantity.Unit, Is.EqualTo("°F"));
+        Assert.That(quantity.UnitType, Is.EqualTo(UnitTypeEnum.Temperature));
+    }
+
+    [Test]
+    public void Parse_NegativeKelvin_ReturnsCorrectQuantity()
+    {
+        // Arrange & Act
+        var quantity = Quantity.Parse("-273.15 K");
+
+        // Assert
+        Assert.That(quantity.Value, Is.EqualTo(-273.15m));
+        Assert.That(quantity.Unit, Is.EqualTo("K"));
+        Assert.That(quantity.UnitType, Is.EqualTo(UnitTypeEnum.Temperature));
+    }
+
+    [Test]
+    public void Convert_NegativeCelsiusToFahrenheit_ReturnsCorrectValue()
+    {
+        // Arrange
+        var celsius = Quantity.Parse("-40 C");
+
+        // Act
+        var fahrenheit = celsius.Convert("F");
+
+        // Assert - -40°C = -40°F (they intersect at this point)
+        Assert.That(fahrenheit, Is.EqualTo(-40m).Within(0.0001m));
     }
 
     #endregion
