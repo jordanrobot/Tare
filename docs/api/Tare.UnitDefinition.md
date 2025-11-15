@@ -117,6 +117,19 @@ Function mapping unit value to base unit value\.
 Function mapping base unit value to this unit's value\.
 ### Properties
 
+<a name='Tare.UnitDefinition.Converter'></a>
+
+## UnitDefinition\.Converter Property
+
+Gets the converter for this unit\.
+
+```csharp
+internal Tare.Internal.IUnitConverter Converter { internal get; }
+```
+
+#### Property Value
+[IUnitConverter](Tare.Internal.IUnitConverter.md 'Tare\.Internal\.IUnitConverter')
+
 <a name='Tare.UnitDefinition.Factor'></a>
 
 ## UnitDefinition\.Factor Property

@@ -20,10 +20,15 @@ public class UnitDefinition
 
     public UnitTypeEnum UnitType { get; }
 
-    // Delegate-based converters for non-linear/offset units
-    internal bool HasCustomConverter { get; }
-    internal Func<decimal, decimal> ToBaseFunc { get; }
-    internal Func<decimal, decimal> FromBaseFunc { get; }
+    /// <summary>
+    /// Gets the converter for this unit.
+    /// </summary>
+    internal IUnitConverter Converter { get; }
+
+    // Legacy properties - kept for backward compatibility during transition
+    internal bool HasCustomConverter => Converter is DelegateConverter;
+    internal Func<decimal, decimal> ToBaseFunc => v => Converter.ToBase(v);
+    internal Func<decimal, decimal> FromBaseFunc => v => Converter.FromBase(v);
 
     /// <summary>
     /// Creates a UnitDefinition with a decimal factor (converted to rational).
@@ -35,10 +40,7 @@ public class UnitDefinition
         FactorRational = Rational.FromDecimal(factor);
         UnitType = unitType;
         Aliases = aliases;
-        HasCustomConverter = false;
-        // Default linear converters
-        ToBaseFunc = v => v * FactorRational.ToDecimal();
-        FromBaseFunc = v => v / FactorRational.ToDecimal();
+        Converter = new LinearConverter(FactorRational);
     }
 
     /// <summary>
@@ -55,10 +57,7 @@ public class UnitDefinition
         FactorRational = factor;
         UnitType = unitType;
         Aliases = aliases;
-        HasCustomConverter = false;
-        // Default linear converters
-        ToBaseFunc = v => v * FactorRational.ToDecimal();
-        FromBaseFunc = v => v / FactorRational.ToDecimal();
+        Converter = new LinearConverter(factor);
     }
 
     /// <summary>
@@ -73,12 +72,10 @@ public class UnitDefinition
     public UnitDefinition(string name, UnitTypeEnum unitType, HashSet<string> aliases, Func<decimal, decimal> toBase, Func<decimal, decimal> fromBase)
     {
         Name = name;
-        // Factor not applicable; keep as 1 to avoid accidental divide-by-zero
+        // Factor not applicable for custom converters; keep as 1 to avoid accidental divide-by-zero
         FactorRational = Rational.One;
         UnitType = unitType;
         Aliases = aliases;
-        HasCustomConverter = true;
-        ToBaseFunc = toBase ?? throw new ArgumentNullException(nameof(toBase));
-        FromBaseFunc = fromBase ?? throw new ArgumentNullException(nameof(fromBase));
+        Converter = new DelegateConverter(toBase, fromBase);
     }
 }
