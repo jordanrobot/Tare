@@ -275,15 +275,15 @@ public class S004TestMatrixTests
     {
         // Arrange - Temperature differences: (10 °C - 5 °C) = 5 °C
         // Note: Result represents temperature difference, not absolute temperature
-        var temp1 = Quantity.Parse("10 c");
-        var temp2 = Quantity.Parse("5 c");
+        var temp1 = Quantity.Parse("10 C");
+        var temp2 = Quantity.Parse("5 C");
         
         // Act
         var delta = temp1 - temp2;
         
         // Assert
         Assert.That(delta.Value, Is.EqualTo(5m));
-        Assert.That(delta.Unit, Is.EqualTo("c"));
+        Assert.That(delta.Unit, Is.EqualTo("°C"));
         // Policy documented: temperature arithmetic allowed, user responsible for interpretation
     }
     
@@ -291,15 +291,15 @@ public class S004TestMatrixTests
     public void Subtract_TemperatureDifferences_SupportedForCompatibleUnits()
     {
         // Arrange - Validate temperature subtraction works for compatible temperature units
-        var temp1 = Quantity.Parse("20 c");
-        var temp2 = Quantity.Parse("15 c");
+        var temp1 = Quantity.Parse("20 C");
+        var temp2 = Quantity.Parse("15 C");
         
         // Act
         var delta = temp1 - temp2;
         
         // Assert - Difference should be 5°C
         Assert.That(delta.Value, Is.EqualTo(5m));
-        Assert.That(delta.Unit, Is.EqualTo("c"));
+        Assert.That(delta.Unit, Is.EqualTo("°C"));
         // Note: This is a temperature difference, not an absolute temperature
         // Users are responsible for understanding this distinction
     }

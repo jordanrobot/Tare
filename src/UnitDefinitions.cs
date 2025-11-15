@@ -91,10 +91,10 @@ public static class UnitDefinitions
     {
         if (unitType == UnitTypeEnum.Unknown)
             return Array.Empty<UnitDefinition>();
-        
+
         if (_typeIndex.TryGetValue(unitType, out var units))
             return units;
-        
+
         return Array.Empty<UnitDefinition>();
     }
 
@@ -178,7 +178,7 @@ public static class UnitDefinitions
             new UnitDefinition("cm/hr", 0.000002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"cm/hr", "cm/h", "cm per hr", "cm per h", "cm per hour", "centimeter per hr", "centimeter per h", "centimeter per hour", "centimeters per hr", "centimeters per h", "centimeters per hour"}),
             new UnitDefinition("m/hr", 0.0002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"m/hr", "m/h", "m per hr", "m per h", "m per hour", "meter per hr", "meter per h", "meter per hour", "meters per hr", "meters per h", "meters per hour"}),
             new UnitDefinition("km/h", 0.2777777778M, UnitTypeEnum.Velocity, new HashSet<string>{"km/h", "kilometer per hour", "kilometers per hour"}),
-            new UnitDefinition("c", 299792458M, UnitTypeEnum.Velocity, new HashSet<string>{"c", "speed of light", "speed of light in vacuum", "speed of light in a vacuum"}),
+            new UnitDefinition("speed of light", 299792458M, UnitTypeEnum.Velocity, new HashSet<string>{"speed of light", "speed of light in vacuum", "speed of light in a vacuum"}),
 
             //ACCELERATION relative to m/s^2
             new UnitDefinition("gravity", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"gravity", "gravities"}),
@@ -340,6 +340,29 @@ public static class UnitDefinitions
             new UnitDefinition("mrad", 0.001M, UnitTypeEnum.Angle, new HashSet<string>{"mrad", "milliradian", "milliradians"}),
             new UnitDefinition("rev", 6.283185307179586476925286766559M, UnitTypeEnum.Angle, new HashSet<string>{"rev", "revolution", "revolutions", "circle", "circles", "turn", "turns"}),
             new UnitDefinition("quadrant", 1.5707963267948966192313216916398M, UnitTypeEnum.Angle, new HashSet<string>{"quadrant", "quadrants"}),
+
+            //TEMPERATURE difference units relative to Kelvin difference (not absolute temperatures)
+            new UnitDefinition(
+                name: "K",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"K", "°K", "kelvin", "kelvins"},
+                toBase: v => v,
+                fromBase: v => v
+            ),
+            new UnitDefinition(
+                name: "°C",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"°C", "C", "celsius", "centigrade", "degC", "deg C"},
+                toBase: v => v + 273.15m,
+                fromBase: v => v - 273.15m
+            ),
+            new UnitDefinition(
+                name: "°F",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"°F", "F", "fahrenheit", "degF", "deg F"},
+                toBase: v => (((v-32) * (5m/9m) )+ 273.15m),
+                fromBase: v => ((v - 273.15m) * (9m/5m)) + 32m
+            ),
 
             //Unknown
             new UnitDefinition("?", 1, UnitTypeEnum.Unknown, new HashSet<string> { "?", "unknown"})

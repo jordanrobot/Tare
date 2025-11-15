@@ -1,5 +1,5 @@
-using System.Globalization;
 using NUnit.Framework;
+using System.Globalization;
 
 namespace Tare.Tests;
 
@@ -220,7 +220,7 @@ public class QuantityFormattingTests
         var q = new Quantity(1234.5678m, "m");
 
         // Act
-        var result = q.ToString("", CultureInfo.InvariantCulture);
+        var result = q.ToString(string.Empty, CultureInfo.InvariantCulture);
 
         // Assert
         Assert.That(result, Is.EqualTo("1234.5678 m"));
@@ -311,6 +311,7 @@ public class QuantityFormattingTests
 
         // Assert
         Assert.That(result, Is.EqualTo("1.00 km"));
+        Assert.That(q.As("km").Value, Is.EqualTo(1.00m));
     }
 
     [Test]
@@ -352,6 +353,22 @@ public class QuantityFormattingTests
         // Assert
         Assert.That(resultKm, Is.EqualTo("1.235 km"));
         Assert.That(resultCm, Is.EqualTo("123,450 cm"));
+    }
+
+    [TestCase(100.0, "C", 373.15, "K")]
+    [TestCase(-100.0, "C", 173.15, "K")]
+    [Test]
+    public void AsMethod_WithTempUnits_ContainsCorrectValue(decimal i, string u, decimal r, string u2)
+    {
+        // Arrange
+        var q = new Quantity(i, u);
+
+        // Act
+        var result = q.As(u2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(r));
+        Assert.That(result.Unit, Is.EqualTo(u2));
     }
 
     #endregion

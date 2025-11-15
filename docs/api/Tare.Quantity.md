@@ -947,52 +947,6 @@ Examples:
 \- ToString\("E3"\) → "1\.235E\+003 m" \(exponential notation\)
 \- ToString\("\#,\#\#0\.0"\) → "1,234\.6 m" \(custom format\)
 
-<a name='Tare.Quantity.ToString(string,System.IFormatProvider)'></a>
-
-## Quantity\.ToString\(string, IFormatProvider\) Method
-
-Formats the quantity using the specified format string and format provider\.
-Implements [System\.IFormattable](https://learn.microsoft.com/en-us/dotnet/api/system.iformattable 'System\.IFormattable') for standard \.NET formatting integration\.
-
-```csharp
-public string ToString(string? format, System.IFormatProvider? provider);
-```
-#### Parameters
-
-<a name='Tare.Quantity.ToString(string,System.IFormatProvider).format'></a>
-
-`format` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-A standard or custom numeric format string\. If null or empty, defaults to "G"\.
-See https://learn\.microsoft\.com/en\-us/dotnet/standard/base\-types/standard\-numeric\-format\-strings
-
-<a name='Tare.Quantity.ToString(string,System.IFormatProvider).provider'></a>
-
-`provider` [System\.IFormatProvider](https://learn.microsoft.com/en-us/dotnet/api/system.iformatprovider 'System\.IFormatProvider')
-
-An [System\.IFormatProvider](https://learn.microsoft.com/en-us/dotnet/api/system.iformatprovider 'System\.IFormatProvider') that supplies culture\-specific formatting information\.
-If null, uses the current culture \([System\.Globalization\.CultureInfo\.CurrentCulture](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.currentculture 'System\.Globalization\.CultureInfo\.CurrentCulture')\)\.
-
-Implements [ToString\(string, IFormatProvider\)](https://learn.microsoft.com/en-us/dotnet/api/system.iformattable.tostring#system-iformattable-tostring(system-string-system-iformatprovider) 'System\.IFormattable\.ToString\(System\.String,System\.IFormatProvider\)')
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-Formatted string representation with culture\-specific number formatting\.
-
-### Remarks
-This method enables:
-\- String interpolation: $"\{quantity:F2\}"
-\- String\.Format: String\.Format\("\{0:N4\}", quantity\)
-\- Culture\-specific formatting: quantity\.ToString\("N2", new CultureInfo\("de\-DE"\)\)
-
-The format string applies to the numeric value; the unit is always appended\.
-
-Examples:
-\- ToString\("F2", null\) → "1234\.57 m" \(current culture\)
-\- ToString\("N2", CultureInfo\.InvariantCulture\) → "1,234\.57 m"
-\- ToString\("N2", new CultureInfo\("de\-DE"\)\) → "1\.234,57 m" \(German\)
-\- ToString\("N2", new CultureInfo\("fr\-FR"\)\) → "1 234,57 m" \(French\)
-
 <a name='Tare.Quantity.TryFormat(System.Span_char_,int,System.ReadOnlySpan_char_,System.IFormatProvider)'></a>
 
 ## Quantity\.TryFormat\(Span\<char\>, int, ReadOnlySpan\<char\>, IFormatProvider\) Method
