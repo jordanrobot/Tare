@@ -11,7 +11,7 @@ public class UnitDefinitionConverterTests
         var unit = new UnitDefinition("meter", 1.0m, UnitTypeEnum.Length, new HashSet<string> { "m" });
         
         Assert.That(unit.Converter, Is.InstanceOf<LinearConverter>());
-        Assert.That(unit.HasCustomConverter, Is.False);
+        Assert.That(unit.Converter is DelegateConverter, Is.False);
     }
     
     [Test]
@@ -20,7 +20,7 @@ public class UnitDefinitionConverterTests
         var unit = new UnitDefinition("inch", new Rational(254, 10000), UnitTypeEnum.Length, new HashSet<string> { "in" });
         
         Assert.That(unit.Converter, Is.InstanceOf<LinearConverter>());
-        Assert.That(unit.HasCustomConverter, Is.False);
+        Assert.That(unit.Converter is DelegateConverter, Is.False);
     }
     
     [Test]
@@ -35,29 +35,29 @@ public class UnitDefinitionConverterTests
         );
         
         Assert.That(unit.Converter, Is.InstanceOf<DelegateConverter>());
-        Assert.That(unit.HasCustomConverter, Is.True);
+        Assert.That(unit.Converter is DelegateConverter, Is.True);
     }
     
     [Test]
-    public void ToBaseFunc_LinearConverter_WorksCorrectly()
+    public void Converter_ToBase_LinearConverter_WorksCorrectly()
     {
         var unit = new UnitDefinition("meter", 2.0m, UnitTypeEnum.Length, new HashSet<string> { "m" });
-        var result = unit.ToBaseFunc(5m);
+        var result = unit.Converter.ToBase(5m);
         
         Assert.That(result, Is.EqualTo(10m));
     }
     
     [Test]
-    public void FromBaseFunc_LinearConverter_WorksCorrectly()
+    public void Converter_FromBase_LinearConverter_WorksCorrectly()
     {
         var unit = new UnitDefinition("meter", 2.0m, UnitTypeEnum.Length, new HashSet<string> { "m" });
-        var result = unit.FromBaseFunc(10m);
+        var result = unit.Converter.FromBase(10m);
         
         Assert.That(result, Is.EqualTo(5m));
     }
     
     [Test]
-    public void ToBaseFunc_DelegateConverter_WorksCorrectly()
+    public void Converter_ToBase_DelegateConverter_WorksCorrectly()
     {
         var unit = new UnitDefinition(
             "celsius",
@@ -66,13 +66,13 @@ public class UnitDefinitionConverterTests
             c => c + 273.15m,
             k => k - 273.15m
         );
-        var result = unit.ToBaseFunc(0m);
+        var result = unit.Converter.ToBase(0m);
         
         Assert.That(result, Is.EqualTo(273.15m));
     }
     
     [Test]
-    public void FromBaseFunc_DelegateConverter_WorksCorrectly()
+    public void Converter_FromBase_DelegateConverter_WorksCorrectly()
     {
         var unit = new UnitDefinition(
             "celsius",
@@ -81,7 +81,7 @@ public class UnitDefinitionConverterTests
             c => c + 273.15m,
             k => k - 273.15m
         );
-        var result = unit.FromBaseFunc(273.15m);
+        var result = unit.Converter.FromBase(273.15m);
         
         Assert.That(result, Is.EqualTo(0m));
     }

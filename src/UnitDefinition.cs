@@ -25,11 +25,6 @@ public class UnitDefinition
     /// </summary>
     internal IUnitConverter Converter { get; }
 
-    // Legacy properties - kept for backward compatibility during transition
-    internal bool HasCustomConverter => Converter is DelegateConverter;
-    internal Func<decimal, decimal> ToBaseFunc => v => Converter.ToBase(v);
-    internal Func<decimal, decimal> FromBaseFunc => v => Converter.FromBase(v);
-
     /// <summary>
     /// Creates a UnitDefinition with a decimal factor (converted to rational).
     /// Linear conversion: base = value * factor.

@@ -19,22 +19,31 @@ namespace Tare
         {
             var targetUnit = UnitDefinitions.Parse(unit);
             
-            // If either unit has a custom converter, use Convert() logic
+            // Use converter interface for custom conversions
             if (UnitDefinitions.IsValidUnit(quantity.Unit))
             {
                 var sourceUnit = UnitDefinitions.Parse(quantity.Unit);
-                if (sourceUnit.HasCustomConverter || targetUnit.HasCustomConverter)
+                
+                // If either has a custom (delegate) converter, use the converter path
+                if (sourceUnit.Converter is Internal.DelegateConverter || targetUnit.Converter is Internal.DelegateConverter)
                 {
-                    var baseValue = sourceUnit.ToBaseFunc(quantity.Value);
-                    var result = targetUnit.FromBaseFunc(baseValue);
+                    var baseValue = sourceUnit.Converter.ToBase(quantity.Value);
+                    var result = targetUnit.Converter.FromBase(baseValue);
                     return Quantity.Parse(result, unit);
                 }
+                
+                // Both are linear converters - use direct ratio for best precision
+                var thisFactor = sourceUnit.FactorRational;
+                var targetFactor = targetUnit.FactorRational;
+                var factorRatio = thisFactor / targetFactor;
+                var resultValue = (quantity.Value * factorRatio.Numerator) / factorRatio.Denominator;
+                return Quantity.Parse(resultValue, unit);
             }
             
-            // Otherwise use factor-based conversion
-            var thisFactor = quantity.Factor;
-            var targetFactor = targetUnit.Factor;
-            decimal result2 = ((thisFactor * quantity.Value) / targetFactor);
+            // Fallback for composite units - use factor-based conversion
+            var thisFactorDec = quantity.Factor;
+            var targetFactorDec = targetUnit.Factor;
+            decimal result2 = ((thisFactorDec * quantity.Value) / targetFactorDec);
             return Quantity.Parse(result2, unit);
         }
     }
