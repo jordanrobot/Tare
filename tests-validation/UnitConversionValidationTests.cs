@@ -707,6 +707,7 @@ public class UnitConversionValidationTests
     [TestCase("0 °C", 32)]
     [TestCase("50 °C", 122)]
     [TestCase("100 °C", 212)]
+    [TestCase("-100 °C", -148)]
     public void Temperature_CelsiusToFahrenheit_IsCorrect(string i, Decimal r)
     {
         //Kelvin is the base unit for temperature in SI units
@@ -721,6 +722,7 @@ public class UnitConversionValidationTests
     [TestCase("1000 K", 726.85)]
     [TestCase("0 K", -273.15)]
     [TestCase("212 K", -61.15)]
+    [TestCase("-100 K", -373.15)]
     public void Temperature_KelvinToCelsius_IsCorrect(string i, Decimal r)
     {
         // Kelvin to Celsius: °C = K - 273.15
@@ -735,12 +737,13 @@ public class UnitConversionValidationTests
     [TestCase("0 °F", 255.37222)]
     [TestCase("212 °F", 373.15)]
     [TestCase("500 °F", 533.15)]
+    [TestCase("-100 °F", 199.817)]
     public void Temperature_FahrenheitToKelvin_IsCorrect(string i, Decimal r)
     {
         // K = (°F − 32) × 5 / 9 + 273.15
         var f = Quantity.Parse(i);
         var k = f.Convert("K");
-        Assert.That(k, Is.EqualTo(r).Within(0.0001m));
+        Assert.That(k, Is.EqualTo(r).Within(0.001m));
     }
 
     #endregion

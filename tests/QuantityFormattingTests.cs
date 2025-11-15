@@ -355,6 +355,22 @@ public class QuantityFormattingTests
         Assert.That(resultCm, Is.EqualTo("123,450 cm"));
     }
 
+    [TestCase(100.0, "C", 373.15, "K")]
+    [TestCase(-100.0, "C", 173.15, "K")]
+    [Test]
+    public void AsMethod_WithTempUnits_ContainsCorrectValue(decimal i, string u, decimal r, string u2)
+    {
+        // Arrange
+        var q = new Quantity(i, u);
+
+        // Act
+        var result = q.As(u2);
+
+        // Assert
+        Assert.That(result.Value, Is.EqualTo(r));
+        Assert.That(result.Unit, Is.EqualTo(u2));
+    }
+
     #endregion
 
     #region Backward Compatibility Tests
