@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Text.RegularExpressions;
-using static Tare.Extensions;
-using Tare.Internal.Units;
 using Tare.Internal;
+using Tare.Internal.Units;
+using static Tare.Extensions;
 
 namespace Tare;
 //TODO: add documentation to operators.
@@ -12,7 +12,7 @@ namespace Tare;
 /// Units of measure can be compatible or incompatible. E.g. Length, Area, Volume, Mass, etc. Compatible units
 /// may have mathematical operations applied, and may be converted to different units.
 /// </summary>
-public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IComparable, IFormattable
+public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, IComparable, IFormattable
 #if NET7_0_OR_GREATER
     , ISpanFormattable
 #endif
@@ -46,7 +46,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         if (UnitsPattern.IsMatch(value))
         {
             var tempUnits = UnitsPattern.Match(value).Value;
-            
+
             // Try fast path first - catalog units
             if (UnitDefinitions.IsValidUnit(tempUnits))
             {
@@ -64,7 +64,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
                     // Valid composite
                     Unit = tempUnits;
                     FactorRational = Rational.FromDecimal(factor);
-                    
+
                     // Determine UnitType from signature
                     var knownMap = KnownSignatureMap.Instance;
                     if (knownMap.TryGetPreferredUnit(signature, out var preferred))
@@ -119,7 +119,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         {
             throw new ArgumentNullException(nameof(unit));
         }
-        
+
         if (string.IsNullOrWhiteSpace(unit))
         {
             throw new ArgumentException("Unit string cannot be empty or whitespace.", nameof(unit));
@@ -196,7 +196,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public static implicit operator Quantity(int d) => new(d);
     public static implicit operator Quantity(decimal d) => new(d);
     public static implicit operator Quantity(double d) => new((decimal)d);
-    
+
     /// <summary>
     /// Implicitly converts a string representation of a quantity to a Quantity value.
     /// </summary>
@@ -213,14 +213,30 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     }
     #endregion
 
-    private decimal BaseValue { get => Value * Factor; }
+    private decimal BaseValue
+    {
+        get
+        {
+            // Try to use custom converter when available
+            if (UnitDefinitions.IsValidUnit(Unit))
+            {
+                var def = UnitDefinitions.Parse(Unit);
+                if (def.HasCustomConverter)
+                {
+                    return def.ToBaseFunc(Value);
+                }
+            }
+            // Fallback to linear factor
+            return Value * Factor;
+        }
+    }
 
     /// <summary>
     /// Gets the conversion factor as a decimal value.
     /// For exact calculations, FactorRational is used internally.
     /// </summary>
     public decimal Factor => FactorRational.ToDecimal();
-    
+
     /// <summary>
     /// Gets the exact conversion factor as a rational number (internal use).
     /// </summary>
@@ -276,6 +292,16 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         var thisFactor = FactorRational;
         var targetFactor = TargetUnit.FactorRational;
 
+        // If any custom converter exists (affine/non-linear), use function path
+        if (TargetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+        {
+            // Convert this value to base via source func, then from base via target func
+            var sourceDef = UnitDefinitions.Parse(Unit);
+            var baseValue = sourceDef.ToBaseFunc(Value);
+            var result = TargetUnit.FromBaseFunc(baseValue);
+            return result;
+        }
+
         // Use exact Rational arithmetic for factor ratio
         // Compute as (Value * numerator) / denominator to maintain precision
         var factorRatio = thisFactor / targetFactor;
@@ -318,7 +344,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         {
             throw new ArgumentNullException(nameof(unit));
         }
-        
+
         if (string.IsNullOrWhiteSpace(unit))
         {
             throw new ArgumentException("Unit string cannot be empty or whitespace.", nameof(unit));
@@ -329,8 +355,18 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         {
             try
             {
-                // Use exact Rational arithmetic for factor ratio
                 var targetUnit = UnitDefinitions.Parse(unit);
+
+                // If any custom converter exists (affine/non-linear), use function path
+                if (targetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+                {
+                    var sourceDef = UnitDefinitions.Parse(Unit);
+                    var baseValue = sourceDef.ToBaseFunc(Value);
+                    var convertedValueFunc = targetUnit.FromBaseFunc(baseValue);
+                    return convertedValueFunc.ToString(format) + " " + unit;
+                }
+
+                // Use exact Rational arithmetic for factor ratio
                 var thisFactor = FactorRational;
                 var targetFactor = targetUnit.FactorRational;
                 var factorRatio = thisFactor / targetFactor;
@@ -341,6 +377,16 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             {
                 // Fall back to decimal if Rational arithmetic overflows
                 var targetUnit = UnitDefinitions.Parse(unit);
+
+                // If any custom converter exists, use function path
+                if (targetUnit.HasCustomConverter || (UnitDefinitions.IsValidUnit(Unit) && UnitDefinitions.Parse(Unit).HasCustomConverter))
+                {
+                    var sourceDef = UnitDefinitions.Parse(Unit);
+                    var baseValue = sourceDef.ToBaseFunc(Value);
+                    var convertedValueFunc = targetUnit.FromBaseFunc(baseValue);
+                    return convertedValueFunc.ToString(format) + " " + unit;
+                }
+
                 var convertedValue = Value * (Factor / targetUnit.Factor);
                 return convertedValue.ToString(format) + " " + unit;
             }
@@ -356,7 +402,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Validate dimensional compatibility
         var resolver = UnitResolver.Instance;
         var sourceResolved = resolver.Resolve(Unit);
-        
+
         if (!sourceResolved.Signature.Equals(targetSignature))
         {
             throw new InvalidOperationException(
@@ -605,7 +651,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// </param>
     /// <param name="provider">
     /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-    /// If null, uses the current culture (<see cref="System.Globalization.CultureInfo.CurrentCulture"/>).
+    /// If null, uses the current culture (<see cref="System.Globalization.CultureInfo.CurrentCulture").
     /// </param>
     /// <returns>Formatted string representation with culture-specific number formatting.</returns>
     /// <remarks>
@@ -626,11 +672,11 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     {
         // Use general format if format is null/empty
         format ??= "G";
-        
+
         // Format the numeric value using .NET's decimal formatting
         // This delegates all format string parsing and culture handling to the framework
         var formattedValue = Value.ToString(format, provider);
-        
+
         // Append unit (existing behavior)
         return $"{formattedValue} {Unit}";
     }
@@ -777,13 +823,13 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         var resolver = UnitResolver.Instance;
         var left = resolver.Resolve(q1.Unit);
         var right = resolver.Resolve(q2.Unit);
-        
+
         var engine = DimensionalMath.Instance;
         var result = engine.Multiply(left, right, q1.Value, q2.Value);
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
-        
+
         // Convert result to target unit space using exact Rational arithmetic
         var targetUnit = resolver.Resolve(resultUnit);
         var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
@@ -881,7 +927,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         var resolver = UnitResolver.Instance;
         var numerator = resolver.Resolve(q1.Unit);
         var denominator = resolver.Resolve(q2.Unit);
-        
+
         var engine = DimensionalMath.Instance;
         var result = engine.Divide(numerator, denominator, q1.Value, q2.Value);
 
@@ -896,7 +942,7 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
-        
+
         // Convert result to target unit space using exact Rational arithmetic
         var targetUnit = resolver.Resolve(resultUnit);
         var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
@@ -955,12 +1001,13 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// <exception cref="InvalidOperationException">Thrown when the quantities have incompatible unit types.</exception>
     public static Quantity operator %(Quantity q1, Quantity q2)
     {
-        if(q1.UnitType == q2.UnitType)
+        if (q1.UnitType == q2.UnitType)
         {
             //convert each quantity and return the modulo
             var temp = ((q1.Factor * q1.Value) % (q2.Factor * q2.Value)) / q1.Factor;
             return new Quantity(temp, q1.Unit);
-        } else
+        }
+        else
             throw new InvalidOperationException(
                 "Cannot perform modulo operation on quantities with incompatible units.");
     }
@@ -1162,14 +1209,14 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             var resolved = UnitResolver.Instance.Resolve(Unit);
             return resolved.Signature;
         }
-        
+
         // Slow path: composite unit
         var parser = CompositeParser.Instance;
         if (parser.TryParse(Unit, out var signature, out _))
         {
             return signature;
         }
-        
+
         // Fallback: dimensionless (shouldn't reach here for valid quantities)
         return DimensionSignature.Dimensionless;
     }
@@ -1232,20 +1279,20 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public Quantity ToBaseUnits()
     {
         var signature = GetSignature();
-        
+
         // Get base value by converting through factor
         var baseValue = BaseValue;
-        
+
         // Format signature as composite base unit string
         var formatter = CompositeFormatter.Instance;
         var baseUnitString = formatter.Format(signature);
-        
+
         // Handle dimensionless case (empty unit string)
         if (string.IsNullOrEmpty(baseUnitString))
         {
             return new Quantity(baseValue);
         }
-        
+
         return new Quantity(baseValue, baseUnitString);
     }
 
@@ -1269,13 +1316,13 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     public Quantity ToCanonical()
     {
         var signature = GetSignature();
-        
+
         if (!KnownSignatureMap.Instance.TryGetPreferredUnit(signature, out var preferred))
         {
             // Unknown dimension - return copy unchanged
             return this;
         }
-        
+
         // Convert to preferred unit using existing As logic
         return this.As(preferred.CanonicalName);
     }
@@ -1313,20 +1360,20 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
         // Null or empty check
         if (string.IsNullOrWhiteSpace(input))
             return false;
-        
+
         // Extract unit portion if input contains numeric value
         // Reuse the same static UnitsPattern from the Quantity class for consistency
         string unitPortion = input;
-        
+
         if (UnitsPattern.IsMatch(input))
         {
             unitPortion = UnitsPattern.Match(input).Value.Trim();
         }
-        
+
         // Fast path: catalog unit
         if (UnitDefinitions.IsValidUnit(unitPortion))
             return true;
-        
+
         // Slow path: try parsing as composite
         var parser = CompositeParser.Instance;
         return parser.TryParse(unitPortion, out _, out _);
@@ -1360,10 +1407,10 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     {
         if (unitType == UnitTypeEnum.Unknown)
             return Array.Empty<string>();
-        
+
         // Query UnitDefinitions type index
         var units = UnitDefinitions.GetUnitsForType(unitType);
-        
+
         // Return sorted canonical names
         return units.Select(u => u.Name).OrderBy(n => n).ToList();
     }
@@ -1411,18 +1458,18 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
     /// </code>
     /// </remarks>
     public bool TryFormat(
-        Span<char> destination, 
-        out int charsWritten, 
-        ReadOnlySpan<char> format, 
+        Span<char> destination,
+        out int charsWritten,
+        ReadOnlySpan<char> format,
         IFormatProvider? provider)
     {
         // Use general format if format is empty
         format = format.IsEmpty ? "G".AsSpan() : format;
-        
+
         // Try to format the numeric value into a temporary span
         // Use stackalloc for small buffers to avoid allocations
         Span<char> valueBuffer = stackalloc char[50];
-        
+
         if (!Value.TryFormat(valueBuffer, out int valueCharsWritten, format, provider))
         {
             // Value doesn't fit in temporary buffer - fall back to ToString
@@ -1430,28 +1477,28 @@ public readonly struct Quantity: IEquatable<Quantity>, IComparable<Quantity>, IC
             charsWritten = 0;
             return false;
         }
-        
+
         // Calculate total length: value + " " + unit
         int totalLength = valueCharsWritten + 1 + Unit.Length;
-        
+
         // Check if destination has enough space
         if (totalLength > destination.Length)
         {
             charsWritten = 0;
             return false;
         }
-        
+
         // Copy formatted value to destination
         valueBuffer.Slice(0, valueCharsWritten).CopyTo(destination);
         int position = valueCharsWritten;
-        
+
         // Add space separator
         destination[position++] = ' ';
-        
+
         // Copy unit string to destination
         Unit.AsSpan().CopyTo(destination.Slice(position));
         position += Unit.Length;
-        
+
         charsWritten = position;
         return true;
     }

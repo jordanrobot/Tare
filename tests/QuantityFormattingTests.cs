@@ -1,5 +1,5 @@
-using System.Globalization;
 using NUnit.Framework;
+using System.Globalization;
 
 namespace Tare.Tests;
 
@@ -220,7 +220,7 @@ public class QuantityFormattingTests
         var q = new Quantity(1234.5678m, "m");
 
         // Act
-        var result = q.ToString("", CultureInfo.InvariantCulture);
+        var result = q.ToString(string.Empty, CultureInfo.InvariantCulture);
 
         // Assert
         Assert.That(result, Is.EqualTo("1234.5678 m"));
@@ -311,6 +311,7 @@ public class QuantityFormattingTests
 
         // Assert
         Assert.That(result, Is.EqualTo("1.00 km"));
+        Assert.That(q.As("km").Value, Is.EqualTo(1.00m));
     }
 
     [Test]

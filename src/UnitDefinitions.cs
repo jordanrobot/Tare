@@ -91,10 +91,10 @@ public static class UnitDefinitions
     {
         if (unitType == UnitTypeEnum.Unknown)
             return Array.Empty<UnitDefinition>();
-        
+
         if (_typeIndex.TryGetValue(unitType, out var units))
             return units;
-        
+
         return Array.Empty<UnitDefinition>();
     }
 
@@ -341,12 +341,28 @@ public static class UnitDefinitions
             new UnitDefinition("rev", 6.283185307179586476925286766559M, UnitTypeEnum.Angle, new HashSet<string>{"rev", "revolution", "revolutions", "circle", "circles", "turn", "turns"}),
             new UnitDefinition("quadrant", 1.5707963267948966192313216916398M, UnitTypeEnum.Angle, new HashSet<string>{"quadrant", "quadrants"}),
 
-            //TEMPERATURE relative to Kelvin (for temperature differences, not absolute temperatures)
-            // Note: These conversions are for temperature differences/deltas, not absolute temperature conversions
-            // 1 K difference = 1 °C difference = 1.8 °F difference
-            new UnitDefinition("K", 1M, UnitTypeEnum.Temperature, new HashSet<string>{"K", "kelvin", "kelvins"}),
-            new UnitDefinition("°C", 1M, UnitTypeEnum.Temperature, new HashSet<string>{"°C", "C", "celsius", "centigrade", "degC", "deg C"}),
-            new UnitDefinition("°F", new Rational(5, 9), UnitTypeEnum.Temperature, new HashSet<string>{"°F", "F", "fahrenheit", "degF", "deg F"}),
+            //TEMPERATURE difference units relative to Kelvin difference (not absolute temperatures)
+            new UnitDefinition(
+                name: "K",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"K", "°K", "kelvin", "kelvins"},
+                toBase: v => v,
+                fromBase: v => v
+            ),
+            new UnitDefinition(
+                name: "°C",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"°C", "C", "celsius", "centigrade", "degC", "deg C"},
+                toBase: v => v + 273.15m,
+                fromBase: v => v - 273.15m
+            ),
+            new UnitDefinition(
+                name: "°F",
+                unitType: UnitTypeEnum.Temperature,
+                aliases: new HashSet<string>{"°F", "F", "fahrenheit", "degF", "deg F"},
+                toBase: v => (((v-32) * (5m/9m) )+ 273.15m),
+                fromBase: v => ((v - 273.15m) * (9m/5m)) + 32m
+            ),
 
             //Unknown
             new UnitDefinition("?", 1, UnitTypeEnum.Unknown, new HashSet<string> { "?", "unknown"})
