@@ -17,11 +17,12 @@ namespace Tare
         /// <returns></returns>
         public static Quantity As(this Quantity quantity, string unit)
         {
-            var TargetUnit = UnitDefinitions.Parse(unit);
-            var thisFactor = quantity.Factor;
-            var targetFactor = TargetUnit.Factor;
-            Decimal result = ((thisFactor * quantity.Value) / targetFactor);
-            return Quantity.Parse(result, unit);
+            var convertedValue = Internal.UnitConverter.ConvertValue(
+                quantity.Value, 
+                quantity.Unit, 
+                quantity.FactorRational, 
+                unit);
+            return Quantity.Parse(convertedValue, unit);
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
@@ -8,8 +8,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <InformationalVersion>1.0.0-63+Branch.main.Sha.4c12915e9b035526fca08bf94bf86d4fea53fd24</InformationalVersion>
-    <Version>1.0.0-63</Version>
+    <InformationalVersion>1.0.0-vNext.1+190.Branch.vNext.Sha.081c58f8772e2e344755a71858a7bdb8375f1772</InformationalVersion>
+    <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="TareTests" />
@@ -22,35 +22,40 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+    <PackageReference Include="DefaultDocumentation" Version="1.2.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DefaultDocumentationFolder>..\docs\api\</DefaultDocumentationFolder>
+    <DefaultDocumentationGeneratedPages>Namespaces,Types</DefaultDocumentationGeneratedPages>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
   <!-- Nuget package info -->
   <PropertyGroup>
     <Title>Tare</Title>
     <Authors>jordanrobot</Authors>
     <Copyright>(C) 2023</Copyright>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/jordanrobot/Tare</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Tare</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>A simple, dynamic library for units of measure.</Description>
-    <IncludeSymbols>False</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jordanrobot/Tare</RepositoryUrl>
     <PackageTags>unit, units, , unit conversion, units of measure, measurement, quantity, quantities, physical quantities, metrology</PackageTags>
     <PackageReleaseNotes>Initial release. See repository page for more details.</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <!-- Build stuff -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 </Project>

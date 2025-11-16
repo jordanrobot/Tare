@@ -8,10 +8,10 @@ namespace Tare.Internal.Units;
 /// Thermodynamic Temperature (Θ), Amount of Substance (N), and Luminous Intensity (J).
 /// </summary>
 /// <remarks>
-/// This is an immutable value type used internally for dimensional analysis.
+/// This is an immutable value type used for dimensional analysis.
 /// Multiplication and division of quantities combine signatures by adding or subtracting exponents.
 /// </remarks>
-internal readonly struct DimensionSignature : IEquatable<DimensionSignature>, IComparable<DimensionSignature>
+public readonly struct DimensionSignature : IEquatable<DimensionSignature>, IComparable<DimensionSignature>
 {
     /// <summary>
     /// Exponent for Length dimension (L) - meter.

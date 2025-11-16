@@ -1,4 +1,4 @@
-[api documentation](api/Tare.md 'Tare API') | [changelog](CHANGELOG.md) | [readme](../Readme.md 'Readme')
+[api documentation](api/Tare.md 'Tare API') | [changelog](CHANGELOG.md) | [readme](../Readme.md 'Readme') | [copilot config](../.github/COPILOT.md 'Copilot Configuration')
 
 ---
 
@@ -72,3 +72,7 @@ Breaking changes in the codebase are denoted by an exclamation mark after a keyw
 - etc...
 
 A footer ```BREAKING CHANGE:``` should also be included in the commit message for human readability, but is not strictly required.
+
+## GitHub Copilot
+
+This repository is configured with comprehensive GitHub Copilot instructions to ensure consistent, high-quality contributions. See [.github/COPILOT.md](../.github/COPILOT.md) for details about the Copilot configuration and how it helps maintain code quality and consistency.

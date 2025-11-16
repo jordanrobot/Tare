@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,8 +7,8 @@
     <BaseOutputPath>bin\</BaseOutputPath>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <InformationalVersion>1.0.0-63+Branch.main.Sha.4c12915e9b035526fca08bf94bf86d4fea53fd24</InformationalVersion>
-    <Version>1.0.0-63</Version>
+    <InformationalVersion>1.0.0-vNext.1+190.Branch.vNext.Sha.081c58f8772e2e344755a71858a7bdb8375f1772</InformationalVersion>
+    <Version>1.0.0-vNext.1</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
