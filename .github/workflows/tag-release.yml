@@ -1,0 +1,32 @@
+name: Publish NuGet Release
+
+on: 
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    # also works with windows-latest and macos-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0  
+    - name: Install GitVersion
+      run: dotnet tool install --global GitVersion.Tool
+      shell: pwsh  
+    - name: Determine Version
+      run: dotnet gitversion /updateprojectfiles 
+      shell: pwsh
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      shell: pwsh
+    - name: dotnet pack
+      run: dotnet pack -c Release --output ${{github.workspace}}
+      shell: pwsh
+    - name: Publish NuGet Package
+      run: dotnet nuget push "${{github.workspace}}/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      shell: pwsh
