@@ -2,7 +2,7 @@
 
 # Tare
 
-Tare is a .NET library that provides a `Quantity` type for working with physical quantities and units of measurement. Unlike other units libraries, Tare is built around runtime unit parsing and conversion and supports dimensional arithmetic.
+Tare is a .NET library that provides a `Quantity` type for working with physical quantities and units of measurement. Unlike other units libraries, Tare is built around runtime unit parsing, conversion, and supports dimensional arithmetic.
 
 It supports:
 
@@ -10,7 +10,7 @@ It supports:
 - ✅ **Arithmetic operations** - Add, subtract, multiply, and divide quantities with automatic unit handling
 - ✅ **Composite units** - Work with complex units like "m/s", "kg*m/s^2", "Nm", etc.
 - ✅ **Dimensional analysis** - Automatic dimension checking and unit composition
-- ✅ **Type safety** - Prevents invalid operations like adding length to mass
+- ✅ **"Type" safety** - Uses dimensional signatures to prevent invalid operations (like adding length to mass) while only using one `Quantity` type.
 
 ## Quick Start
 
@@ -59,15 +59,14 @@ var mass = Quantity.Parse("5 kg");
 var acceleration = Quantity.Parse("2 m/s^2");
 var force = mass * acceleration;  // Result: 10 N (Newtons)
 Console.WriteLine(force.Format("N")); // "10 N"
-
 ```
 
-### Type-Safe Operations
+### Dimensionally Compatible Operations
 
-Tare prevents invalid operations at runtime:
+Tare prevents invalid operations at runtime by checking dimensional signatures:
 
 ```csharp
-// This throws InvalidOperationException - can't add different dimensions!
+// This throws InvalidOperationException - can't add different dimensional signatures!
 var invalid = torque + area;  // Error!
 ```
 
@@ -130,9 +129,7 @@ dotnet add package Tare
 
 ### User Guides
 
-Comprehensive guides for this library:
-
-- **[Getting Started](docs/GettingStarted.md)** - Installation, basic concepts, and your first program
+- **[Getting Started](docs/GettingStarted.md)** - Installation and basic concepts
 - **[Basic Usage](docs/BasicUsage.md)** - Parsing, arithmetic, comparisons, and error handling
 - **[Unit Conversion](docs/UnitConversion.md)** - Converting between units and working with different unit systems
 - **[Dimensional Arithmetic](docs/DimensionalArithmetic.md)** - Multiplication, division, and dimensional analysis
