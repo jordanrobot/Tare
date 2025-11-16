@@ -27,7 +27,7 @@ jobs:
       shell: bash
     - name: Publish nuget
       run: |
-           for f in ./artifacts/Release/*.nupkg
+           for f in /home/runner/work/Tare/Tare/artifacts/Release/*.nupkg
            do
              dotnet nuget push @$f --source https://api.nuget.org/v3/index.json --api-key "{{secrets.NUGET_API_KEY}}"
            done
