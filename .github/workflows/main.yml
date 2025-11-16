@@ -40,7 +40,7 @@ jobs:
         Get-ChildItem -Path "${{github.workspace}}\*.snupkg" | ForEach-Object {
         $newFileName = $_.Name -replace $findText, $replaceText
         Rename-Item -Path $_.FullName -NewName $newFileName -Force}
-        shell: pwsh
+      shell: pwsh
     - name: Publish NuGet Package
       run: dotnet nuget push "${{github.workspace}}/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       shell: pwsh
