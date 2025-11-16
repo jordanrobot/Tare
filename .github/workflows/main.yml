@@ -1,0 +1,32 @@
+name: prerelease NuGet
+
+on: 
+  push:
+    branches:
+      - prerelease
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # also works with windows-latest and macos-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+    - name: Install GitVersion
+      run: dotnet tool install --global GitVersion.Tool
+      shell: bash  
+    - name: Determine Version
+      run: dotnet gitversion /updateprojectfiles 
+      shell: bash
+    - name: Build with dotnet
+      run: |
+            dotnet build --configuration Release --version-suffix prerelease-$(date +%Y%m%d%H%M%S)
+            dotnet pack
+      shell: bash
+    - name: Publish nuget
+      run: |
+           for f in ./artifacts/Release/*.nupkg
+           do
+             dotnet nuget push @$f --source https://api.nuget.org/v3/index.json --api-key "{{secrets.NUGET_API_KEY}}"
+           done
+      shell: bash
