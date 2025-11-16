@@ -178,7 +178,6 @@ public static class UnitDefinitions
             new UnitDefinition("cm/hr", 0.000002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"cm/hr", "cm/h", "cm per hr", "cm per h", "cm per hour", "centimeter per hr", "centimeter per h", "centimeter per hour", "centimeters per hr", "centimeters per h", "centimeters per hour"}),
             new UnitDefinition("m/hr", 0.0002777777777M, UnitTypeEnum.Velocity, new HashSet<string>{"m/hr", "m/h", "m per hr", "m per h", "m per hour", "meter per hr", "meter per h", "meter per hour", "meters per hr", "meters per h", "meters per hour"}),
             new UnitDefinition("km/h", 0.2777777778M, UnitTypeEnum.Velocity, new HashSet<string>{"km/h", "kilometer per hour", "kilometers per hour"}),
-            new UnitDefinition("speed of light", 299792458M, UnitTypeEnum.Velocity, new HashSet<string>{"speed of light", "speed of light in vacuum", "speed of light in a vacuum"}),
 
             //ACCELERATION relative to m/s^2
             new UnitDefinition("gravity", 9.80665M, UnitTypeEnum.Acceleration, new HashSet<string>{"gravity", "gravities"}),
