@@ -2,9 +2,23 @@
 
 namespace Tare;
 
+/// <summary>
+/// Represents a unit of measurement, including its name, type, conversion factor, and aliases.
+/// </summary>
+/// <remarks>A <see cref="UnitDefinition"/> defines a unit of measurement in terms of its canonical name, 
+/// recognized aliases, and its relationship to a base unit. Units can be defined with either a  linear conversion
+/// factor (as a decimal or rational number) or custom conversion functions for non-linear or affine transformations
+/// (e.g., temperature scales).</remarks>
 public class UnitDefinition
 {
+    /// <summary>
+    /// Gets the canonical name of the unit of measurement.
+    /// </summary>
     public string Name { get; }
+
+    /// <summary>
+    /// Gets the collection of aliases associated with the current entity.
+    /// </summary>
     public HashSet<string> Aliases { get; }
 
     /// <summary>
