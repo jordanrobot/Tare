@@ -30,11 +30,17 @@ jobs:
     - name: rename
     - run: |
         $t = Get-Date -Format "yyyyMMdd-HHmmss"
+        $findText = "prerelease.1"
+        $replaceText = "prerelease-$1"
+
         Get-ChildItem -Path "${{github.workspace}}\*.nupkg" | ForEach-Object {
-        Rename-Item -Path $_.FullName -NewName ("Tare-prerelease-" +$t + ".nupkg")}
+        $newFileName = $_.Name -replace $findText, $replaceText
+        Rename-Item -Path $_.FullName -NewName $newFileName -Force}
+        
         Get-ChildItem -Path "${{github.workspace}}\*.snupkg" | ForEach-Object {
-        Rename-Item -Path $_.FullName -NewName ("Tare-prerelease-" +$t + ".snupkg")}
-      shell: pwsh
+        $newFileName = $_.Name -replace $findText, $replaceText
+        Rename-Item -Path $_.FullName -NewName $newFileName -Force}
+        shell: pwsh
     - name: Publish NuGet Package
       run: dotnet nuget push "${{github.workspace}}/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       shell: pwsh
