@@ -4,6 +4,37 @@
 
 ---
 
+## Table of Contents
+
+- [Basic Formatting](#basic-formatting)
+  - [ToString Method](#tostring-method)
+  - [Format Method](#format-method)
+- [Standard Format Strings](#standard-format-strings)
+  - [Fixed-Point Format (F)](#fixed-point-format-f)
+  - [Number Format (N)](#number-format-n)
+  - [Exponential Format (E)](#exponential-format-e)
+  - [General Format (G)](#general-format-g)
+  - [Percent Format (P)](#percent-format-p)
+  - [Currency Format (C)](#currency-format-c)
+- [Custom Format Strings](#custom-format-strings)
+  - [Custom Patterns](#custom-patterns)
+- [String Interpolation](#string-interpolation)
+- [Culture-Aware Formatting](#culture-aware-formatting)
+  - [Current Culture](#current-culture)
+- [Fluent Formatting with Unit Conversion](#fluent-formatting-with-unit-conversion)
+  - [Formatting Workflow](#formatting-workflow)
+- [Format String Reference](#format-string-reference)
+  - [Standard Format Strings](#standard-format-strings-1)
+  - [Custom Format Patterns](#custom-format-patterns)
+- [High-Performance Formatting (.NET 7+)](#high-performance-formatting-net-7)
+  - [Benefits of Span-Based Formatting](#benefits-of-span-based-formatting)
+  - [When to Use TryFormat](#when-to-use-tryformat)
+- [Practical Formatting Examples](#practical-formatting-examples)
+- [Best Practices](#best-practices)
+- [Next Steps](#next-steps)
+
+---
+
 Tare provides flexible formatting options that integrate with .NET's standard formatting infrastructure, enabling culture-aware output and precise control over how quantities are displayed.
 
 ## Basic Formatting
