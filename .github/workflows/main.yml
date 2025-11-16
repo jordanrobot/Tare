@@ -25,10 +25,8 @@ jobs:
             dotnet build --configuration Release --version-suffix prerelease-$(date +%Y%m%d%H%M%S)
             dotnet pack
       shell: bash
-    - name: Publish nuget
-      run: |
-           for f in /home/runner/work/Tare/Tare/artifacts/Release/*.nupkg
-           do
-             dotnet nuget push @$f --source https://api.nuget.org/v3/index.json --api-key "{{secrets.NUGET_API_KEY}}"
-           done
+    - name: List Artifacts
+      run: ls -l **/*.nupkg
+    - name: Publish NuGet Package
+      run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       shell: bash
