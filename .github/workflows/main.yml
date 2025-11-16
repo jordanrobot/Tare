@@ -25,8 +25,15 @@ jobs:
       shell: pwsh
     - name: dotnet pack
       run: |
+        dotnet pack -c Release --output ${{github.workspace}}
+      shell: pwsh
+    - name: rename
+    - run: |
         $t = Get-Date -Format "yyyyMMdd-HHmmss"
-        dotnet pack -c Release --output ${{github.workspace}} --version-suffix prerelease-$t
+        Get-ChildItem -Path "${{github.workspace}}\*.nupkg" | ForEach-Object {
+        Rename-Item -Path $_.FullName -NewName ("Tare-prerelease-" +$t + ".nupkg")}
+        Get-ChildItem -Path "${{github.workspace}}\*.snupkg" | ForEach-Object {
+        Rename-Item -Path $_.FullName -NewName ("Tare-prerelease-" +$t + ".snupkg")}
       shell: pwsh
     - name: Publish NuGet Package
       run: dotnet nuget push "${{github.workspace}}/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
