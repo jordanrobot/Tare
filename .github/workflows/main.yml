@@ -20,6 +20,9 @@ jobs:
     - name: Determine Version
       run: dotnet gitversion /updateprojectfiles 
       shell: pwsh
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      shell: pwsh
     - name: dotnet pack
       run: |
         $t = Get-Date -Format "yyyyMMdd-HHmmss"
