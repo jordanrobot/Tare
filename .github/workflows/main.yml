@@ -31,7 +31,7 @@ jobs:
       run: |
         $t = Get-Date -Format "yyyyMMdd-HHmmss"
         $findText = "prerelease.1"
-        $replaceText = "prerelease-$1"
+        $replaceText = "prerelease-$t"
 
         Get-ChildItem -Path "${{github.workspace}}\*.nupkg" | ForEach-Object {
         $newFileName = $_.Name -replace $findText, $replaceText
