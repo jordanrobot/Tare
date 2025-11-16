@@ -26,5 +26,5 @@ jobs:
         dotnet pack -c Release --output ${{github.workspace}} --version-suffix prerelease-$t
       shell: pwsh
     - name: Publish NuGet Package
-      run: dotnet nuget push "${{github.workspace}}/packages/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push "${{github.workspace}}/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       shell: pwsh
