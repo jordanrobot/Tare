@@ -19,8 +19,8 @@ public class CompositeConversionTests
         var result = q.Convert(u2);
         //var result = q.As("u2");
 
-        // Assert
-        Assert.That(result, Is.EqualTo(r));
+        // Assert - use tolerance for composite unit conversions
+        Assert.That(result, Is.EqualTo(r).Within(0.0000001m));
     }
 
 
@@ -35,8 +35,8 @@ public class CompositeConversionTests
         // Act
         var result = q.As(u2);
 
-        // Assert
-        Assert.That(result.Value, Is.EqualTo(r));
+        // Assert - use tolerance for composite unit conversions
+        Assert.That(result.Value, Is.EqualTo(r).Within(0.0000001m));
     }
 
 

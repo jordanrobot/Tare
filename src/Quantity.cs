@@ -291,7 +291,25 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
     /// <returns>Returns a decimal representing the value as a decimal converted to the specified unit.</returns>
     public decimal Convert(string unit)
     {
-        var targetUnit = UnitDefinitions.Parse(unit);
+        // Try to parse target unit - check catalog first, then composite
+        UnitDefinition? targetUnit = null;
+        Rational targetFactor;
+        
+        if (UnitDefinitions.IsValidUnit(unit))
+        {
+            targetUnit = UnitDefinitions.Parse(unit);
+            targetFactor = targetUnit.FactorRational;
+        }
+        else
+        {
+            // Try parsing as composite unit
+            var parser = CompositeParser.Instance;
+            if (!parser.TryParse(unit, out _, out var factor))
+            {
+                throw new ArgumentException($"Unknown or malformed unit: '{unit}'", nameof(unit));
+            }
+            targetFactor = Rational.FromDecimal(factor);
+        }
         
         // Use converter interface path when custom converters are involved
         if (UnitDefinitions.IsValidUnit(Unit))
@@ -299,7 +317,7 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             var sourceUnit = UnitDefinitions.Parse(Unit);
             
             // If either has a custom (delegate) converter, use the converter path
-            if (sourceUnit.Converter is DelegateConverter || targetUnit.Converter is DelegateConverter)
+            if (targetUnit != null && (sourceUnit.Converter is DelegateConverter || targetUnit.Converter is DelegateConverter))
             {
                 var baseValue = sourceUnit.Converter.ToBase(Value);
                 return targetUnit.Converter.FromBase(baseValue);
@@ -307,16 +325,30 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             
             // Both are linear converters - use direct ratio for best precision
             var thisFactor = sourceUnit.FactorRational;
-            var targetFactor = targetUnit.FactorRational;
-            var factorRatio = thisFactor / targetFactor;
-            return (Value * factorRatio.Numerator) / factorRatio.Denominator;
+            try
+            {
+                var factorRatio = thisFactor / targetFactor;
+                return (Value * factorRatio.Numerator) / factorRatio.Denominator;
+            }
+            catch (OverflowException)
+            {
+                // Fall back to decimal arithmetic if Rational overflows
+                return Value * (thisFactor.ToDecimal() / targetFactor.ToDecimal());
+            }
         }
         
         // Fallback for composite units - use exact Rational arithmetic
         var thisFactorComposite = FactorRational;
-        var targetFactorComposite = targetUnit.FactorRational;
-        var factorRatioComposite = thisFactorComposite / targetFactorComposite;
-        return (Value * factorRatioComposite.Numerator) / factorRatioComposite.Denominator;
+        try
+        {
+            var factorRatioComposite = thisFactorComposite / targetFactor;
+            return (Value * factorRatioComposite.Numerator) / factorRatioComposite.Denominator;
+        }
+        catch (OverflowException)
+        {
+            // Fall back to decimal arithmetic if Rational overflows
+            return Value * (thisFactorComposite.ToDecimal() / targetFactor.ToDecimal());
+        }
     }
 
     /// <summary>
