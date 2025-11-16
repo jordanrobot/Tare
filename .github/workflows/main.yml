@@ -3,7 +3,7 @@ name: prerelease NuGet
 on: 
   push:
     branches:
-      - prerelease
+      - develop
 
 jobs:
   build:
