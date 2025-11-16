@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v5
+      with:
+        fetch-depth: 0  
     - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
       shell: bash  
