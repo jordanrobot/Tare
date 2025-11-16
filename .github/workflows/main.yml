@@ -1,9 +1,10 @@
-name: prerelease NuGet
+name: Publish NuGet
 
 on: 
   push:
     branches:
       - develop
+      - main
 
 jobs:
   build:
