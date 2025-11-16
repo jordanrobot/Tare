@@ -20,14 +20,11 @@ jobs:
     - name: Determine Version
       run: dotnet gitversion /updateprojectfiles 
       shell: pwsh
-    - name: Build with dotnet
+    - name: dotnet pack
       run: |
-            dotnet build --configuration Release --version-suffix prerelease-$(date +%Y%m%d%H%M%S)
-            dotnet pack
-      shell: pwsh
-    - name: List Artifacts
-      run: ls **/*.nupkg
+        $t = Get-Date -Format "yyyyMMdd-HHmmss"
+        dotnet pack -c Release --output ${{github.workspace}} --version-suffix prerelease-$t
       shell: pwsh
     - name: Publish NuGet Package
-      run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push "${{github.workspace}}/packages/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       shell: pwsh
