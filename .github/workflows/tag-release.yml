@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     # also works with windows-latest and macos-latest
     steps:
     - name: Checkout repository
