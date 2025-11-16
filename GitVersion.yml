@@ -38,6 +38,7 @@ branches:
     pre-release-weight: 0
   main:
     mode: ContinuousDelivery
+    assembly-informational-format: '{MajorMinorPatch}'
     label: ''
     increment: None
     prevent-increment:
