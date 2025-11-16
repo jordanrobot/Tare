@@ -4,6 +4,25 @@
 
 ---
 
+## Table of Contents
+
+- [What is Tare?](#what-is-tare)
+  - [Key Benefits](#key-benefits)
+- [Installation](#installation)
+- [Basic Concepts](#basic-concepts)
+  - [The Quantity Type](#the-quantity-type)
+  - [Creating Quantities](#creating-quantities)
+  - [Unit Dimensions](#unit-dimensions)
+- [Your First Program](#your-first-program)
+- [Common Operations at a Glance](#common-operations-at-a-glance)
+- [Next Steps](#next-steps)
+- [Quick Reference](#quick-reference)
+  - [Common Parsing Patterns](#common-parsing-patterns)
+  - [Common Formatting Patterns](#common-formatting-patterns)
+  - [Validation](#validation)
+
+---
+
 ## What is Tare?
 
 Tare is a .NET library that provides a type-safe way to work with physical quantities and units of measurement. It prevents common programming errors like mixing incompatible units and makes unit conversions easy and reliable.

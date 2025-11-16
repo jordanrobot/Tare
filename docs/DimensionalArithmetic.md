@@ -4,6 +4,34 @@
 
 ---
 
+## Table of Contents
+
+- [Understanding Dimensional Algebra](#understanding-dimensional-algebra)
+- [Multiplication](#multiplication)
+  - [Basic Multiplication](#basic-multiplication)
+  - [Real-World Examples](#real-world-examples)
+  - [Scalar Multiplication](#scalar-multiplication)
+  - [Mixed Units in Multiplication](#mixed-units-in-multiplication)
+- [Division](#division)
+  - [Basic Division](#basic-division)
+  - [Real-World Examples](#real-world-examples-1)
+  - [Unit Cancellation](#unit-cancellation)
+  - [Scalar Division](#scalar-division)
+  - [Inverse Relationships](#inverse-relationships)
+- [Complex Dimensional Arithmetic](#complex-dimensional-arithmetic)
+  - [Multi-Step Calculations](#multi-step-calculations)
+  - [Derived Units](#derived-units)
+  - [Compound Operations](#compound-operations)
+- [Working with Composite Units](#working-with-composite-units)
+  - [Parsing Composite Units](#parsing-composite-units)
+  - [Creating Composite Units Through Arithmetic](#creating-composite-units-through-arithmetic)
+- [Dimensional Analysis Validation](#dimensional-analysis-validation)
+- [Practical Examples](#practical-examples)
+- [Best Practices](#best-practices)
+- [Next Steps](#next-steps)
+
+---
+
 One of Tare's most powerful features is dimensional arithmetic - the ability to multiply and divide quantities while automatically handling unit composition and dimensional analysis.
 
 ## Understanding Dimensional Algebra

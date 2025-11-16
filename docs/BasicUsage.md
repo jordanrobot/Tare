@@ -4,6 +4,31 @@
 
 ---
 
+## Table of Contents
+
+- [Parsing Quantities](#parsing-quantities)
+  - [From Strings](#from-strings)
+  - [Safe Parsing with TryParse](#safe-parsing-with-tryparse)
+  - [Using Constructors](#using-constructors)
+  - [Validation Before Parsing](#validation-before-parsing)
+- [Arithmetic Operations](#arithmetic-operations)
+  - [Addition and Subtraction](#addition-and-subtraction)
+  - [Multiplication](#multiplication)
+  - [Division](#division)
+- [Comparison Operations](#comparison-operations)
+  - [Equality](#equality)
+  - [Ordering](#ordering)
+  - [Comparison Limitations](#comparison-limitations)
+- [Working with Dimensionless Quantities](#working-with-dimensionless-quantities)
+- [Accessing Quantity Properties](#accessing-quantity-properties)
+- [Error Handling](#error-handling)
+  - [Parsing Errors](#parsing-errors)
+  - [Arithmetic Errors](#arithmetic-errors)
+- [Best Practices](#best-practices)
+- [Next Steps](#next-steps)
+
+---
+
 This guide covers the fundamental operations you'll use most frequently with Tare.
 
 ## Parsing Quantities

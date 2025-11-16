@@ -4,6 +4,35 @@
 
 ---
 
+## Table of Contents
+
+- [Introspection](#introspection)
+  - [Getting Dimension Signatures](#getting-dimension-signatures)
+  - [Understanding Signatures](#understanding-signatures)
+  - [Checking Known Dimensions](#checking-known-dimensions)
+  - [Comparing Dimensions](#comparing-dimensions)
+- [Normalization](#normalization)
+  - [Converting to Base Units](#converting-to-base-units)
+  - [Converting to Canonical Units](#converting-to-canonical-units)
+  - [Normalization Use Cases](#normalization-use-cases)
+- [Validation](#validation)
+  - [Validating Unit Strings](#validating-unit-strings)
+  - [Safe Parsing with Validation](#safe-parsing-with-validation)
+  - [Validating Calculations](#validating-calculations)
+- [Unit Discovery](#unit-discovery)
+  - [Getting Units by Dimension](#getting-units-by-dimension)
+  - [Available Unit Types](#available-unit-types)
+  - [Building Dynamic UI](#building-dynamic-ui)
+- [Working with Composite Units](#working-with-composite-units)
+  - [Parsing Composite Units](#parsing-composite-units)
+  - [Creating Composite Units](#creating-composite-units)
+- [Practical Examples](#practical-examples)
+- [Best Practices](#best-practices)
+- [See Also](#see-also)
+- [Further Reading](#further-reading)
+
+---
+
 Tare provides several advanced features for introspection, normalization, validation, and diagnostics. These features are useful for building tools, debugging calculations, and understanding dimensional relationships.
 
 ## Introspection
