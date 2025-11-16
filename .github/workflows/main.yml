@@ -16,17 +16,18 @@ jobs:
         fetch-depth: 0  
     - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
-      shell: bash  
+      shell: pwsh  
     - name: Determine Version
       run: dotnet gitversion /updateprojectfiles 
-      shell: bash
+      shell: pwsh
     - name: Build with dotnet
       run: |
             dotnet build --configuration Release --version-suffix prerelease-$(date +%Y%m%d%H%M%S)
             dotnet pack
-      shell: bash
+      shell: pwsh
     - name: List Artifacts
       run: ls -l **/*.nupkg
+      shell: pwsh
     - name: Publish NuGet Package
       run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
-      shell: bash
+      shell: pwsh
