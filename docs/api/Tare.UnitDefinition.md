@@ -3,11 +3,19 @@
 
 ## UnitDefinition Class
 
+Represents a unit of measurement, including its name, type, conversion factor, and aliases\.
+
 ```csharp
 public class UnitDefinition
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; UnitDefinition
+
+### Remarks
+A [UnitDefinition](Tare.UnitDefinition.md 'Tare\.UnitDefinition') defines a unit of measurement in terms of its canonical name, 
+            recognized aliases, and its relationship to a base unit\. Units can be defined with either a  linear conversion
+            factor \(as a decimal or rational number\) or custom conversion functions for non\-linear or affine transformations
+            \(e\.g\., temperature scales\)\.
 ### Constructors
 
 <a name='Tare.UnitDefinition.UnitDefinition(string,decimal,Tare.UnitTypeEnum,System.Collections.Generic.HashSet_string_)'></a>
@@ -117,6 +125,32 @@ Function mapping unit value to base unit value\.
 Function mapping base unit value to this unit's value\.
 ### Properties
 
+<a name='Tare.UnitDefinition.Aliases'></a>
+
+## UnitDefinition\.Aliases Property
+
+Gets the collection of aliases associated with the current entity\.
+
+```csharp
+public System.Collections.Generic.HashSet<string> Aliases { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.HashSet&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1 'System\.Collections\.Generic\.HashSet\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1 'System\.Collections\.Generic\.HashSet\`1')
+
+<a name='Tare.UnitDefinition.Converter'></a>
+
+## UnitDefinition\.Converter Property
+
+Gets the converter for this unit\.
+
+```csharp
+internal Tare.Internal.IUnitConverter Converter { internal get; }
+```
+
+#### Property Value
+[IUnitConverter](Tare.Internal.IUnitConverter.md 'Tare\.Internal\.IUnitConverter')
+
 <a name='Tare.UnitDefinition.Factor'></a>
 
 ## UnitDefinition\.Factor Property
@@ -143,3 +177,16 @@ internal Tare.Internal.Rational FactorRational { internal get; }
 
 #### Property Value
 [Rational](Tare.Internal.Rational.md 'Tare\.Internal\.Rational')
+
+<a name='Tare.UnitDefinition.Name'></a>
+
+## UnitDefinition\.Name Property
+
+Gets the canonical name of the unit of measurement\.
+
+```csharp
+public string Name { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')

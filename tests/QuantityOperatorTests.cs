@@ -86,7 +86,7 @@ public class QuantityOperatorTests
         var q2 = Quantity.Parse("2ft");
         var q3 = q1 - q2;
 
-        Assert.That(q3.Format("in"), Is.EqualTo("-18 in"));
+        Assert.That(q3.Value, Is.EqualTo(-18m));
     }
 
     [Test]

@@ -5,7 +5,7 @@
 | Classes | |
 | :--- | :--- |
 | [Extensions](Tare.Extensions.md 'Tare\.Extensions') | Extension methods for Quantity value types |
-| [UnitDefinition](Tare.UnitDefinition.md 'Tare\.UnitDefinition') | |
+| [UnitDefinition](Tare.UnitDefinition.md 'Tare\.UnitDefinition') | Represents a unit of measurement, including its name, type, conversion factor, and aliases\. |
 | [UnitDefinitions](Tare.UnitDefinitions.md 'Tare\.UnitDefinitions') | Static helper class to query unit definitions\. |
 
 | Structs | |
