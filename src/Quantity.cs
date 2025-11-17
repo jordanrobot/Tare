@@ -12,13 +12,25 @@ namespace Tare;
 /// Units of measure can be compatible or incompatible. E.g. Length, Area, Volume, Mass, etc. Compatible units
 /// may have mathematical operations applied, and may be converted to different units.
 /// </summary>
-public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, IComparable, IFormattable
-#if NET7_0_OR_GREATER
+public readonly partial struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, IComparable, IFormattable
+#if NET8_0_OR_GREATER
     , ISpanFormattable
 #endif
 {
+#if NET8_0_OR_GREATER
+    // Use source-generated regex for better performance on .NET 8+
+    [GeneratedRegex("([A-Za-z°\\^\\/'\"*].*)", RegexOptions.Compiled)]
+    private static partial Regex UnitsPatternGenerated();
+    
+    [GeneratedRegex(@"(-?\d+(?:\.\d*)?|-?\.\d+)", RegexOptions.Compiled)]
+    private static partial Regex ValuePatternGenerated();
+    
+    readonly static Regex UnitsPattern = UnitsPatternGenerated();
+    readonly static Regex ValuePattern = ValuePatternGenerated();
+#else
     readonly static Regex UnitsPattern = new("([A-Za-z°\\^\\/'\"*].*)", RegexOptions.Compiled);
     readonly static Regex ValuePattern = new(@"(-?\d+(?:\.\d*)?|-?\.\d+)", RegexOptions.Compiled);
+#endif
 
     #region Ctors
     /// <summary>
@@ -342,14 +354,23 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
             try
             {
                 var convertedValue = Internal.UnitConverter.ConvertValue(Value, Unit, FactorRational, unit);
+#if NET8_0_OR_GREATER
+                // Use optimized string interpolation on .NET 8+
+                return $"{convertedValue.ToString(format)} {unit}";
+#else
                 return convertedValue.ToString(format) + " " + unit;
+#endif
             }
             catch (OverflowException)
             {
                 // Fall back to decimal if Rational arithmetic overflows
                 var targetUnit = UnitDefinitions.Parse(unit);
                 var convertedValueDec = Value * (Factor / targetUnit.Factor);
+#if NET8_0_OR_GREATER
+                return $"{convertedValueDec.ToString(format)} {unit}";
+#else
                 return convertedValueDec.ToString(format) + " " + unit;
+#endif
             }
         }
 
@@ -374,7 +395,11 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
         // Convert value from source to target units
         // For composite units, use decimal arithmetic to avoid overflow from FromDecimal
         var targetValue = (Value * FactorRational.ToDecimal()) / compositeTargetFactor;
+#if NET8_0_OR_GREATER
+        return $"{targetValue.ToString(format)} {unit}";
+#else
         return targetValue.ToString(format) + " " + unit;
+#endif
     }
 
     /// <summary>
@@ -1426,10 +1451,10 @@ public readonly struct Quantity : IEquatable<Quantity>, IComparable<Quantity>, I
 
     #endregion
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Tries to format the quantity into the provided span of characters.
-    /// Implements <see cref="ISpanFormattable"/> for high-performance formatting on .NET 7+.
+    /// Implements <see cref="ISpanFormattable"/> for high-performance formatting on .NET 8+.
     /// </summary>
     /// <param name="destination">The span to write the formatted quantity into.</param>
     /// <param name="charsWritten">

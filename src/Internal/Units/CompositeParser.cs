@@ -14,13 +14,28 @@ namespace Tare.Internal.Units;
 /// Supports multiplication (*,·), division (/), exponents (^n), and parentheses grouping.
 /// Includes performance caching for repeated parsing operations.
 /// </remarks>
-internal sealed class CompositeParser : ICompositeParser
+internal sealed partial class CompositeParser : ICompositeParser
 {
     /// <summary>
     /// Singleton instance for efficient reuse.
     /// </summary>
     public static readonly CompositeParser Instance = new CompositeParser();
     
+#if NET8_0_OR_GREATER
+    // Use source-generated regex for better performance on .NET 8+
+    [GeneratedRegex(@"([a-zA-Z]+)(?:\^([\-\+]?\d+))?", RegexOptions.Compiled)]
+    private static partial Regex UnitTokenPatternGenerated();
+    
+    [GeneratedRegex(@"^[\w\*·\/\^\(\)\s\-\+]+$", RegexOptions.Compiled)]
+    private static partial Regex CompositePatternGenerated();
+    
+    [GeneratedRegex(@"[\*·]{2,}|/{2,}", RegexOptions.Compiled)]
+    private static partial Regex InvalidPatternRegexGenerated();
+    
+    private static readonly Regex UnitTokenPattern = UnitTokenPatternGenerated();
+    private static readonly Regex CompositePattern = CompositePatternGenerated();
+    private static readonly Regex InvalidPatternRegex = InvalidPatternRegexGenerated();
+#else
     // Regex patterns for composite parsing
     private static readonly Regex UnitTokenPattern = new Regex(
         @"([a-zA-Z]+)(?:\^([\-\+]?\d+))?",
@@ -35,6 +50,7 @@ internal sealed class CompositeParser : ICompositeParser
     private static readonly Regex InvalidPatternRegex = new Regex(
         @"[\*·]{2,}|/{2,}",
         RegexOptions.Compiled);
+#endif
     
     private readonly IUnitResolver _resolver;
     
