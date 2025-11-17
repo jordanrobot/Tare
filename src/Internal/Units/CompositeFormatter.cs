@@ -98,7 +98,11 @@ internal sealed class CompositeFormatter : ICompositeFormatter
         if (numerator.Length == 0)
         {
             // Only denominator (e.g., 1/s²)
+#if NET8_0_OR_GREATER
+            return $"1/{denominator}";
+#else
             return "1/" + denominator.ToString();
+#endif
         }
         else if (denominator.Length == 0)
         {
@@ -108,7 +112,11 @@ internal sealed class CompositeFormatter : ICompositeFormatter
         else
         {
             // Both numerator and denominator
+#if NET8_0_OR_GREATER
+            return $"{numerator}/{denominator}";
+#else
             return numerator.ToString() + "/" + denominator.ToString();
+#endif
         }
     }
 
