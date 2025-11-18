@@ -165,4 +165,52 @@ public class PowerUnitTests
         // Assert
         Assert.That(result, Is.EqualTo(1).Within(0.0000001M));
     }
+
+    [Test]
+    public void HorsepowerFromTorqueAndRpm_CalculatesCorrectly()
+    {
+        // Arrange - Using the formula: HP = (Torque_lbf-ft × RPM) / 5252
+        // Example: 300 lb-ft torque at 4000 RPM should yield approximately 228.47 hp
+        var torque = new Quantity(300, "ft*lbf");
+        var rpm = new Quantity(4000, "rpm");
+        
+        // Act - Calculate power: Power = Torque × Angular Velocity
+        // Convert rpm to rad/s for proper dimensional arithmetic
+        var angularVelocity = rpm.As("rad/s");
+        var power = torque * angularVelocity;
+        var horsepower = power.Convert("hp");
+        
+        // Assert - Verify the calculation matches the expected formula result
+        // Expected: (300 × 4000) / 5252 = 228.4701... hp
+        Assert.That(horsepower, Is.EqualTo(228.4701256m).Within(0.01M));
+    }
+
+    [Test]
+    public void HorsepowerFromTorqueAndRpm_MultipleScenarios_CalculatesCorrectly()
+    {
+        // Test multiple torque/rpm combinations to verify the relationship
+        var testCases = new[]
+        {
+            (torque: 250m, rpm: 5252m, expectedHp: 250m),     // At 5252 RPM, HP = Torque
+            (torque: 400m, rpm: 3000m, expectedHp: 228.47m),  // High torque, moderate speed
+            (torque: 150m, rpm: 6000m, expectedHp: 171.35m),  // Lower torque, high speed
+            (torque: 500m, rpm: 2500m, expectedHp: 238.01m)   // Very high torque, low speed
+        };
+
+        foreach (var (torqueValue, rpmValue, expectedHp) in testCases)
+        {
+            // Arrange
+            var torque = new Quantity(torqueValue, "ft*lbf");
+            var rpm = new Quantity(rpmValue, "rpm");
+            
+            // Act
+            var angularVelocity = rpm.As("rad/s");
+            var power = torque * angularVelocity;
+            var horsepower = power.Convert("hp");
+            
+            // Assert
+            Assert.That(horsepower, Is.EqualTo(expectedHp).Within(0.1M),
+                $"Failed for torque={torqueValue} lb-ft, rpm={rpmValue}");
+        }
+    }
 }
