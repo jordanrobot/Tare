@@ -864,12 +864,19 @@ public readonly partial struct Quantity : IEquatable<Quantity>, IComparable<Quan
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
 
-        // Convert result to target unit space using exact Rational arithmetic
+        // Convert result to target unit space using exact Rational arithmetic with overflow fallback
         var targetUnit = resolver.Resolve(resultUnit);
-        var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
-        var resultValue = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
-
-        return new Quantity(resultValue, resultUnit);
+        try
+        {
+            var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
+            var resultValue = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
+            return new Quantity(resultValue, resultUnit);
+        }
+        catch (OverflowException)
+        {
+            var resultValueDec = result.Value * (result.FactorRational.ToDecimal() / targetUnit.FactorToBaseRational.ToDecimal());
+            return new Quantity(resultValueDec, resultUnit);
+        }
     }
 
     /// <summary>
@@ -968,21 +975,36 @@ public readonly partial struct Quantity : IEquatable<Quantity>, IComparable<Quan
         // Check if result is dimensionless (unit cancellation across different unit types)
         if (result.Signature.IsDimensionless())
         {
-            // For dimensionless results, use exact Rational factor
-            var factorRational = result.FactorRational;
-            var resultValue = (result.Value * factorRational.Numerator) / factorRational.Denominator;
-            return new Quantity(resultValue);
+            // For dimensionless results, use exact Rational factor with overflow fallback
+            try
+            {
+                var factorRational = result.FactorRational;
+                var resultValue = (result.Value * factorRational.Numerator) / factorRational.Denominator;
+                return new Quantity(resultValue);
+            }
+            catch (OverflowException)
+            {
+                var resultValueDec = result.Value * result.FactorRational.ToDecimal();
+                return new Quantity(resultValueDec);
+            }
         }
 
         // Name the result using known signatures or composite fallback
         string resultUnit = ResolveUnitName(result.Signature);
 
-        // Convert result to target unit space using exact Rational arithmetic
+        // Convert result to target unit space using exact Rational arithmetic with overflow fallback
         var targetUnit = resolver.Resolve(resultUnit);
-        var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
-        var resultValue2 = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
-
-        return new Quantity(resultValue2, resultUnit);
+        try
+        {
+            var factorRatio = result.FactorRational / targetUnit.FactorToBaseRational;
+            var resultValue2 = (result.Value * factorRatio.Numerator) / factorRatio.Denominator;
+            return new Quantity(resultValue2, resultUnit);
+        }
+        catch (OverflowException)
+        {
+            var resultValueDec2 = result.Value * (result.FactorRational.ToDecimal() / targetUnit.FactorToBaseRational.ToDecimal());
+            return new Quantity(resultValueDec2, resultUnit);
+        }
     }
 
     /// <summary>

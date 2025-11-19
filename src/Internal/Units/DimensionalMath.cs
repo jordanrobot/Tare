@@ -51,13 +51,25 @@ internal sealed class DimensionalMath : IDimensionalMath
     {
         // Combine dimension signatures by adding exponents (dimensional multiplication)
         var resultSignature = left.Signature.Multiply(right.Signature);
-        
-        // Multiply conversion factors using exact rational arithmetic
-        var resultFactorRational = left.FactorToBaseRational * right.FactorToBaseRational;
-        
+
+        // Multiply conversion factors with overflow resilience
+        Rational resultFactorRational;
+        try
+        {
+            // Exact path first
+            resultFactorRational = left.FactorToBaseRational * right.FactorToBaseRational;
+        }
+        catch (OverflowException)
+        {
+            // Fallback to decimal precision if 64-bit Rational multiplication overflows
+            var leftDec = left.FactorToBaseRational.ToDecimal();
+            var rightDec = right.FactorToBaseRational.ToDecimal();
+            resultFactorRational = Rational.FromDecimal(leftDec * rightDec);
+        }
+
         // Multiply values
         var resultValue = leftValue * rightValue;
-        
+
         return new DimensionalResult(resultValue, resultSignature, resultFactorRational);
     }
 
@@ -102,13 +114,25 @@ internal sealed class DimensionalMath : IDimensionalMath
         
         // Combine dimension signatures by subtracting exponents (dimensional division)
         var resultSignature = numerator.Signature.Divide(denominator.Signature);
-        
-        // Divide conversion factors using exact rational arithmetic
-        var resultFactorRational = numerator.FactorToBaseRational / denominator.FactorToBaseRational;
-        
+
+        // Divide conversion factors with overflow resilience
+        Rational resultFactorRational;
+        try
+        {
+            // Exact path first
+            resultFactorRational = numerator.FactorToBaseRational / denominator.FactorToBaseRational;
+        }
+        catch (OverflowException)
+        {
+            // Fallback to decimal precision if 64-bit Rational division overflows
+            var numDec = numerator.FactorToBaseRational.ToDecimal();
+            var denDec = denominator.FactorToBaseRational.ToDecimal();
+            resultFactorRational = Rational.FromDecimal(numDec / denDec);
+        }
+
         // Divide values
         var resultValue = numeratorValue / denominatorValue;
-        
+
         return new DimensionalResult(resultValue, resultSignature, resultFactorRational);
     }
 }

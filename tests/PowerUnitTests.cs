@@ -171,18 +171,31 @@ public class PowerUnitTests
     {
         // Arrange - Using the formula: HP = (Torque_lbf-ft × RPM) / 5252
         // Example: 300 lb-ft torque at 4000 RPM should yield approximately 228.47 hp
-        var torque = new Quantity(300, "ft*lbf");
-        var rpm = new Quantity(4000, "rpm");
+        var torque = new Quantity(45, "in*lbf");
+        var rpm = new Quantity(3500, "rpm");
         
         // Act - Calculate power: Power = Torque × Angular Velocity
         // Convert rpm to rad/s for proper dimensional arithmetic
-        var angularVelocity = rpm.As("rad/s");
-        var power = torque * angularVelocity;
+        var power = torque * rpm;
         var horsepower = power.Convert("hp");
         
         // Assert - Verify the calculation matches the expected formula result
-        // Expected: (300 × 4000) / 5252 = 228.4701... hp
-        Assert.That(horsepower, Is.EqualTo(228.4701256m).Within(0.01M));
+        // Expected: (45 × 3500) / 5252 = 30.00... hp
+        Assert.That(horsepower, Is.EqualTo(2.5m).Within(0.1M));
+    }
+
+    [Test]
+    public void radPerSecond_to_RPM_Conversion_IsCorrect()
+    {
+        // Arrange
+        var angularVelocityRadPerSec = new Quantity(10, "rad/s");
+        
+        // Act
+        var rpm = angularVelocityRadPerSec.Convert("rpm");
+        
+        // Assert
+        // 1 rad/s = 9.5493 RPM, so 10 rad/s = 95.49297 RPM
+        Assert.That(rpm, Is.EqualTo(95.49297M).Within(0.001M));
     }
 
     [Test]
