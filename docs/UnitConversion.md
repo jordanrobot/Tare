@@ -467,6 +467,16 @@ This section provides a comprehensive reference of all units supported by Tare, 
 | cal | Calorie | calorie, calories | 4.184 J |
 | kcal | Kilocalorie | kilocalorie, kilocalories | 4184 J |
 
+### Power Units
+
+| Unit Symbol | Name | Common Aliases | Base Conversion |
+|-------------|------|----------------|-----------------|
+| W | Watt | watt, watts | 1.0 W (base) |
+| kW | Kilowatt | kilowatt, kilowatts | 1000 W |
+| horsepower | Horsepower | hp, HP | 745.7 W (mechanical) |
+
+**Note:** The horsepower unit uses the mechanical (imperial) horsepower definition, which equals exactly 550 foot-pounds per second or approximately 745.7 watts.
+
 ### Temperature Units
 
 | Unit Symbol | Name | Common Aliases | Conversion |
@@ -504,7 +514,7 @@ This section provides a comprehensive reference of all units supported by Tare, 
 | deg/d | Degrees per Day | deg per day | 2.02703×10⁻⁷ rad/s |
 | grad/s | Gradians per Second | grad per second, grade per second | 0.0157080 rad/s |
 | rev/s | Revolutions per Second | rev per second, revolution per second | 6.28319 rad/s |
-| rev/min | Revolutions per Minute | rev per minute, revolution per minute | 0.104720 rad/s |
+| rev/min | Revolutions per Minute | rev per minute, revolution per minute, rpm | 0.104720 rad/s |
 | rev/h | Revolutions per Hour | rev per hour | 0.00174533 rad/s |
 
 ### Angular Acceleration Units

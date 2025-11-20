@@ -46,6 +46,66 @@ internal double CacheHitRate { internal get; }
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
 ### Methods
 
+<a name='Tare.Internal.Units.CompositeParser.CompositePatternGenerated()'></a>
+
+## CompositeParser\.CompositePatternGenerated\(\) Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex CompositePatternGenerated();
+```
+
+#### Returns
+[System\.Text\.RegularExpressions\.Regex](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex 'System\.Text\.RegularExpressions\.Regex')
+
+### Remarks
+Pattern:<br/>
+
+```csharp
+^[\\w\\*·\\/\\^\\(\\)\\s\\-\\+]+$
+```<br/>
+Options:<br/>
+
+```csharp
+RegexOptions.Compiled
+```<br/>
+Explanation:<br/>
+
+```csharp
+○ Match if at the beginning of the string.<br/>
+○ Match a character in the set [(-+-/^\u00B7\w\s] greedily at least once.<br/>
+○ Match if at the end of the string or if before an ending newline.<br/>
+```
+
+<a name='Tare.Internal.Units.CompositeParser.InvalidPatternRegexGenerated()'></a>
+
+## CompositeParser\.InvalidPatternRegexGenerated\(\) Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex InvalidPatternRegexGenerated();
+```
+
+#### Returns
+[System\.Text\.RegularExpressions\.Regex](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex 'System\.Text\.RegularExpressions\.Regex')
+
+### Remarks
+Pattern:<br/>
+
+```csharp
+[\\*·]{2,}|/{2,}
+```<br/>
+Options:<br/>
+
+```csharp
+RegexOptions.Compiled
+```<br/>
+Explanation:<br/>
+
+```csharp
+○ Match with 2 alternative expressions, atomically.<br/>
+    ○ Match a character in the set [*\u00B7] atomically at least twice.<br/>
+    ○ Match '/' atomically at least twice.<br/>
+```
+
 <a name='Tare.Internal.Units.CompositeParser.IsValidComposite(string)'></a>
 
 ## CompositeParser\.IsValidComposite\(string\) Method
@@ -183,3 +243,37 @@ private bool TryParseCore(string compositeUnit, out Tare.Internal.Units.Dimensio
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+<a name='Tare.Internal.Units.CompositeParser.UnitTokenPatternGenerated()'></a>
+
+## CompositeParser\.UnitTokenPatternGenerated\(\) Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex UnitTokenPatternGenerated();
+```
+
+#### Returns
+[System\.Text\.RegularExpressions\.Regex](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex 'System\.Text\.RegularExpressions\.Regex')
+
+### Remarks
+Pattern:<br/>
+
+```csharp
+([a-zA-Z]+)(?:\\^([\\-\\+]?\\d+))?
+```<br/>
+Options:<br/>
+
+```csharp
+RegexOptions.Compiled
+```<br/>
+Explanation:<br/>
+
+```csharp
+○ 1st capture group.<br/>
+    ○ Match a character in the set [A-Za-z] greedily at least once.<br/>
+○ Optional (greedy).<br/>
+    ○ Match '^'.<br/>
+    ○ 2nd capture group.<br/>
+        ○ Match a character in the set [+-] atomically, optionally.<br/>
+        ○ Match a Unicode digit atomically at least once.<br/>
+```

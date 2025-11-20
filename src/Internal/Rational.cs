@@ -86,11 +86,26 @@ public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
     /// </summary>
     public static Rational operator +(Rational a, Rational b)
     {
+        // Handle zero shortcuts
+        if (a.Numerator == 0) return b;
+        if (b.Numerator == 0) return a;
+
+        // Use cross-cancellation to minimize intermediate growth
+        // Let a/b + c/d where a=a.Num, b=a.Denom, c=b.Num, d=b.Denom
+        long aNum = a.Numerator;
+        long bDen = a.Denominator; // always > 0
+        long cNum = b.Numerator;
+        long dDen = b.Denominator; // always > 0
+
+        var g = GreatestCommonDivisor(bDen, dDen);
+        // Compute least common denominator as (bDen/g)*dDen with reduced multiplication risk
+        long b1 = bDen / g;
+        long d1 = dDen; // unchanged
+
         checked
         {
-            // (a/b) + (c/d) = (a*d + b*c) / (b*d)
-            var numerator = a.Numerator * b.Denominator + b.Numerator * a.Denominator;
-            var denominator = a.Denominator * b.Denominator;
+            var numerator = aNum * (d1 / g) + cNum * b1;
+            var denominator = b1 * d1;
             return new Rational(numerator, denominator);
         }
     }
@@ -100,11 +115,22 @@ public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
     /// </summary>
     public static Rational operator -(Rational a, Rational b)
     {
+        // Handle zero shortcuts
+        if (b.Numerator == 0) return a;
+        if (a.Numerator == 0) return new Rational(-b.Numerator, b.Denominator);
+
+        long aNum = a.Numerator;
+        long bDen = a.Denominator;
+        long cNum = b.Numerator;
+        long dDen = b.Denominator;
+
+        var g = GreatestCommonDivisor(bDen, dDen);
+        long b1 = bDen / g;
+
         checked
         {
-            // (a/b) - (c/d) = (a*d - b*c) / (b*d)
-            var numerator = a.Numerator * b.Denominator - b.Numerator * a.Denominator;
-            var denominator = a.Denominator * b.Denominator;
+            var numerator = aNum * (dDen / g) - cNum * b1;
+            var denominator = b1 * dDen;
             return new Rational(numerator, denominator);
         }
     }
@@ -114,11 +140,27 @@ public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
     /// </summary>
     public static Rational operator *(Rational a, Rational b)
     {
+        // (a/b) * (c/d) with cross-cancellation to avoid overflow
+        long aNum = a.Numerator;
+        long aDen = a.Denominator;
+        long bNum = b.Numerator;
+        long bDen = b.Denominator;
+
+        if (aNum == 0 || bNum == 0)
+            return Zero;
+
+        var g1 = GreatestCommonDivisor(System.Math.Abs(aNum), bDen);
+        var g2 = GreatestCommonDivisor(System.Math.Abs(bNum), aDen);
+
+        aNum /= g1;
+        bDen /= g1;
+        bNum /= g2;
+        aDen /= g2;
+
         checked
         {
-            // (a/b) * (c/d) = (a*c)/(b*d)
-            var numerator = a.Numerator * b.Numerator;
-            var denominator = a.Denominator * b.Denominator;
+            var numerator = aNum * bNum;
+            var denominator = aDen * bDen;
             return new Rational(numerator, denominator);
         }
     }
@@ -133,12 +175,29 @@ public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>
         {
             throw new DivideByZeroException("Cannot divide by zero rational.");
         }
-        
+
+        // (a/b) / (c/d) = (a/b) * (d/c) with cross-cancellation
+        long aNum = a.Numerator;
+        long aDen = a.Denominator;
+        long cNum = b.Numerator;   // divisor numerator
+        long cDen = b.Denominator; // divisor denominator
+
+        // Multiply by reciprocal: (a/b) * (cDen/cNum)
+        if (aNum == 0)
+            return Zero;
+
+        var g1 = GreatestCommonDivisor(System.Math.Abs(aNum), System.Math.Abs(cNum));
+        var g2 = GreatestCommonDivisor(aDen, cDen);
+
+        aNum /= g1;
+        cNum /= g1;
+        aDen /= g2;
+        cDen /= g2;
+
         checked
         {
-            // (a/b) / (c/d) = (a/b) * (d/c) = (a*d)/(b*c)
-            var numerator = a.Numerator * b.Denominator;
-            var denominator = a.Denominator * b.Numerator;
+            var numerator = aNum * cDen;
+            var denominator = aDen * cNum;
             return new Rational(numerator, denominator);
         }
     }

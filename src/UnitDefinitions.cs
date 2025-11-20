@@ -149,6 +149,11 @@ public static class UnitDefinitions
             new UnitDefinition("cal", new Rational(4184, 1000), UnitTypeEnum.Energy, new HashSet<string>{"cal", "calorie", "calories"}),
             new UnitDefinition("N*cm", new Rational(1, 100), UnitTypeEnum.Energy, new HashSet<string>{"N*cm", "newton centimeter", "newton centimeters"}),
 
+            // Power units relative to watts
+            new UnitDefinition("W", new Rational(1, 1), UnitTypeEnum.Power, new HashSet<string>{"W", "watt", "watts"}),
+            new UnitDefinition("kW", new Rational(1000, 1), UnitTypeEnum.Power, new HashSet<string>{"kW", "kilowatt", "kilowatts"}),
+            new UnitDefinition("horsepower", 745.69987158227022M, UnitTypeEnum.Power, new HashSet<string>{"horsepower", "hp", "HP"}),
+
             // Velocity units relative to m/s (length / time, using exact length definitions)
             new UnitDefinition("in/s", new Rational(254, 10000), UnitTypeEnum.Velocity, new HashSet<string> {"in/s", "in/sec", "ips", "in per sec", "in per second", "in per secs", "in per seconds", "inch per sec", "inch per second", "inch per secs", "inch per seconds", "inch per second", "inch per seconds"}),
             new UnitDefinition("ft/s", new Rational(3048, 10000), UnitTypeEnum.Velocity, new HashSet<string> {"ft/s", "ft/sec", "fps", "ft per sec", "ft per second", "ft per secs", "ft per seconds", "feet per sec", "feet per second", "feet per secs", "feet per seconds", "feet per second", "feet per seconds", "feet per second", "feet per seconds"}),
@@ -229,7 +234,7 @@ public static class UnitDefinitions
             new UnitDefinition("grad/d", 0.000000182574185836M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"grad/d", "grad/d", "grad per d", "grad per d", "grad per day", "grad per day", "grade per d", "grade per d", "grade per day", "grade per day", "grades per d", "grades per d", "grades per day", "grades per day"}),
 
             new UnitDefinition("rev/s", 6.28318530718M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"rev/s", "rev/s", "rev per s", "rev per s", "rev per second", "rev per second", "revolution per s", "revolution per s", "revolution per second", "revolution per second", "revolutions per s", "revolutions per s", "revolutions per second", "revolutions per second"}),
-            new UnitDefinition("rev/min", 0.1047197551197M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"rev/min", "rev/min", "rev per min", "rev per min", "rev per minute", "rev per minute", "revolution per min", "revolution per min", "revolution per minute", "revolution per minute", "revolutions per min", "revolutions per min", "revolutions per minute", "revolutions per minute"}),
+            new UnitDefinition("rev/min", 0.1047197551197M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"rev/min", "rev/min", "rev per min", "rev per min", "rev per minute", "rev per minute", "revolution per min", "revolution per min", "revolution per minute", "revolution per minute", "revolutions per min", "revolutions per min", "revolutions per minute", "revolutions per minute", "rpm"}),
             new UnitDefinition("rev/h", 0.00174532925199M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"rev/h", "rev/h", "rev per h", "rev per h", "rev per hour", "rev per hour", "revolution per h", "revolution per h", "revolution per hour", "revolution per hour", "revolutions per h", "revolutions per h", "revolutions per hour", "revolutions per hour"}),
             new UnitDefinition("rev/d", 0.0000722614942529M, UnitTypeEnum.AngularVelocity, new HashSet<string>{"rev/d", "rev/d", "rev per d", "rev per d", "rev per day", "rev per day", "revolution per d", "revolution per d", "revolution per day", "revolution per day", "revolutions per d", "revolutions per d", "revolutions per day", "revolutions per day"}),
 

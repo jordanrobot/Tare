@@ -59,6 +59,13 @@ var mass = Quantity.Parse("5 kg");
 var acceleration = Quantity.Parse("2 m/s^2");
 var force = mass * acceleration;  // Result: 10 N (Newtons)
 Console.WriteLine(force.Format("N")); // "10 N"
+
+// Horsepower from torque and RPM
+// Using the relationship: Power = Torque × Angular Velocity
+var motorTorque = Quantity.Parse("45 in*lbf");
+var speed = Quantity.Parse("3500 rpm");
+var power = motorTorque * speed;
+Console.WriteLine(power.Format("hp")); // "2.5 hp"
 ```
 
 ### Dimensionally Compatible Operations
