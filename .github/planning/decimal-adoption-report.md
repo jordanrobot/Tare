@@ -24,8 +24,8 @@
   - With `decimal` throughout, round-trips remain exact for terminating decimal factors (e.g., 0.3048), yielding effectively zero drift within 28-digit precision.
 
 ## Risks/issues and mitigations
-Risk/Issue | Impact | Mitigation
-:-- | :-- | :--
+| Risk/Issue | Impact | Mitigation |
+|:--|:--|:--|
 **Public API compatibility**: Removing `double` overloads would be a breaking change for consumers calling `Quantity(double, …)` or using `double` operators. | NuGet consumers may fail to compile or get different overload resolution. | Retain `double` overloads as thin adapters to decimal, or mark `[Obsolete]` with guidance before removal in a major version.
 **Performance regressions**: Decimal-heavy arithmetic will slow down hot paths and benchmarks. | Slower unit conversions, especially in tight loops or simulations. | Benchmark before/after; keep internal caches (`FactorRational`, signature caches) unchanged; consider optional fast-path APIs using `double` when precision loss is acceptable.
 **Memory footprint**: Larger struct size increases copying in operators and collections. | Potentially higher GC pressure and cache misses in large arrays/lists. | Avoid unnecessary copies (e.g., pass by `in` where applicable); document expected overhead.
